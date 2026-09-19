@@ -1,0 +1,129 @@
+import type { Metadata, Viewport } from 'next';
+import './globals.css';
+import Sidebar from '@/components/Sidebar';
+import Header from '@/components/Header';
+
+export const viewport: Viewport = {
+  themeColor: '#09090b',
+  width: 'device-width',
+  initialScale: 1,
+};
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://omniconvert.app'),
+  title: {
+    default: 'OmniConvert - Free Universal Online File, Media & AI Utility Suite',
+    template: '%s | OmniConvert',
+  },
+  description: 'Convert images to PDF, compress photos, upscale to 4K, erase objects with AI, extract MP3 audio, transcribe speech, and generate QR codes 100% free and client-side.',
+  keywords: [
+    'image to pdf converter',
+    'online image converter',
+    'smart image compressor',
+    'image 4k upscaler',
+    'magic eraser background remover',
+    'video to audio extractor',
+    'speech to text dictation',
+    'qr code generator',
+    'secure password generator',
+    'color palette extractor',
+    'dummy data generator',
+    'client-side privacy converter',
+    'free online tools'
+  ],
+  authors: [{ name: 'OmniConvert Team' }],
+  creator: 'OmniConvert',
+  publisher: 'OmniConvert',
+  category: 'Utilities',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://omniconvert.app',
+    siteName: 'OmniConvert',
+    title: 'OmniConvert - Free Universal Online File, Media & AI Utility Suite',
+    description: 'Universal browser-based file conversion and AI utility suite. Zero server uploads, 100% private.',
+    images: [
+      {
+        url: 'https://omniconvert.app/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'OmniConvert Utility Suite Preview',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'OmniConvert - Universal File & Media Suite',
+    description: 'Convert, compress, upscale, erase objects, and extract audio client-side.',
+    creator: '@omniconvert',
+    images: ['https://omniconvert.app/og-image.png'],
+  },
+  alternates: {
+    canonical: 'https://omniconvert.app',
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'OmniConvert',
+    'url': 'https://omniconvert.app',
+    'description': 'Universal browser-based media, text, and AI utility conversion suite.',
+    'applicationCategory': 'UtilityApplication',
+    'operatingSystem': 'Any Web Browser',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'USD',
+    },
+    'featureList': [
+      'Image to PDF Conversion',
+      'Universal Format Conversion (PNG, JPG, WebP)',
+      'Smart Image Compression',
+      'Image 4K Upscaling',
+      'AI Magic Eraser & Background Removal',
+      'Video Audio Extraction',
+      'Speech to Text Voice Dictation',
+      'Custom QR Code Generator',
+      'Secure Password Generator',
+      'Color Palette Extractor',
+      'Developer Mock Dummy Data Generator'
+    ]
+  };
+
+  return (
+    <html lang="en" className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body className="min-h-screen bg-background text-zinc-100 flex flex-col font-sans antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
+        <Sidebar />
+        <div className="lg:pl-64 flex-1 flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto">
+            {children}
+          </main>
+        </div>
+      </body>
+    </html>
+  );
+}

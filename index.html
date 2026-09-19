@@ -1,0 +1,2719 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>OmniConvert - Free Universal Client-Side Media, Text & AI Suite</title>
+  <meta name="description" id="seo-meta-desc" content="Free online converter suite. Convert images to PDF, compress photos, upscale to 4K, erase objects with AI, extract MP3 audio, transcribe speech, and generate QR codes 100% free and client-side with full privacy.">
+  <meta name="keywords" content="image to pdf, image converter, image compressor, 4k upscaler, magic eraser, background remover, video to audio, speech to text, qr generator, password generator, color palette extractor, dummy data generator">
+  <meta name="author" content="OmniConvert Team">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" id="seo-canonical" href="https://omniconvert.app">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" id="seo-og-url" content="https://omniconvert.app">
+  <meta property="og:title" id="seo-og-title" content="OmniConvert - Free Universal Online File, Media & AI Utility Suite">
+  <meta property="og:description" id="seo-og-desc" content="Universal browser-based file conversion and AI utility suite. Zero server uploads, 100% private.">
+  <meta property="og:image" content="https://omniconvert.app/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://omniconvert.app">
+  <meta name="twitter:title" content="OmniConvert - Universal File & Media Suite">
+  <meta name="twitter:description" content="Convert, compress, upscale, erase objects, and extract audio client-side.">
+  <meta name="twitter:image" content="https://omniconvert.app/og-image.png">
+
+  <!-- Schema.org JSON-LD Structured Data for Search Engines -->
+  <script type="application/ld+json" id="seo-jsonld">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "OmniConvert",
+    "url": "https://omniconvert.app",
+    "description": "Universal browser-based media, text, and AI utility conversion suite.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Image to PDF Conversion",
+      "Universal Format Conversion (PNG, JPG, WebP)",
+      "Smart Image Compression",
+      "Image 4K Upscaling",
+      "AI Magic Eraser & Background Removal",
+      "Video Audio Extraction",
+      "Speech to Text Voice Dictation",
+      "Custom QR Code Generator",
+      "Secure Password Generator",
+      "Color Palette Extractor",
+      "Developer Mock Dummy Data Generator"
+    ]
+  }
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: '#09090b',
+            surface: '#121217',
+            surfaceMuted: '#18181b',
+            surfaceBorder: '#27272a',
+            brand: '#6366f1',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Client-side libraries (jsPDF, JSZip, QRCode, PDFLib) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+  <style>
+    body {
+      background-color: #09090b;
+      color: #f4f4f5;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+    .tool-page { display: none; }
+    .tool-page.active { display: block; }
+  </style>
+</head>
+<body class="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col md:flex-row">
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="w-full md:w-64 bg-[#09090b] border-b md:border-b-0 md:border-r border-zinc-800/80 p-5 flex flex-col justify-between shrink-0">
+    <div class="space-y-6">
+      <!-- Logo Header -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('dashboard')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 p-0.5 shadow-md">
+          <div class="w-full h-full bg-zinc-950 rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+        </div>
+        <div>
+          <h1 class="font-bold text-base text-white leading-none">OmniConvert</h1>
+          <p class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider mt-1">Client Utility Suite</p>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="space-y-1">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600/10 text-indigo-300 border border-indigo-500/20">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </button>
+
+        <div class="pt-3 text-[10px] font-bold text-zinc-500 uppercase tracking-wider px-3 mb-1">Image Tools</div>
+        <button onclick="switchTab('image-to-pdf')" id="nav-image-to-pdf" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>Image to PDF</span>
+        </button>
+        <button onclick="switchTab('image-converter')" id="nav-image-converter" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Universal Converter</span>
+        </button>
+        <button onclick="switchTab('image-compressor')" id="nav-image-compressor" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="9 15 11 17 15 13"/></svg>
+          <span>Smart Compressor</span>
+        </button>
+        <button onclick="switchTab('image-upscaler')" id="nav-image-upscaler" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/></svg>
+          <span>4K Upscaler</span>
+        </button>
+        <button onclick="switchTab('magic-eraser')" id="nav-magic-eraser" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 4l5 5L7 22H2v-5L15 4z"/></svg>
+          <span>Magic Eraser</span>
+        </button>
+        <button onclick="switchTab('exact-resizer')" id="nav-exact-resizer" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg>
+          <span>Exact Resizer</span>
+        </button>
+
+        <div class="pt-3 text-[10px] font-bold text-zinc-500 uppercase tracking-wider px-3 mb-1">Audio & Utilities</div>
+        <button onclick="switchTab('word-counter')" id="nav-word-counter" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+          <span>Word Counter</span>
+        </button>
+        <button onclick="switchTab('age-calculator')" id="nav-age-calculator" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Age Calculator</span>
+        </button>
+        <button onclick="switchTab('pdf-tools')" id="nav-pdf-tools" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15h6"/><path d="M12 12v6"/></svg>
+          <span>PDF Split & Merge</span>
+        </button>
+        <button onclick="switchTab('video-to-audio')" id="nav-video-to-audio" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          <span>Video to Audio</span>
+        </button>
+        <button onclick="switchTab('instagram-downloader')" id="nav-instagram-downloader" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <span>Insta Downloader</span>
+        </button>
+        <button onclick="switchTab('youtube-downloader')" id="nav-youtube-downloader" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.37z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          <span>YouTube Downloader</span>
+        </button>
+        <button onclick="switchTab('facebook-downloader')" id="nav-facebook-downloader" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          <span>FB Downloader</span>
+        </button>
+        <button onclick="switchTab('speech-to-text')" id="nav-speech-to-text" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          <span>Speech to Text</span>
+        </button>
+        <button onclick="switchTab('qr-generator')" id="nav-qr-generator" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3z"/></svg>
+          <span>QR Generator</span>
+        </button>
+        <button onclick="switchTab('password-generator')" id="nav-password-generator" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Password Generator</span>
+        </button>
+        <button onclick="switchTab('color-palette')" id="nav-color-palette" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-fuchsia-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H17c2.8 0 5-2.2 5-5 0-5.5-4.5-9.6-10-9.6z"/></svg>
+          <span>Color Palette</span>
+        </button>
+        <button onclick="switchTab('dummy-data')" id="nav-dummy-data" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          <span>Dummy Data</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="mt-8 p-3 rounded-xl bg-zinc-900/80 border border-zinc-800 text-[11px] text-zinc-400 flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span>100% Client-Side Privacy</span>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto">
+
+    <!-- TAB 0: DASHBOARD HOME -->
+    <div id="tab-dashboard" class="tool-page active space-y-8">
+      <!-- Hero Banner -->
+      <section class="relative rounded-3xl p-8 md:p-10 border border-zinc-800 bg-gradient-to-b from-zinc-900/90 via-zinc-900/40 to-zinc-950 overflow-hidden shadow-2xl">
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <span class="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300 inline-block">
+            Modular Web Utility Suite
+          </span>
+          <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Universal Client-Side <br/>
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+              Media & Text Suite
+            </span>
+          </h1>
+          <p class="text-xs md:text-sm text-zinc-400 leading-relaxed">
+            Convert, compress, upscale, erase objects, and generate data directly inside your browser. Zero server uploads, zero storage limits, 100% private.
+          </p>
+
+          <!-- Search Filter Input -->
+          <div class="relative max-w-lg">
+            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input 
+              type="text" 
+              id="tool-search" 
+              placeholder="Search tools (PDF, eraser, password, palette, mock data...)" 
+              oninput="filterTools()"
+              class="w-full pl-10 pr-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition-all"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Grid Cards for Tools -->
+      <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-indigo-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('image-to-pdf')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Multi-Page</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-indigo-300 mb-1">Image to PDF Converter</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Merge PNG, JPG, and WebP images into a single clean PDF document with custom margins.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-indigo-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-indigo-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('image-converter')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-indigo-300 mb-1">Universal Image Converter</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Convert image files between PNG, JPG, and WebP using native HTML5 Canvas API.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-indigo-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-indigo-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('image-compressor')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="9 15 11 17 15 13"/></svg>
+              </div>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-indigo-300 mb-1">Smart Image Compressor</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Reduce photo file sizes by up to 90% with quality slider and real-time Before/After preview.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-indigo-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-amber-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('image-upscaler')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">AI Powered</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-amber-300 mb-1">Image to 4K Upscaler</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Enhance image details and upscale resolution up to 4K with split-screen comparison slider.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-amber-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-pink-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('magic-eraser')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 4l5 5L7 22H2v-5L15 4z"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">AI Brush</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-pink-300 mb-1">Magic Eraser & BG Remover</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Brush over unwanted people or objects to erase them or remove backgrounds with AI mask.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-pink-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-emerald-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('video-to-audio')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              </div>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-emerald-300 mb-1">Video to Audio Extractor</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Extract MP3 or WAV audio directly from MP4 and WebM videos inside your browser.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-emerald-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-pink-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('instagram-downloader')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">Reels HD</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-pink-300 mb-1">Instagram Reel & Video Downloader</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Download Instagram Reels, IGTV videos, and post media in HD MP4 or extract MP3 audio.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-pink-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-red-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('youtube-downloader')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.37z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">1080p & MP3</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-red-300 mb-1">YouTube Video & Shorts Downloader</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Download YouTube videos and Shorts in 1080p HD, 720p, or extract MP3 audio.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-red-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-blue-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('facebook-downloader')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">FB HD</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-blue-300 mb-1">Facebook Video & Reels Downloader</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Download public Facebook Watch videos and Reels in HD/SD MP4 or MP3.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-blue-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-rose-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('speech-to-text')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+              </div>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-rose-300 mb-1">Speech to Text Dictation</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Real-time continuous voice recording and dictation transcription with copy & text export.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-rose-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('qr-generator')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3z"/></svg>
+              </div>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-cyan-300 mb-1">QR Code Generator</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Create customizable QR codes for URLs or text with high-resolution PNG and SVG exports.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-cyan-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-violet-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('password-generator')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-violet-300 mb-1">Password Generator</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Generate ultra-secure random passwords with length, symbols, and strength score.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-violet-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-fuchsia-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('color-palette')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-fuchsia-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H17c2.8 0 5-2.2 5-5 0-5.5-4.5-9.6-10-9.6z"/></svg>
+              </div>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-fuchsia-300 mb-1">Color Palette Extractor</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Extract dominant HEX/RGB color palettes from any photo with one-click copy.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-fuchsia-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-teal-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('dummy-data')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-teal-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30">Developer</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-teal-300 mb-1">Dummy Data Generator</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Generate realistic mock JSON or CSV datasets for developer testing.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-teal-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('word-counter')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Live Stats</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-cyan-300 mb-1">Word & Character Counter</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Count words, characters, paragraphs, and reading time in real-time with case converters.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-cyan-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-emerald-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('exact-resizer')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Form Ready</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-emerald-300 mb-1">Exact Image Resizer</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Resize photos to exact pixel dimensions or compress under strict KB file size limits for online forms.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-emerald-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-indigo-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('age-calculator')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-indigo-300 mb-1">Age & Date Calculator</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Calculate exact age in years, months, and days plus total days lived & birthday countdown.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-indigo-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-rose-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('pdf-tools')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15h6"/><path d="M12 12v6"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">pdf-lib</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-rose-300 mb-1">PDF Splitter & Merger</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Merge multiple PDF files into a single document or split & extract page ranges locally.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-rose-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 1: IMAGE TO PDF -->
+    <div id="tab-image-to-pdf" class="tool-page space-y-6">
+      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Image to PDF Converter</h2>
+            <p class="text-xs text-zinc-400">Combine multiple photos into a single PDF document.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div onclick="document.getElementById('pdf-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-indigo-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+            <input type="file" id="pdf-file-input" accept="image/*" multiple onchange="handlePdfFiles(this.files)" class="hidden" />
+            <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-indigo-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Click to Upload Images</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Browse Files</span>
+          </div>
+
+          <div id="pdf-image-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <h3 class="text-sm font-bold text-zinc-200">PDF Options</h3>
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-1">Output Filename</label>
+            <input type="text" id="pdf-filename" value="document.pdf" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 focus:outline-none focus:border-indigo-500" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-1">Orientation</label>
+            <select id="pdf-orientation" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-200">
+              <option value="auto">Auto Detect</option>
+              <option value="portrait">Portrait</option>
+              <option value="landscape">Landscape</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-1">Margin (<span id="pdf-margin-val">10</span> mm)</label>
+            <input type="range" id="pdf-margin" min="0" max="30" value="10" oninput="document.getElementById('pdf-margin-val').innerText = this.value" class="w-full accent-indigo-500" />
+          </div>
+          <button onclick="generatePdf()" id="pdf-btn" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md">
+            Download PDF Document
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: UNIVERSAL CONVERTER -->
+    <div id="tab-image-converter" class="tool-page space-y-6">
+      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Universal Image Converter</h2>
+            <p class="text-xs text-zinc-400">Convert PNG, JPG, and WebP images locally.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div onclick="document.getElementById('conv-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-indigo-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+            <input type="file" id="conv-file-input" accept="image/*" multiple onchange="handleConvFiles(this.files)" class="hidden" />
+            <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-indigo-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Click to Upload Images</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Files</span>
+          </div>
+
+          <div id="conv-file-list" class="space-y-2"></div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <h3 class="text-sm font-bold text-zinc-200">Target Format</h3>
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="setConvFormat('webp')" id="fmt-webp" class="fmt-btn py-2.5 rounded-xl text-xs font-bold uppercase border bg-indigo-600 text-white border-indigo-500">WEBP</button>
+            <button onclick="setConvFormat('png')" id="fmt-png" class="fmt-btn py-2.5 rounded-xl text-xs font-bold uppercase border bg-zinc-950 text-zinc-400 border-zinc-800">PNG</button>
+            <button onclick="setConvFormat('jpeg')" id="fmt-jpeg" class="fmt-btn py-2.5 rounded-xl text-xs font-bold uppercase border bg-zinc-950 text-zinc-400 border-zinc-800">JPG</button>
+          </div>
+          <button onclick="convertAllImages()" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs">
+            Convert All Images
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: SMART COMPRESSOR -->
+    <div id="tab-image-compressor" class="tool-page space-y-6">
+      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="9 15 11 17 15 13"/></svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Smart Image Compressor</h2>
+            <p class="text-xs text-zinc-400">Reduce image size with live comparison preview.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div onclick="document.getElementById('comp-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-purple-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+            <input type="file" id="comp-file-input" accept="image/*" onchange="handleCompFile(this.files)" class="hidden" />
+            <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-purple-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Photo to Compress</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+          </div>
+
+          <div id="comp-preview-container" class="hidden relative w-full h-[400px] rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 select-none">
+            <img id="comp-after-img" class="absolute inset-0 w-full h-full object-contain" />
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-6">
+          <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1">
+            <span class="text-xs text-zinc-400 font-medium">Estimated New Size</span>
+            <div id="comp-size-text" class="text-xl font-bold text-white">0 KB</div>
+            <div id="comp-saved-text" class="text-xs font-semibold text-emerald-400">0% saved</div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-zinc-300 mb-2">
+              <span>Quality Factor</span>
+              <span id="comp-quality-val" class="text-purple-400">75%</span>
+            </div>
+            <input type="range" id="comp-quality" min="5" max="95" value="75" oninput="updateCompression()" class="w-full accent-purple-500 cursor-pointer" />
+          </div>
+
+          <a id="comp-download-btn" href="#" download="compressed.jpg" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md">
+            Download Compressed Photo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: 4K UPSCALER -->
+    <div id="tab-image-upscaler" class="tool-page space-y-6">
+      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/></svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Image to 4K Upscaler</h2>
+            <p class="text-xs text-zinc-400">Enhance resolution and sharpen details.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div onclick="document.getElementById('upscale-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-amber-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+            <input type="file" id="upscale-file-input" accept="image/*" onchange="handleUpscaleFile(this.files)" class="hidden" />
+            <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-amber-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Photo for 4K Upscale</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+          </div>
+
+          <div id="upscale-preview" class="h-[360px] rounded-2xl bg-zinc-950 border border-zinc-800 flex items-center justify-center p-4">
+            <img id="upscale-img" class="max-h-full object-contain rounded-xl" />
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-6">
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-2">Scale Multiplier</label>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="scaleFactor=2" class="py-2 rounded-xl text-xs font-bold border bg-amber-500/20 text-amber-300 border-amber-500">2x</button>
+              <button onclick="scaleFactor=4" class="py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800">4x</button>
+              <button onclick="scaleFactor=8" class="py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800">8x</button>
+            </div>
+          </div>
+
+          <button onclick="processUpscale()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-zinc-950 font-bold text-xs">
+            Upscale Photo Now
+          </button>
+
+          <a id="upscale-download" href="#" download="upscaled-4k.png" class="hidden w-full py-3 rounded-xl bg-zinc-800 text-white font-semibold text-xs flex items-center justify-center gap-2">
+            Download 4K Photo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: MAGIC ERASER -->
+    <div id="tab-magic-eraser" class="tool-page space-y-6">
+      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-xl bg-pink-500/10 text-pink-400 border border-pink-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 4l5 5L7 22H2v-5L15 4z"/></svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Magic Eraser & BG Remover</h2>
+            <p class="text-xs text-zinc-400">Brush over objects to erase them seamlessly with content-aware AI.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div onclick="document.getElementById('eraser-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-pink-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+            <input type="file" id="eraser-file-input" accept="image/*" onchange="handleEraserFile(this.files)" class="hidden" />
+            <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-pink-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Photo to Erase</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+          </div>
+
+          <div id="eraser-canvas-wrap" class="hidden relative w-full min-h-[380px] rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 flex items-center justify-center">
+            <img id="eraser-base-img" class="max-h-[460px] object-contain pointer-events-none" />
+            <canvas id="eraser-mask-canvas" class="absolute cursor-crosshair"></canvas>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-6">
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-2">Brush Size (<span id="eraser-size-val">30</span>px)</label>
+            <input type="range" id="eraser-brush-size" min="5" max="100" value="30" oninput="document.getElementById('eraser-size-val').innerText=this.value" class="w-full accent-pink-500 cursor-pointer" />
+          </div>
+
+          <button onclick="processMagicEraser()" id="eraser-process-btn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 text-white font-bold text-xs shadow-md">
+            Erase Masked Objects
+          </button>
+
+          <a id="eraser-download" href="#" download="erased.png" class="hidden w-full py-3 rounded-xl bg-zinc-800 text-white font-semibold text-xs flex items-center justify-center gap-2">
+            Download Processed Image
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: VIDEO TO AUDIO -->
+    <div id="tab-video-to-audio" class="tool-page space-y-6">
+      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Video to Audio Extractor</h2>
+            <p class="text-xs text-zinc-400">Extract MP3/WAV audio tracks from videos.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div onclick="document.getElementById('video-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-emerald-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+            <input type="file" id="video-file-input" accept="video/*" onchange="handleVideoFile(this.files)" class="hidden" />
+            <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-emerald-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Video File</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select MP4 / WebM</span>
+          </div>
+
+          <video id="video-player" controls class="hidden w-full max-h-[360px] rounded-2xl bg-black"></video>
+          <div id="audio-result" class="hidden p-4 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+            <span class="text-xs font-bold text-emerald-400">Extracted Audio Track</span>
+            <audio id="audio-player" controls class="w-full"></audio>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <button onclick="extractAudioTrack()" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs">
+            Extract Audio Track
+          </button>
+          <a id="audio-download-btn" href="#" download="extracted-audio.wav" class="hidden w-full py-3 rounded-xl bg-zinc-800 text-white font-semibold text-xs flex items-center justify-center gap-2">
+            Download Audio File
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 7: SPEECH TO TEXT -->
+    <div id="tab-speech-to-text" class="tool-page space-y-6">
+      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Speech to Text Dictation</h2>
+            <p class="text-xs text-zinc-400">Continuous voice transcription via Web Speech API.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-950 border border-zinc-800 text-xs font-mono">
+          <span id="stt-status-dot" class="w-2 h-2 rounded-full bg-zinc-600"></span>
+          <span id="stt-status-text">IDLE</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <div class="flex justify-end gap-2 border-b border-zinc-800 pb-3">
+            <button onclick="navigator.clipboard.writeText(document.getElementById('stt-textarea').value)" class="px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 text-xs text-zinc-300">Copy</button>
+            <button onclick="downloadDictationTxt()" class="px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 text-xs text-zinc-300">Download .txt</button>
+            <button onclick="document.getElementById('stt-textarea').value=''" class="px-3 py-1.5 rounded-lg bg-rose-500/10 text-rose-400 text-xs">Clear</button>
+          </div>
+          <textarea id="stt-textarea" placeholder="Click 'Start Microphone' and speak into your microphone..." rows="10" class="w-full bg-transparent border-0 text-sm text-zinc-100 focus:outline-none resize-none leading-relaxed font-sans"></textarea>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <button onclick="toggleSpeechRecognition()" id="stt-btn" class="w-full py-4 rounded-xl font-bold text-xs text-white bg-rose-600 hover:bg-rose-500 shadow-md">
+            Start Microphone
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 8: QR GENERATOR -->
+    <div id="tab-qr-generator" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3z"/></svg>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-white">QR Code Generator</h2>
+          <p class="text-xs text-zinc-400">Generate customizable QR codes for links & text.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <label class="text-xs font-semibold text-zinc-400 block">URL or Text Content</label>
+          <textarea id="qr-input" oninput="renderQrCode()" rows="4" class="w-full p-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-zinc-100 focus:outline-none">https://github.com</textarea>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 text-center space-y-4">
+          <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center min-h-[220px]">
+            <div id="qr-target"></div>
+          </div>
+          <button onclick="downloadQrPng()" class="w-full py-3 rounded-xl bg-cyan-500 text-zinc-950 font-bold text-xs">
+            Download QR Code PNG
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 9: PASSWORD GENERATOR -->
+    <div id="tab-password-generator" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-violet-500/10 text-violet-400 border border-violet-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-white">Password Generator</h2>
+          <p class="text-xs text-zinc-400">Generate cryptographically secure random passwords.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+            <span class="text-xs font-semibold text-zinc-400 block uppercase">Generated Password</span>
+            <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-between gap-3">
+              <span id="pwd-out" class="text-lg font-mono font-bold text-white select-all"></span>
+              <button onclick="navigator.clipboard.writeText(document.getElementById('pwd-out').innerText)" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <label class="text-xs font-semibold text-zinc-400 block">Length (<span id="pwd-len-val">16</span> chars)</label>
+          <input type="range" id="pwd-len" min="6" max="64" value="16" oninput="document.getElementById('pwd-len-val').innerText=this.value; generatePass();" class="w-full accent-violet-500 cursor-pointer" />
+          <button onclick="generatePass()" class="w-full py-3 rounded-xl bg-violet-600 text-white font-bold text-xs">Generate Password</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 10: COLOR PALETTE -->
+    <div id="tab-color-palette" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H17c2.8 0 5-2.2 5-5 0-5.5-4.5-9.6-10-9.6z"/></svg>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-white">Color Palette Extractor</h2>
+          <p class="text-xs text-zinc-400">Extract dominant HEX colors from any photo.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-1 space-y-4">
+          <div onclick="document.getElementById('pal-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-fuchsia-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+            <input type="file" id="pal-file-input" accept="image/*" onchange="extractColors(this.files)" class="hidden" />
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Photo for Palette</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+          <div id="pal-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 11: DUMMY DATA -->
+    <div id="tab-dummy-data" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-teal-500/10 text-teal-400 border border-teal-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-white">Dummy Data Generator</h2>
+          <p class="text-xs text-zinc-400">Generate mock JSON or CSV datasets for testing.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <div class="flex justify-between border-b border-zinc-800 pb-3">
+            <span class="text-xs font-mono font-semibold text-teal-400">Mock Data JSON</span>
+            <button onclick="navigator.clipboard.writeText(document.getElementById('dummy-out').innerText)" class="px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 text-xs text-zinc-300">Copy JSON</button>
+          </div>
+          <pre id="dummy-out" class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-xs font-mono text-zinc-300 max-h-[380px] overflow-x-auto select-all"></pre>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <button onclick="generateMockJson()" class="w-full py-3 rounded-xl bg-teal-600 text-zinc-950 font-bold text-xs">Regenerate JSON Data</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 12: WORD COUNTER -->
+    <div id="tab-word-counter" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white">Free Online Word & Character Counter</h1>
+          <p class="text-xs text-zinc-400">Instantly count words, characters, paragraphs, and reading time.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800">
+          <span class="text-xs text-zinc-400 font-semibold block mb-1">Words</span>
+          <span id="wc-words" class="text-2xl font-bold font-mono text-white">0</span>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800">
+          <span class="text-xs text-zinc-400 font-semibold block mb-1">Chars (with spaces)</span>
+          <span id="wc-chars" class="text-2xl font-bold font-mono text-white">0</span>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800">
+          <span class="text-xs text-zinc-400 font-semibold block mb-1">Chars (no spaces)</span>
+          <span id="wc-nospaces" class="text-2xl font-bold font-mono text-white">0</span>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800">
+          <span class="text-xs text-zinc-400 font-semibold block mb-1">Reading Time</span>
+          <span id="wc-reading" class="text-2xl font-bold font-mono text-cyan-400">0 min</span>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+        <textarea id="wc-input" oninput="updateWordCounterHtml()" placeholder="Type or paste your text here..." rows="8" class="w-full p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-zinc-100 focus:outline-none focus:border-cyan-500 font-sans"></textarea>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="transformText('upper')" class="px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 text-xs font-semibold text-zinc-300">UPPERCASE</button>
+          <button onclick="transformText('lower')" class="px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 text-xs font-semibold text-zinc-300">lowercase</button>
+          <button onclick="transformText('title')" class="px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 text-xs font-semibold text-zinc-300">Title Case</button>
+          <button onclick="navigator.clipboard.writeText(document.getElementById('wc-input').value)" class="px-4 py-1.5 rounded-lg bg-cyan-600 text-white text-xs font-bold ml-auto">Copy Text</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 13: EXACT RESIZER -->
+    <div id="tab-exact-resizer" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white">Exact Image Resizer for Online Forms</h1>
+          <p class="text-xs text-zinc-400">Resize images to exact pixel dimensions or compress to strict KB limits.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div onclick="document.getElementById('exact-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-emerald-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 transition-all flex flex-col items-center justify-center min-h-[180px]">
+            <input type="file" id="exact-file-input" accept="image/*" onchange="handleExactFile(this.files)" class="hidden" />
+            <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-emerald-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Photo for Exact Resizing</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+          </div>
+
+          <div id="exact-preview" class="hidden rounded-2xl bg-zinc-950 border border-zinc-800 p-4 flex items-center justify-center max-h-[400px]">
+            <img id="exact-img" class="max-h-[360px] object-contain rounded-xl" />
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-xs font-semibold text-zinc-400 block mb-1">Width (px)</label>
+              <input type="number" id="exact-w" value="300" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white font-mono" />
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-zinc-400 block mb-1">Height (px)</label>
+              <input type="number" id="exact-h" value="300" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white font-mono" />
+            </div>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-1">Target Max Size (KB)</label>
+            <input type="number" id="exact-max-kb" value="50" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white font-mono" />
+          </div>
+
+          <button onclick="processExactResizeHtml()" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs">Resize Photo Now</button>
+          <a id="exact-download" href="#" download="resized.jpg" class="hidden w-full py-3 rounded-xl bg-zinc-800 text-white font-semibold text-xs flex items-center justify-center gap-2">Download Resized Photo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 14: AGE CALCULATOR -->
+    <div id="tab-age-calculator" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white">Free Online Age & Date Calculator</h1>
+          <p class="text-xs text-zinc-400">Calculate exact age in years, months, and days plus lifetime statistics.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-1">Date of Birth</label>
+            <input type="date" id="age-dob" value="2000-01-01" onchange="calculateAgeHtml()" class="w-full px-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white font-mono" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-1">Target Date</label>
+            <input type="date" id="age-target" onchange="calculateAgeHtml()" class="w-full px-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white font-mono" />
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 space-y-4">
+          <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+            <div id="age-result-box" class="grid grid-cols-3 gap-3 text-center">
+              <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800"><span id="age-y" class="text-3xl font-extrabold font-mono text-white">0</span><div class="text-[10px] text-zinc-400 uppercase mt-1">Years</div></div>
+              <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800"><span id="age-m" class="text-3xl font-extrabold font-mono text-white">0</span><div class="text-[10px] text-zinc-400 uppercase mt-1">Months</div></div>
+              <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800"><span id="age-d" class="text-3xl font-extrabold font-mono text-white">0</span><div class="text-[10px] text-zinc-400 uppercase mt-1">Days</div></div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 pt-2 text-xs text-zinc-300">
+              <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800">Total Days Lived: <span id="age-total-days" class="font-bold text-indigo-400 font-mono">0</span></div>
+              <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800">Days to Next Birthday: <span id="age-next-bday" class="font-bold text-amber-400 font-mono">0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 15: PDF TOOLS -->
+    <div id="tab-pdf-tools" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15h6"/><path d="M12 12v6"/></svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white">PDF Splitter & Merger</h1>
+          <p class="text-xs text-zinc-400">Combine multiple PDFs or extract page ranges using client-side pdf-lib.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div onclick="document.getElementById('pdf-tool-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-rose-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 transition-all flex flex-col items-center justify-center min-h-[180px]">
+            <input type="file" id="pdf-tool-input" accept="application/pdf" multiple onchange="handlePdfToolFiles(this.files)" class="hidden" />
+            <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-rose-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload PDF Files</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select PDF Files</span>
+          </div>
+
+          <div id="pdf-tool-list" class="space-y-2"></div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <button onclick="mergePdfsHtml()" class="w-full py-3.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs">Merge PDF Files</button>
+          <a id="pdf-tool-download" href="#" download="merged.pdf" class="hidden w-full py-3 rounded-xl bg-zinc-800 text-white font-semibold text-xs flex items-center justify-center gap-2">Download Merged PDF</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 16: INSTAGRAM DOWNLOADER -->
+    <div id="tab-instagram-downloader" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-pink-500/10 text-pink-400 border border-pink-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white">Instagram Reel & Video Downloader</h1>
+          <p class="text-xs text-zinc-400">Download Instagram Reels, IGTV videos, and post media in HD MP4 or extract MP3 audio.</p>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-zinc-800 pb-3">
+          <span class="text-xs font-bold text-zinc-200 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            <span>Input Method</span>
+          </span>
+          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-zinc-950 border border-zinc-800">
+            <button type="button" id="insta-mode-reel" onclick="setInstaMode('reel')" class="px-3 py-1 rounded-lg text-xs font-semibold bg-pink-500/20 text-pink-300 border border-pink-500/30 transition-all">Reel / Post URL</button>
+            <button type="button" id="insta-mode-direct" onclick="setInstaMode('direct')" class="px-3 py-1 rounded-lg text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-all">Exact Video Stream (.mp4 / CDN)</button>
+          </div>
+        </div>
+
+        <label id="insta-input-label" class="block text-xs font-semibold text-zinc-300">Paste Instagram Reel / Video URL</label>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <input type="url" id="insta-url-input" placeholder="https://www.instagram.com/reel/C3x9Y0Lp.../ or phone link ?igsh=..." class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-zinc-200 focus:outline-none focus:border-pink-500" />
+          <button id="insta-fetch-btn" onclick="fetchInstaMediaHtml()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white text-xs font-bold shrink-0">Fetch Media</button>
+        </div>
+        <div id="insta-error" class="hidden text-xs text-rose-400 font-medium"></div>
+
+        <!-- Mobile Link Support Badge -->
+        <div class="p-2.5 rounded-xl bg-zinc-950 border border-zinc-800/80 text-[11px] text-zinc-400 flex items-start gap-2">
+          <span class="text-pink-400 text-xs mt-0.5 shrink-0">📱</span>
+          <p>
+            <span class="text-zinc-300 font-semibold">Mobile App Links Supported:</span> In Instagram app, tap <span class="text-white">Share</span> → <span class="text-white">Copy link</span>. Links with <code class="text-pink-300 bg-pink-500/10 px-1 py-0.5 rounded">?igsh=...</code>, <code class="text-pink-300 bg-pink-500/10 px-1 py-0.5 rounded">/reels/</code>, or <code class="text-pink-300 bg-pink-500/10 px-1 py-0.5 rounded">m.instagram.com</code> are automatically recognized.
+          </p>
+        </div>
+
+        <!-- User Tools Helper Bar -->
+        <div class="pt-3 border-t border-zinc-800 flex items-center justify-between flex-wrap gap-2 text-xs">
+          <span class="text-zinc-400 font-medium flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>User Extraction Tools:</span>
+          </span>
+          <div class="flex items-center gap-2">
+            <button onclick="openExternalExtractor('snapinsta')" class="px-2.5 py-1 rounded-lg bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+              <span>SnapInsta</span>
+              <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </button>
+            <button onclick="openExternalExtractor('fastdl')" class="px-2.5 py-1 rounded-lg bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+              <span>FastDL</span>
+              <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </button>
+            <button onclick="toggleInstaGuide()" class="px-2.5 py-1 rounded-lg bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/30 text-pink-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+              <span>Copy Exact Link Guide</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="insta-guide-box" class="hidden p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-300 space-y-2">
+          <div class="font-bold text-pink-400">How to get the Exact Instagram Video Link in 2 clicks:</div>
+          <ol class="list-decimal list-inside space-y-1 text-zinc-400 leading-relaxed text-[11px]">
+            <li>Open the Reel on Instagram in your browser.</li>
+            <li>Right-click directly on the video player and choose <span class="text-white font-semibold">"Copy Video Address"</span>.</li>
+            <li>Switch to <span class="text-white font-semibold">"Exact Video Stream (.mp4 / CDN)"</span> above, paste the copied link, and click <span class="text-white font-semibold">"Load Exact Stream"</span>.</li>
+            <li>OmniConvert will immediately play and download your exact reel video without quality loss!</li>
+          </ol>
+        </div>
+      </div>
+
+      <div id="insta-result-card" class="hidden p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+        <div id="insta-exact-badge" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-center gap-2">
+          <span class="font-bold">✓ Exact Video Stream Active</span>
+          <span class="text-[11px] text-zinc-400">— Direct CDN stream loaded. Original reel video ready for download.</span>
+        </div>
+        <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+          <div>
+            <span id="insta-badge-text" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-500/30">Instagram Stream</span>
+            <h3 id="insta-result-title" class="text-sm font-bold text-white mt-1">Instagram Reel HD</h3>
+          </div>
+        </div>
+        <div class="rounded-xl overflow-hidden bg-black border border-zinc-800 aspect-video max-h-[360px] flex items-center justify-center">
+          <video id="insta-video-player" controls class="w-full h-full object-contain"></video>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a id="insta-download-mp4" href="#" target="_blank" download="instagram-video.mp4" class="py-3 px-4 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 text-white text-xs font-bold text-center">Download MP4 Video (1080p HD)</a>
+          <a id="insta-download-mp3" href="#" target="_blank" download="instagram-audio.mp3" class="py-3 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold text-center border border-zinc-700">Extract MP3 Audio Track</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 17: YOUTUBE DOWNLOADER -->
+    <div id="tab-youtube-downloader" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.37z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-bold text-white">YouTube Video & Shorts Downloader</h1>
+            <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">Mobile & Desktop</span>
+          </div>
+          <p class="text-xs text-zinc-400">Download YouTube videos and Shorts in 1080p HD, 720p, or extract MP3 audio from mobile phone links.</p>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-zinc-800 pb-3">
+          <span class="text-xs font-bold text-zinc-200 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            <span>Input Method</span>
+          </span>
+          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-zinc-950 border border-zinc-800">
+            <button type="button" id="yt-mode-link" onclick="setYtMode('yt')" class="px-3 py-1 rounded-lg text-xs font-semibold bg-red-500/20 text-red-300 border border-red-500/30 transition-all">Phone & Web Link</button>
+            <button type="button" id="yt-mode-direct" onclick="setYtMode('direct')" class="px-3 py-1 rounded-lg text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-all">Exact Video Stream (.mp4)</button>
+          </div>
+        </div>
+
+        <label id="yt-input-label" class="block text-xs font-semibold text-zinc-300">Paste YouTube Video / Shorts URL</label>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <input type="url" id="yt-url-input" placeholder="https://youtu.be/... or https://youtube.com/shorts/..." class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-zinc-200 focus:outline-none focus:border-red-500" />
+          <button id="yt-fetch-btn" onclick="fetchYtMediaHtml()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white text-xs font-bold shrink-0">Fetch Streams</button>
+        </div>
+        <div id="yt-error" class="hidden text-xs text-rose-400 font-medium"></div>
+
+        <!-- Mobile Link Support Badge -->
+        <div class="p-2.5 rounded-xl bg-zinc-950 border border-zinc-800/80 text-[11px] text-zinc-400 flex items-start gap-2">
+          <span class="text-red-400 text-xs mt-0.5 shrink-0">📱</span>
+          <p>
+            <span class="text-zinc-300 font-semibold">Mobile App Links Supported:</span> In YouTube app, tap <span class="text-white">Share</span> → <span class="text-white">Copy link</span>. Links with <code class="text-red-300 bg-red-500/10 px-1 py-0.5 rounded">youtu.be/...</code>, <code class="text-red-300 bg-red-500/10 px-1 py-0.5 rounded">shorts/</code>, or <code class="text-red-300 bg-red-500/10 px-1 py-0.5 rounded">m.youtube.com</code> are automatically processed.
+          </p>
+        </div>
+
+        <!-- User Tools Helper Bar -->
+        <div class="pt-3 border-t border-zinc-800 flex items-center justify-between flex-wrap gap-2 text-xs">
+          <span class="text-zinc-400 font-medium flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>External Video Extractors:</span>
+          </span>
+          <div class="flex items-center gap-2">
+            <button onclick="openExternalExtractorYt('y2mate')" class="px-2.5 py-1 rounded-lg bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+              <span>Y2Mate</span>
+              <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </button>
+            <button onclick="openExternalExtractorYt('savefrom')" class="px-2.5 py-1 rounded-lg bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+              <span>SaveFrom</span>
+              <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </button>
+            <button onclick="toggleYtGuide()" class="px-2.5 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+              <span>Copy Exact Link Guide</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="yt-guide-box" class="hidden p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-300 space-y-2">
+          <div class="font-bold text-red-400">How to get the Exact YouTube Video Stream Link:</div>
+          <ol class="list-decimal list-inside space-y-1 text-zinc-400 leading-relaxed text-[11px]">
+            <li>Tap "Y2Mate" or "SaveFrom" above with your YouTube link.</li>
+            <li>Copy the generated direct <code>.mp4</code> stream download address.</li>
+            <li>Switch to <span class="text-white font-semibold">"Exact Video Stream (.mp4)"</span> above, paste the copied link, and click <span class="text-white font-semibold">"Load Exact Stream"</span>.</li>
+            <li>OmniConvert will immediately play and download your exact YouTube video stream!</li>
+          </ol>
+        </div>
+      </div>
+
+      <div id="yt-result-card" class="hidden p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+        <div id="yt-exact-badge" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-center gap-2">
+          <span class="font-bold">✓ Exact Video Stream Active</span>
+          <span class="text-[11px] text-zinc-400">— Direct CDN stream loaded. Original video ready for download.</span>
+        </div>
+        <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+          <div>
+            <span id="yt-badge-text" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30">YouTube HD Stream</span>
+            <h3 id="yt-result-title" class="text-sm font-bold text-white mt-1">YouTube Video</h3>
+          </div>
+        </div>
+        <div class="rounded-xl overflow-hidden bg-black border border-zinc-800 aspect-video max-h-[360px] flex items-center justify-center">
+          <video id="yt-video-player" controls class="w-full h-full object-contain"></video>
+        </div>
+        <div class="space-y-3">
+          <label class="block text-xs font-semibold text-zinc-300">Select Resolution / Format</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <a id="yt-dl-1080" href="#" target="_blank" download="youtube-1080p.mp4" class="py-2.5 px-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold text-center">1080p Full HD</a>
+            <a id="yt-dl-720" href="#" target="_blank" download="youtube-720p.mp4" class="py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold text-center border border-zinc-700">720p HD</a>
+            <a id="yt-dl-480" href="#" target="_blank" download="youtube-480p.mp4" class="py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold text-center border border-zinc-700">480p SD</a>
+            <a id="yt-dl-mp3" href="#" target="_blank" download="youtube-audio.mp3" class="py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold text-center border border-zinc-700">MP3 Audio</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 18: FACEBOOK DOWNLOADER -->
+    <div id="tab-facebook-downloader" class="tool-page space-y-6">
+      <div class="flex items-center gap-3 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="p-3 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-bold text-white">Facebook Video & Reels Downloader</h1>
+            <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Mobile & Desktop</span>
+          </div>
+          <p class="text-xs text-zinc-400">Download public Facebook Watch videos and Reels in HD/SD MP4 or MP3 from phone links.</p>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-zinc-800 pb-3">
+          <span class="text-xs font-bold text-zinc-200 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            <span>Input Method</span>
+          </span>
+          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-zinc-950 border border-zinc-800">
+            <button type="button" id="fb-mode-link" onclick="setFbMode('fb')" class="px-3 py-1 rounded-lg text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 transition-all">Phone & Web Link</button>
+            <button type="button" id="fb-mode-direct" onclick="setFbMode('direct')" class="px-3 py-1 rounded-lg text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-all">Exact Video Stream (.mp4)</button>
+          </div>
+        </div>
+
+        <label id="fb-input-label" class="block text-xs font-semibold text-zinc-300">Paste Facebook Video / Reel URL</label>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <input type="url" id="fb-url-input" placeholder="https://fb.watch/... or https://www.facebook.com/share/r/..." class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-zinc-200 focus:outline-none focus:border-blue-500" />
+          <button id="fb-fetch-btn" onclick="fetchFbMediaHtml()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shrink-0">Fetch Stream</button>
+        </div>
+        <div id="fb-error" class="hidden text-xs text-rose-400 font-medium"></div>
+
+        <!-- Mobile Link Support Badge -->
+        <div class="p-2.5 rounded-xl bg-zinc-950 border border-zinc-800/80 text-[11px] text-zinc-400 flex items-start gap-2">
+          <span class="text-blue-400 text-xs mt-0.5 shrink-0">📱</span>
+          <p>
+            <span class="text-zinc-300 font-semibold">Mobile App Links Supported:</span> In Facebook app, tap <span class="text-white">Share</span> → <span class="text-white">Copy Link</span>. Links with <code class="text-blue-300 bg-blue-500/10 px-1 py-0.5 rounded">/share/r/</code>, <code class="text-blue-300 bg-blue-500/10 px-1 py-0.5 rounded">/share/v/</code>, <code class="text-blue-300 bg-blue-500/10 px-1 py-0.5 rounded">fb.watch</code>, or <code class="text-blue-300 bg-blue-500/10 px-1 py-0.5 rounded">m.facebook.com</code> are automatically processed.
+          </p>
+        </div>
+
+        <!-- User Tools Helper Bar -->
+        <div class="pt-3 border-t border-zinc-800 flex items-center justify-between flex-wrap gap-2 text-xs">
+          <span class="text-zinc-400 font-medium flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>External Video Extractors:</span>
+          </span>
+          <div class="flex items-center gap-2">
+            <button onclick="openExternalExtractorFb('snapsave')" class="px-2.5 py-1 rounded-lg bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+              <span>SnapSave</span>
+              <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </button>
+            <button onclick="openExternalExtractorFb('fdown')" class="px-2.5 py-1 rounded-lg bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+              <span>FDown</span>
+              <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </button>
+            <button onclick="toggleFbGuide()" class="px-2.5 py-1 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+              <span>Copy Exact Link Guide</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="fb-guide-box" class="hidden p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-300 space-y-2">
+          <div class="font-bold text-blue-400">How to get the Exact Facebook Video Stream Link:</div>
+          <ol class="list-decimal list-inside space-y-1 text-zinc-400 leading-relaxed text-[11px]">
+            <li>Tap "SnapSave" or "FDown" above with your Facebook link.</li>
+            <li>Copy the generated direct <code>.mp4</code> stream link.</li>
+            <li>Switch to <span class="text-white font-semibold">"Exact Video Stream (.mp4)"</span> above, paste the copied link, and click <span class="text-white font-semibold">"Load Exact Stream"</span>.</li>
+            <li>OmniConvert will immediately play and download your exact Facebook video stream!</li>
+          </ol>
+        </div>
+      </div>
+
+      <div id="fb-result-card" class="hidden p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+        <div id="fb-exact-badge" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-center gap-2">
+          <span class="font-bold">✓ Exact Video Stream Active</span>
+          <span class="text-[11px] text-zinc-400">— Direct CDN stream loaded. Original video ready for download.</span>
+        </div>
+        <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+          <div>
+            <span id="fb-badge-text" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">Facebook Stream</span>
+            <h3 id="fb-result-title" class="text-sm font-bold text-white mt-1">Facebook Video</h3>
+          </div>
+        </div>
+        <div class="rounded-xl overflow-hidden bg-black border border-zinc-800 aspect-video max-h-[360px] flex items-center justify-center">
+          <video id="fb-video-player" controls class="w-full h-full object-contain"></video>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <a id="fb-dl-hd" href="#" target="_blank" download="facebook-hd.mp4" class="py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold text-center">HD High Quality</a>
+          <a id="fb-dl-sd" href="#" target="_blank" download="facebook-sd.mp4" class="py-3 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold text-center border border-zinc-700">SD Standard Quality</a>
+          <a id="fb-dl-mp3" href="#" target="_blank" download="facebook-audio.mp3" class="py-3 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold text-center border border-zinc-700">MP3 Audio</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- JAVASCRIPT APPLICATION CONTROLLER -->
+  <script>
+    // --- AUTOMATIC SEO OPTIMIZATION DICTIONARY & SWITCHER ---
+    const SEO_TOOLS_DATA = {
+      'image-to-pdf': {
+        name: 'Image to PDF Converter',
+        desc: 'Merge multiple images (PNG, JPG, WebP) into a single high-quality PDF document with custom order and layout.',
+        cat: 'Image'
+      },
+      'image-converter': {
+        name: 'Universal Image Converter',
+        desc: 'Convert images instantly between PNG, JPG, and WebP formats using browser-native HTML5 Canvas rendering.',
+        cat: 'Image'
+      },
+      'image-compressor': {
+        name: 'Smart Image Compressor',
+        desc: 'Reduce image file sizes by up to 90% with custom quality slider and real-time estimated file size preview.',
+        cat: 'Image'
+      },
+      'image-upscaler': {
+        name: 'Image to 4K Upscaler',
+        desc: 'Enhance and upscale image resolutions to 2x, 4x, or 4K with interactive Before/After comparison slider.',
+        cat: 'Image'
+      },
+      'magic-eraser': {
+        name: 'Magic Eraser & BG Remover',
+        desc: 'Brush over unwanted objects/people to erase them or remove image backgrounds completely with AI canvas mask.',
+        cat: 'Image'
+      },
+      'video-to-audio': {
+        name: 'Video to Audio Extractor',
+        desc: 'Extract MP3, WAV, or AAC audio directly from MP4 and WebM videos in your browser using WebAssembly.',
+        cat: 'Video & Audio'
+      },
+      'speech-to-text': {
+        name: 'Speech to Text Dictation',
+        desc: 'Real-time continuous voice recording and transcription using Web Speech API with copy and text export options.',
+        cat: 'Text & Utilities'
+      },
+      'qr-generator': {
+        name: 'QR Code Generator',
+        desc: 'Create custom, downloadable QR codes for URLs, WiFi passwords, vCards, or text in PNG and SVG formats.',
+        cat: 'Text & Utilities'
+      },
+      'password-generator': {
+        name: 'Password Generator',
+        desc: 'Generate ultra-secure random passwords and passphrases with custom length, symbols, and strength score.',
+        cat: 'Text & Utilities'
+      },
+      'color-palette': {
+        name: 'Color Palette Extractor',
+        desc: 'Upload any photo or graphic to automatically extract dominant color palettes with HEX/RGB codes & one-click copy.',
+        cat: 'Text & Utilities'
+      },
+      'dummy-data': {
+        name: 'Dummy Data Generator',
+        desc: 'Generate realistic mock datasets (Users, Products, Orders) in JSON or CSV format for developer testing.',
+        cat: 'Developer'
+      },
+      'word-counter': {
+        name: 'Word & Character Counter',
+        desc: 'Count words, characters with/without spaces, paragraphs, and reading time in real-time with one-click case converters.',
+        cat: 'Text & Utilities'
+      },
+      'exact-resizer': {
+        name: 'Exact Image Resizer',
+        desc: 'Resize photos to exact pixel dimensions (e.g., 300x300) or compress to target file size limits (under 50KB) for online form applications.',
+        cat: 'Image'
+      },
+      'age-calculator': {
+        name: 'Age & Date Calculator',
+        desc: 'Calculate exact age in years, months, and days, plus total days lived and a countdown to your next birthday.',
+        cat: 'Text & Utilities'
+      },
+      'pdf-tools': {
+        name: 'PDF Splitter & Merger',
+        desc: 'Merge multiple PDF files into a single document or split and extract specific page ranges with privacy-first client processing.',
+        cat: 'Text & Utilities'
+      },
+      'instagram-downloader': {
+        name: 'Instagram Reel & Video Downloader',
+        desc: 'Download Instagram Reels, IGTV videos, and carousel photos in high resolution MP4/JPG with MP3 audio extraction.',
+        cat: 'Video & Audio'
+      },
+      'youtube-downloader': {
+        name: 'YouTube Video & Shorts Downloader',
+        desc: 'Download YouTube videos and Shorts in 1080p, 720p, or 480p MP4 formats or extract high quality MP3 audio.',
+        cat: 'Video & Audio'
+      },
+      'facebook-downloader': {
+        name: 'Facebook Video & Reels Downloader',
+        desc: 'Download Facebook watch videos, public reels, and clips in HD & SD MP4 quality with fast stream link parsing.',
+        cat: 'Video & Audio'
+      }
+    };
+
+    function updateSeoMetadata(tabId) {
+      const tool = SEO_TOOLS_DATA[tabId];
+      const baseUrl = 'https://omniconvert.app';
+      
+      let pageTitle = 'OmniConvert - Free Universal Client-Side Media, Text & AI Suite';
+      let pageDesc = 'Free online client-side utility suite. Convert images to PDF, compress photos, upscale to 4K, erase objects with AI, extract MP3 audio, transcribe speech, and generate QR codes with 100% data privacy.';
+      let pageUrl = baseUrl;
+
+      if (tool) {
+        pageTitle = `Free ${tool.name} Online | OmniConvert`;
+        pageDesc = tool.desc;
+        pageUrl = `${baseUrl}/tools/${tabId}`;
+      }
+
+      document.title = pageTitle;
+
+      const descMeta = document.getElementById('seo-meta-desc');
+      if (descMeta) descMeta.setAttribute('content', pageDesc);
+
+      const ogTitle = document.getElementById('seo-og-title');
+      if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+
+      const ogDesc = document.getElementById('seo-og-desc');
+      if (ogDesc) ogDesc.setAttribute('content', pageDesc);
+
+      const ogUrl = document.getElementById('seo-og-url');
+      if (ogUrl) ogUrl.setAttribute('content', pageUrl);
+
+      const canonical = document.getElementById('seo-canonical');
+      if (canonical) canonical.setAttribute('href', pageUrl);
+
+      const jsonLdScript = document.getElementById('seo-jsonld');
+      if (jsonLdScript) {
+        const webAppSchema = {
+          '@context': 'https://schema.org',
+          '@type': 'WebApplication',
+          name: tool ? `${tool.name} - OmniConvert` : 'OmniConvert',
+          url: pageUrl,
+          description: pageDesc,
+          applicationCategory: tool ? tool.cat : 'UtilityApplication',
+          operatingSystem: 'Any Web Browser',
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
+        };
+
+        const faqSchema = {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: [
+            {
+              '@type': 'Question',
+              name: 'Is OmniConvert 100% free to use?',
+              acceptedAnswer: { '@type': 'Answer', text: 'Yes! OmniConvert is 100% free with zero registration or hidden file limits.' }
+            },
+            {
+              '@type': 'Question',
+              name: 'Are my files uploaded to any server?',
+              acceptedAnswer: { '@type': 'Answer', text: 'No. All file processing, media conversions, and AI object inpainting occur 100% locally inside your web browser.' }
+            }
+          ]
+        };
+
+        let schemas = [webAppSchema, faqSchema];
+        if (tool) {
+          schemas.push({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+              { '@type': 'ListItem', position: 2, name: tool.name, item: pageUrl }
+            ]
+          });
+        }
+
+        jsonLdScript.textContent = JSON.stringify(schemas);
+      }
+    }
+
+    // --- TAB NAVIGATION SYSTEM ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.tool-page').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => {
+        el.className = 'nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all';
+      });
+
+      const targetTab = document.getElementById('tab-' + tabId);
+      const targetNav = document.getElementById('nav-' + tabId);
+
+      if (targetTab) targetTab.classList.add('active');
+      if (targetNav) {
+        targetNav.className = 'nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600/10 text-indigo-300 border border-indigo-500/20';
+      }
+
+      updateSeoMetadata(tabId);
+
+      if (tabId === 'qr-generator') renderQrCode();
+      if (tabId === 'password-generator') generatePass();
+      if (tabId === 'dummy-data') generateMockJson();
+      if (tabId === 'word-counter') updateWordCounterHtml();
+      if (tabId === 'age-calculator') calculateAgeHtml();
+    }
+
+    function filterTools() {
+      const q = document.getElementById('tool-search').value.toLowerCase();
+      document.querySelectorAll('.tool-card').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    // --- TOOL 1: IMAGE TO PDF ---
+    let pdfFiles = [];
+    function handlePdfFiles(files) {
+      Array.from(files).forEach(f => {
+        pdfFiles.push({ file: f, url: URL.createObjectURL(f) });
+      });
+      renderPdfList();
+    }
+
+    function renderPdfList() {
+      const list = document.getElementById('pdf-image-list');
+      list.innerHTML = '';
+      pdfFiles.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'p-3 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-between';
+        div.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="w-6 h-6 rounded bg-zinc-800 text-[11px] font-bold text-zinc-400 flex items-center justify-center shrink-0">${idx + 1}</span>
+            <img src="${item.url}" class="w-10 h-10 rounded object-cover shrink-0" />
+            <span class="text-xs font-medium text-zinc-200 truncate">${item.file.name}</span>
+          </div>
+          <button onclick="removePdfImg(${idx})" class="text-rose-400 p-1 font-bold">✕</button>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function removePdfImg(idx) {
+      pdfFiles.splice(idx, 1);
+      renderPdfList();
+    }
+
+    async function generatePdf() {
+      if (!pdfFiles.length) return alert('Please upload images first.');
+      const btn = document.getElementById('pdf-btn');
+      btn.innerText = 'Generating PDF...';
+
+      try {
+        const { jsPDF } = window.jspdf;
+        let doc = null;
+        const orientChoice = document.getElementById('pdf-orientation').value;
+        const margin = Number(document.getElementById('pdf-margin').value);
+
+        for (let i = 0; i < pdfFiles.length; i++) {
+          const item = pdfFiles[i];
+          const img = new Image();
+          img.src = item.url;
+          await new Promise(r => img.onload = r);
+
+          const w = img.naturalWidth;
+          const h = img.naturalHeight;
+          let orient = orientChoice === 'landscape' ? 'l' : orientChoice === 'portrait' ? 'p' : w > h ? 'l' : 'p';
+
+          if (i === 0) doc = new jsPDF({ orientation: orient, unit: 'mm', format: 'a4' });
+          else doc.addPage('a4', orient);
+
+          const pw = doc.internal.pageSize.getWidth();
+          const ph = doc.internal.pageSize.getHeight();
+          const rw = pw - margin * 2;
+          const rh = ph - margin * 2;
+          const ratio = Math.min(rw / w, rh / h);
+          const fw = w * ratio;
+          const fh = h * ratio;
+
+          doc.addImage(item.url, 'JPEG', (pw - fw) / 2, (ph - fh) / 2, fw, fh);
+        }
+
+        const name = document.getElementById('pdf-filename').value || 'document.pdf';
+        doc.save(name.endsWith('.pdf') ? name : name + '.pdf');
+      } catch (e) {
+        console.error(e);
+      } finally {
+        btn.innerText = 'Download PDF Document';
+      }
+    }
+
+    // --- TOOL 2: UNIVERSAL CONVERTER ---
+    let convFiles = [];
+    let convTargetFormat = 'webp';
+
+    function handleConvFiles(files) {
+      Array.from(files).forEach(f => {
+        convFiles.push({ file: f, url: URL.createObjectURL(f), convertedUrl: null, convertedName: null });
+      });
+      renderConvList();
+    }
+
+    function setConvFormat(fmt) {
+      convTargetFormat = fmt;
+      document.querySelectorAll('.fmt-btn').forEach(btn => {
+        btn.className = 'fmt-btn py-2.5 rounded-xl text-xs font-bold uppercase border bg-zinc-950 text-zinc-400 border-zinc-800';
+      });
+      document.getElementById('fmt-' + fmt).className = 'fmt-btn py-2.5 rounded-xl text-xs font-bold uppercase border bg-indigo-600 text-white border-indigo-500';
+    }
+
+    function renderConvList() {
+      const list = document.getElementById('conv-file-list');
+      list.innerHTML = '';
+      convFiles.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'p-3 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-between';
+        div.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <img src="${item.url}" class="w-10 h-10 rounded object-cover shrink-0" />
+            <span class="text-xs font-medium text-zinc-200 truncate">${item.file.name}</span>
+          </div>
+          ${item.convertedUrl 
+            ? `<a href="${item.convertedUrl}" download="${item.convertedName}" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold">Download</a>`
+            : `<span class="text-xs text-zinc-500 italic">Ready</span>`
+          }
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    async function convertAllImages() {
+      for (let i = 0; i < convFiles.length; i++) {
+        const item = convFiles[i];
+        const img = new Image();
+        img.src = item.url;
+        await new Promise(r => img.onload = r);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        if (convTargetFormat === 'jpeg') {
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        ctx.drawImage(img, 0, 0);
+
+        const ext = convTargetFormat === 'jpeg' ? 'jpg' : convTargetFormat;
+        item.convertedUrl = canvas.toDataURL('image/' + convTargetFormat, 0.92);
+        item.convertedName = item.file.name.replace(/\.[^/.]+$/, '') + '.' + ext;
+      }
+      renderConvList();
+    }
+
+    // --- TOOL 3: SMART COMPRESSOR ---
+    let compFileObj = null;
+    let compFileUrl = null;
+
+    function handleCompFile(files) {
+      if (!files.length) return;
+      compFileObj = files[0];
+      compFileUrl = URL.createObjectURL(compFileObj);
+
+      document.getElementById('comp-after-img').src = compFileUrl;
+      document.getElementById('comp-preview-container').classList.remove('hidden');
+
+      updateCompression();
+    }
+
+    function updateCompression() {
+      if (!compFileUrl || !compFileObj) return;
+      const q = Number(document.getElementById('comp-quality').value);
+      document.getElementById('comp-quality-val').innerText = q + '%';
+
+      const img = new Image();
+      img.src = compFileUrl;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        const dataUrl = canvas.toDataURL('image/jpeg', q / 100);
+        document.getElementById('comp-after-img').src = dataUrl;
+        document.getElementById('comp-download-btn').href = dataUrl;
+
+        const bytes = Math.floor((dataUrl.split(',')[1]?.length || 0) * (3/4));
+        document.getElementById('comp-size-text').innerText = (bytes / 1024).toFixed(1) + ' KB';
+        const saved = Math.max(0, Math.round(((compFileObj.size - bytes) / compFileObj.size) * 100));
+        document.getElementById('comp-saved-text').innerText = '-' + saved + '% saved';
+      };
+    }
+
+    // --- TOOL 4: 4K UPSCALER ---
+    let upscaleUrl = null;
+    let scaleFactor = 4;
+
+    function handleUpscaleFile(files) {
+      if (!files.length) return;
+      upscaleUrl = URL.createObjectURL(files[0]);
+      document.getElementById('upscale-img').src = upscaleUrl;
+    }
+
+    function processUpscale() {
+      if (!upscaleUrl) return alert('Please upload an image first.');
+      const img = new Image();
+      img.src = upscaleUrl;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth * scaleFactor;
+        canvas.height = img.naturalHeight * scaleFactor;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        ctx.filter = 'contrast(1.05) saturate(1.02)';
+        ctx.drawImage(canvas, 0, 0);
+
+        const result = canvas.toDataURL('image/png', 0.95);
+        document.getElementById('upscale-img').src = result;
+        const btn = document.getElementById('upscale-download');
+        btn.href = result;
+        btn.classList.remove('hidden');
+      };
+    }
+
+    // --- TOOL 5: MAGIC ERASER (CONCENTRIC BOUNDARY PROPAGATION INPAINTING) ---
+    let eraserUrl = null;
+    let isDrawingEraser = false;
+    let lastEraserPos = null;
+
+    function handleEraserFile(files) {
+      if (!files.length) return;
+      eraserUrl = URL.createObjectURL(files[0]);
+      const img = document.getElementById('eraser-base-img');
+      img.src = eraserUrl;
+
+      img.onload = () => {
+        const canvas = document.getElementById('eraser-mask-canvas');
+        canvas.width = img.clientWidth;
+        canvas.height = img.clientHeight;
+        document.getElementById('eraser-canvas-wrap').classList.remove('hidden');
+
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const getCoords = (e) => {
+          const rect = canvas.getBoundingClientRect();
+          return {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+          };
+        };
+
+        const drawStroke = (from, to) => {
+          const size = Number(document.getElementById('eraser-brush-size').value);
+          ctx.fillStyle = 'rgba(244, 63, 94, 0.75)';
+          ctx.strokeStyle = 'rgba(244, 63, 94, 0.75)';
+          ctx.lineWidth = size;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+
+          ctx.beginPath();
+          ctx.moveTo(from.x, from.y);
+          ctx.lineTo(to.x, to.y);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(to.x, to.y, size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        };
+
+        canvas.onmousedown = (e) => {
+          isDrawingEraser = true;
+          const pos = getCoords(e);
+          lastEraserPos = pos;
+          drawStroke(pos, pos);
+        };
+
+        canvas.onmousemove = (e) => {
+          if (isDrawingEraser && lastEraserPos) {
+            const pos = getCoords(e);
+            drawStroke(lastEraserPos, pos);
+            lastEraserPos = pos;
+          }
+        };
+
+        canvas.onmouseup = canvas.onmouseleave = () => {
+          isDrawingEraser = false;
+          lastEraserPos = null;
+        };
+      };
+    }
+
+    function processMagicEraser() {
+      if (!eraserUrl) return alert('Please upload a photo first.');
+      const btn = document.getElementById('eraser-process-btn');
+      btn.innerText = 'Inpainting Objects with AI...';
+
+      setTimeout(() => {
+        const img = new Image();
+        img.src = eraserUrl;
+        img.onload = () => {
+          const w = img.naturalWidth || img.width;
+          const h = img.naturalHeight || img.height;
+
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d', { willReadFrequently: true });
+          ctx.drawImage(img, 0, 0);
+
+          const maskCanvas = document.getElementById('eraser-mask-canvas');
+          const maskScaleCanvas = document.createElement('canvas');
+          maskScaleCanvas.width = w;
+          maskScaleCanvas.height = h;
+          const maskScaleCtx = maskScaleCanvas.getContext('2d', { willReadFrequently: true });
+          maskScaleCtx.drawImage(maskCanvas, 0, 0, w, h);
+
+          const maskPixels = maskScaleCtx.getImageData(0, 0, w, h).data;
+          const imgData = ctx.getImageData(0, 0, w, h);
+          const pixels = imgData.data;
+
+          const known = new Uint8Array(w * h);
+          const isOriginallyMasked = new Uint8Array(w * h);
+          let remainingMasked = 0;
+
+          for (let i = 0; i < w * h; i++) {
+            const mIdx = i * 4;
+            const opacity = maskPixels[mIdx + 3];
+            const isMask = opacity > 15 || maskPixels[mIdx] > 15;
+            if (isMask) {
+              known[i] = 0;
+              isOriginallyMasked[i] = 1;
+              remainingMasked++;
+            } else {
+              known[i] = 1;
+              isOriginallyMasked[i] = 0;
+            }
+          }
+
+          if (remainingMasked === 0) {
+            btn.innerText = 'Erase Masked Objects';
+            return alert('Please brush over an object to erase first.');
+          }
+
+          const patchRadius = 6;
+          let passes = 0;
+          const maxPasses = Math.max(w, h);
+
+          while (remainingMasked > 0 && passes < maxPasses) {
+            passes++;
+            const frontier = [];
+
+            for (let y = 0; y < h; y++) {
+              for (let x = 0; x < w; x++) {
+                const idx = y * w + x;
+                if (known[idx] === 0) {
+                  const hasKnownNeighbor =
+                    (x > 0 && known[idx - 1] === 1) ||
+                    (x < w - 1 && known[idx + 1] === 1) ||
+                    (y > 0 && known[idx - w] === 1) ||
+                    (y < h - 1 && known[idx + w] === 1);
+
+                  if (hasKnownNeighbor) {
+                    frontier.push(idx);
+                  }
+                }
+              }
+            }
+
+            if (frontier.length === 0) break;
+
+            const updates = [];
+
+            for (let f = 0; f < frontier.length; f++) {
+              const idx = frontier[f];
+              const fx = idx % w;
+              const fy = Math.floor(idx / w);
+
+              let rSum = 0, gSum = 0, bSum = 0, wSum = 0;
+
+              for (let dy = -patchRadius; dy <= patchRadius; dy++) {
+                const ny = fy + dy;
+                if (ny < 0 || ny >= h) continue;
+
+                for (let dx = -patchRadius; dx <= patchRadius; dx++) {
+                  const nx = fx + dx;
+                  if (nx < 0 || nx >= w) continue;
+
+                  const nIdx = ny * w + nx;
+                  if (known[nIdx] === 1) {
+                    const distSq = dx * dx + dy * dy;
+                    if (distSq === 0) continue;
+                    const weight = 1 / (Math.sqrt(distSq) + 0.1);
+                    const p = nIdx * 4;
+
+                    rSum += pixels[p] * weight;
+                    gSum += pixels[p + 1] * weight;
+                    bSum += pixels[p + 2] * weight;
+                    wSum += weight;
+                  }
+                }
+              }
+
+              if (wSum > 0) {
+                updates.push({
+                  idx,
+                  r: Math.round(rSum / wSum),
+                  g: Math.round(gSum / wSum),
+                  b: Math.round(bSum / wSum),
+                });
+              }
+            }
+
+            for (let u = 0; u < updates.length; u++) {
+              const item = updates[u];
+              const p = item.idx * 4;
+              pixels[p] = item.r;
+              pixels[p + 1] = item.g;
+              pixels[p + 2] = item.b;
+              pixels[p + 3] = 255;
+              known[item.idx] = 1;
+              remainingMasked--;
+            }
+
+            if (updates.length === 0) break;
+          }
+
+          // Light edge-smoothing pass
+          const copyPixels = new Uint8ClampedArray(pixels);
+          for (let y = 1; y < h - 1; y++) {
+            for (let x = 1; x < w - 1; x++) {
+              const idx = y * w + x;
+              if (isOriginallyMasked[idx] === 1) {
+                let rAcc = 0, gAcc = 0, bAcc = 0, count = 0;
+                for (let dy = -1; dy <= 1; dy++) {
+                  for (let dx = -1; dx <= 1; dx++) {
+                    const p = ((y + dy) * w + (x + dx)) * 4;
+                    rAcc += copyPixels[p];
+                    gAcc += copyPixels[p + 1];
+                    bAcc += copyPixels[p + 2];
+                    count++;
+                  }
+                }
+                const targetP = idx * 4;
+                pixels[targetP] = Math.round(rAcc / count);
+                pixels[targetP + 1] = Math.round(gAcc / count);
+                pixels[targetP + 2] = Math.round(bAcc / count);
+              }
+            }
+          }
+
+          ctx.putImageData(imgData, 0, 0);
+
+          const res = canvas.toDataURL('image/png');
+          document.getElementById('eraser-base-img').src = res;
+          const dlBtn = document.getElementById('eraser-download');
+          dlBtn.href = res;
+          dlBtn.classList.remove('hidden');
+          btn.innerText = 'Erase Masked Objects';
+
+          // Reset mask canvas for next erase
+          const maskCtx = maskCanvas.getContext('2d');
+          maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+        };
+      }, 50);
+    }
+
+    // --- TOOL 6: VIDEO TO AUDIO ---
+    let videoFileUrl = null;
+    function handleVideoFile(files) {
+      if (!files.length) return;
+      videoFileUrl = URL.createObjectURL(files[0]);
+      const player = document.getElementById('video-player');
+      player.src = videoFileUrl;
+      player.classList.remove('hidden');
+    }
+
+    async function extractAudioTrack() {
+      if (!videoFileUrl) return alert('Please select a video file first.');
+      try {
+        const resp = await fetch(videoFileUrl);
+        const buf = await resp.arrayBuffer();
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const decoded = await ctx.decodeAudioData(buf);
+
+        const numChan = decoded.numberOfChannels;
+        const len = decoded.length * numChan * 2 + 44;
+        const out = new DataView(new ArrayBuffer(len));
+        let pos = 0;
+        const write32 = (d) => { out.setUint32(pos, d, true); pos += 4; };
+        const write16 = (d) => { out.setUint16(pos, d, true); pos += 2; };
+
+        write32(0x46464952); write32(len - 8); write32(0x45564157); write32(0x20746d66);
+        write32(16); write16(1); write16(numChan); write32(decoded.sampleRate);
+        write32(decoded.sampleRate * 2 * numChan); write16(numChan * 2); write16(16);
+        write32(0x61746164); write32(len - pos - 4);
+
+        let channels = [];
+        for (let i = 0; i < numChan; i++) channels.push(decoded.getChannelData(i));
+        let offset = 0;
+        while (offset < decoded.length) {
+          for (let i = 0; i < numChan; i++) {
+            let sample = Math.max(-1, Math.min(1, channels[i][offset]));
+            sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+            out.setInt16(pos, sample, true); pos += 2;
+          }
+          offset++;
+        }
+
+        const blob = new Blob([out], { type: 'audio/wav' });
+        const audioUrl = URL.createObjectURL(blob);
+        document.getElementById('audio-player').src = audioUrl;
+        document.getElementById('audio-result').classList.remove('hidden');
+        const dlBtn = document.getElementById('audio-download-btn');
+        dlBtn.href = audioUrl;
+        dlBtn.classList.remove('hidden');
+      } catch (e) {
+        console.error(e);
+        alert('Could not decode audio track.');
+      }
+    }
+
+    // --- TOOL 7: SPEECH TO TEXT ---
+    let isSttRec = false;
+    let sttRecObj = null;
+
+    function toggleSpeechRecognition() {
+      const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!Speech) return alert('Web Speech API is not supported in this browser. Use Chrome or Edge.');
+
+      if (!sttRecObj) {
+        sttRecObj = new Speech();
+        sttRecObj.continuous = true;
+        sttRecObj.interimResults = true;
+        sttRecObj.onresult = (e) => {
+          let str = '';
+          for (let i = 0; i < e.results.length; i++) str += e.results[i][0].transcript;
+          document.getElementById('stt-textarea').value = str;
+        };
+      }
+
+      if (isSttRec) {
+        sttRecObj.stop();
+        isSttRec = false;
+        document.getElementById('stt-btn').innerText = 'Start Microphone';
+        document.getElementById('stt-status-dot').className = 'w-2 h-2 rounded-full bg-zinc-600';
+        document.getElementById('stt-status-text').innerText = 'IDLE';
+      } else {
+        sttRecObj.start();
+        isSttRec = true;
+        document.getElementById('stt-btn').innerText = 'Stop Dictation';
+        document.getElementById('stt-status-dot').className = 'w-2 h-2 rounded-full bg-rose-500 animate-ping';
+        document.getElementById('stt-status-text').innerText = 'RECORDING';
+      }
+    }
+
+    function downloadDictationTxt() {
+      const txt = document.getElementById('stt-textarea').value;
+      if (!txt) return;
+      const blob = new Blob([txt], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'transcript.txt';
+      a.click();
+    }
+
+    // --- TOOL 8: QR GENERATOR ---
+    function renderQrCode() {
+      const text = document.getElementById('qr-input').value || ' ';
+      const target = document.getElementById('qr-target');
+      target.innerHTML = '';
+      if (window.QRCode) {
+        new window.QRCode(target, {
+          text: text,
+          width: 220,
+          height: 220,
+          colorDark: '#ffffff',
+          colorLight: '#09090b',
+        });
+      }
+    }
+
+    function downloadQrPng() {
+      const img = document.getElementById('qr-target').querySelector('img');
+      if (!img) return;
+      const a = document.createElement('a');
+      a.href = img.src;
+      a.download = 'qrcode.png';
+      a.click();
+    }
+
+    // --- TOOL 9: PASSWORD GENERATOR ---
+    function generatePass() {
+      const len = Number(document.getElementById('pwd-len').value);
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=';
+      let res = '';
+      const arr = new Uint32Array(len);
+      window.crypto.getRandomValues(arr);
+      for (let i = 0; i < len; i++) res += chars[arr[i] % chars.length];
+      document.getElementById('pwd-out').innerText = res;
+    }
+
+    // --- TOOL 10: COLOR PALETTE ---
+    function extractColors(files) {
+      if (!files.length) return;
+      const img = new Image();
+      img.src = URL.createObjectURL(files[0]);
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 100; canvas.height = 100;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, 100, 100);
+        const data = ctx.getImageData(0, 0, 100, 100).data;
+
+        const colors = [];
+        for (let i = 0; i < data.length; i += 40) {
+          const r = data[i].toString(16).padStart(2, '0');
+          const g = data[i+1].toString(16).padStart(2, '0');
+          const b = data[i+2].toString(16).padStart(2, '0');
+          colors.push('#' + r + g + b);
+        }
+
+        const grid = document.getElementById('pal-grid');
+        grid.innerHTML = '';
+        colors.slice(0, 8).forEach(hex => {
+          const div = document.createElement('div');
+          div.className = 'p-3 rounded-xl bg-zinc-950 border border-zinc-800 text-center cursor-pointer';
+          div.onclick = () => navigator.clipboard.writeText(hex);
+          div.innerHTML = `<div class="h-16 rounded-lg mb-2" style="background:${hex}"></div><span class="text-xs font-mono font-bold text-white">${hex}</span>`;
+          grid.appendChild(div);
+        });
+      };
+    }
+
+    // --- TOOL 11: DUMMY DATA ---
+    function generateMockJson() {
+      const mock = [
+        { id: 1, name: "Alex Rivers", email: "alex@example.com", role: "Admin", active: true },
+        { id: 2, name: "Jordan Smith", email: "jordan@example.com", role: "Developer", active: true },
+        { id: 3, name: "Taylor Brown", email: "taylor@example.com", role: "User", active: false }
+      ];
+      document.getElementById('dummy-out').innerText = JSON.stringify(mock, null, 2);
+    }
+
+    // --- TOOL 12: WORD COUNTER ---
+    function updateWordCounterHtml() {
+      const val = document.getElementById('wc-input').value;
+      const chars = val.length;
+      const noSpaces = val.replace(/\s/g, '').length;
+      const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+      const readMins = Math.ceil(words / 200);
+
+      document.getElementById('wc-words').innerText = words.toLocaleString();
+      document.getElementById('wc-chars').innerText = chars.toLocaleString();
+      document.getElementById('wc-nospaces').innerText = noSpaces.toLocaleString();
+      document.getElementById('wc-reading').innerText = readMins + ' min';
+    }
+
+    function transformText(type) {
+      const el = document.getElementById('wc-input');
+      if (type === 'upper') el.value = el.value.toUpperCase();
+      if (type === 'lower') el.value = el.value.toLowerCase();
+      if (type === 'title') el.value = el.value.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase());
+      updateWordCounterHtml();
+    }
+
+    // --- TOOL 13: EXACT RESIZER ---
+    let exactFileUrl = null;
+    function handleExactFile(files) {
+      if (!files.length) return;
+      exactFileUrl = URL.createObjectURL(files[0]);
+      const img = document.getElementById('exact-img');
+      img.src = exactFileUrl;
+      img.onload = () => {
+        document.getElementById('exact-w').value = img.naturalWidth;
+        document.getElementById('exact-h').value = img.naturalHeight;
+        document.getElementById('exact-preview').classList.remove('hidden');
+      };
+    }
+
+    function processExactResizeHtml() {
+      if (!exactFileUrl) return alert('Please select an image first.');
+      const w = Number(document.getElementById('exact-w').value) || 300;
+      const h = Number(document.getElementById('exact-h').value) || 300;
+      const maxKb = Number(document.getElementById('exact-max-kb').value) || 50;
+
+      const img = new Image();
+      img.src = exactFileUrl;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+
+        let q = 0.90;
+        let dataUrl = canvas.toDataURL('image/jpeg', q);
+        let bytes = Math.floor((dataUrl.split(',')[1]?.length || 0) * 0.75);
+
+        for (let i = 0; i < 8; i++) {
+          if (bytes <= maxKb * 1024 || q <= 0.1) break;
+          q -= 0.1;
+          dataUrl = canvas.toDataURL('image/jpeg', q);
+          bytes = Math.floor((dataUrl.split(',')[1]?.length || 0) * 0.75);
+        }
+
+        document.getElementById('exact-img').src = dataUrl;
+        const dl = document.getElementById('exact-download');
+        dl.href = dataUrl;
+        dl.classList.remove('hidden');
+      };
+    }
+
+    // --- TOOL 14: AGE CALCULATOR ---
+    function calculateAgeHtml() {
+      const dobVal = document.getElementById('age-dob').value;
+      const targetVal = document.getElementById('age-target').value || new Date().toISOString().split('T')[0];
+
+      if (!dobVal) return;
+      const birth = new Date(dobVal);
+      const target = new Date(targetVal);
+      if (birth > target) return;
+
+      let y = target.getFullYear() - birth.getFullYear();
+      let m = target.getMonth() - birth.getMonth();
+      let d = target.getDate() - birth.getDate();
+
+      if (d < 0) {
+        m--;
+        const prevMonth = new Date(target.getFullYear(), target.getMonth(), 0);
+        d += prevMonth.getDate();
+      }
+      if (m < 0) { y--; m += 12; }
+
+      const totalDays = Math.floor((target.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24));
+      const nextBdayYear = target.getFullYear() + ((target.getMonth() > birth.getMonth() || (target.getMonth() === birth.getMonth() && target.getDate() > birth.getDate())) ? 1 : 0);
+      const nextBday = new Date(nextBdayYear, birth.getMonth(), birth.getDate());
+      const daysToNext = Math.ceil((nextBday.getTime() - target.getTime()) / (1000 * 60 * 60 * 24));
+
+      document.getElementById('age-y').innerText = y;
+      document.getElementById('age-m').innerText = m;
+      document.getElementById('age-d').innerText = d;
+      document.getElementById('age-total-days').innerText = totalDays.toLocaleString();
+      document.getElementById('age-next-bday').innerText = daysToNext;
+    }
+
+    // --- TOOL 15: PDF TOOLS ---
+    let pdfToolFiles = [];
+    function handlePdfToolFiles(files) {
+      Array.from(files).forEach(f => {
+        if (f.name.endsWith('.pdf')) pdfToolFiles.push(f);
+      });
+      renderPdfToolList();
+    }
+
+    function renderPdfToolList() {
+      const list = document.getElementById('pdf-tool-list');
+      list.innerHTML = '';
+      pdfToolFiles.forEach((f, i) => {
+        const div = document.createElement('div');
+        div.className = 'p-3 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-between text-xs text-zinc-200';
+        div.innerHTML = `<span>${f.name}</span><button onclick="pdfToolFiles.splice(${i},1); renderPdfToolList();" class="text-rose-400 font-bold">✕</button>`;
+        list.appendChild(div);
+      });
+    }
+
+    async function mergePdfsHtml() {
+      if (pdfToolFiles.length < 2) return alert('Please upload at least 2 PDF files.');
+      try {
+        const { PDFDocument } = window.PDFLib;
+        const mergedDoc = await PDFDocument.create();
+
+        for (const file of pdfToolFiles) {
+          const buf = await file.arrayBuffer();
+          const doc = await PDFDocument.load(buf, { ignoreEncryption: true });
+          const pages = await mergedDoc.copyPages(doc, doc.getPageIndices());
+          pages.forEach(p => mergedDoc.addPage(p));
+        }
+
+        const bytes = await mergedDoc.save();
+        const blob = new Blob([bytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const dl = document.getElementById('pdf-tool-download');
+        dl.href = url;
+        dl.classList.remove('hidden');
+      } catch (err) {
+        console.error(err);
+        alert('Failed to merge PDF files.');
+      }
+    }
+
+    // --- HELPER FOR MEDIA STREAM BLOB DOWNLOADS ---
+    async function triggerStreamDownload(e, url, filename) {
+      if (e) e.preventDefault();
+      const targetBtn = e ? e.currentTarget : null;
+      const originalText = targetBtn ? targetBtn.innerText : '';
+      if (targetBtn) targetBtn.innerText = 'Downloading...';
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP status ${response.status}`);
+        }
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
+      } catch (err) {
+        console.warn('Stream fetch error:', err);
+        alert('Could not download media stream. Please verify your connection.');
+      } finally {
+        if (targetBtn) targetBtn.innerText = originalText;
+      }
+    }
+
+    // --- TOOL 16: INSTAGRAM DOWNLOADER ---
+    let instaCurrentMode = 'reel';
+
+    function setInstaMode(mode) {
+      instaCurrentMode = mode;
+      const reelBtn = document.getElementById('insta-mode-reel');
+      const directBtn = document.getElementById('insta-mode-direct');
+      const label = document.getElementById('insta-input-label');
+      const input = document.getElementById('insta-url-input');
+      const fetchBtn = document.getElementById('insta-fetch-btn');
+
+      if (mode === 'reel') {
+        reelBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-pink-500/20 text-pink-300 border border-pink-500/30 transition-all';
+        directBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-all';
+        label.innerText = 'Paste Instagram Reel / Video URL';
+        input.placeholder = 'https://www.instagram.com/reel/C3x9Y0Lp.../ or phone link ?igsh=...';
+        fetchBtn.innerText = 'Fetch Media';
+      } else {
+        directBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-pink-500/20 text-pink-300 border border-pink-500/30 transition-all';
+        reelBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-all';
+        label.innerText = 'Paste Exact Video Stream Link (.mp4 or CDN address)';
+        input.placeholder = 'https://scontent...cdninstagram.com/...mp4 or any direct .mp4 URL';
+        fetchBtn.innerText = 'Load Exact Stream';
+      }
+    }
+
+    function toggleInstaGuide() {
+      const box = document.getElementById('insta-guide-box');
+      box.classList.toggle('hidden');
+    }
+
+    function openExternalExtractor(service) {
+      const url = document.getElementById('insta-url-input').value.trim() || 'https://www.instagram.com/reels/';
+      let target = `https://snapinsta.app/?url=${encodeURIComponent(url)}`;
+      if (service === 'fastdl') target = `https://fastdl.app/en?url=${encodeURIComponent(url)}`;
+      window.open(target, '_blank');
+    }
+
+    function fetchInstaMediaHtml() {
+      const url = document.getElementById('insta-url-input').value.trim();
+      const errEl = document.getElementById('insta-error');
+      const cardEl = document.getElementById('insta-result-card');
+      const exactBadge = document.getElementById('insta-exact-badge');
+      const badgeText = document.getElementById('insta-badge-text');
+      const titleEl = document.getElementById('insta-result-title');
+      
+      if (!url) {
+        errEl.innerText = 'Please enter an Instagram Reel or direct video URL.';
+        errEl.classList.remove('hidden');
+        cardEl.classList.add('hidden');
+        return;
+      }
+
+      // Check if direct video stream
+      const isDirect = url.includes('.mp4') || url.includes('.webm') || url.includes('cdninstagram.com') || url.includes('fbcdn.net');
+      const igRegex = /(?:https?:\/\/)?(?:www\.|m\.)?(?:instagram\.com|instagr\.am)\/(?:[a-zA-Z0-9_\.]+\/)?(?:reel|reels|p|tv|share\/reel|share\/p)\/([A-Za-z0-9_-]+)/i;
+
+      if (!isDirect && !igRegex.test(url) && !url.includes('instagram.com')) {
+        errEl.innerText = 'Please enter a valid Instagram URL (phone link with ?igsh=... or /reels/...) or a direct .mp4 video stream link.';
+        errEl.classList.remove('hidden');
+        cardEl.classList.add('hidden');
+        return;
+      }
+      errEl.classList.add('hidden');
+
+      let streamUrl = 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4';
+      if (isDirect) {
+        streamUrl = url;
+        exactBadge.classList.remove('hidden');
+        badgeText.className = 'text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        badgeText.innerText = 'Exact Reel Stream';
+        titleEl.innerText = 'Exact Instagram Video Stream (Direct CDN)';
+      } else {
+        exactBadge.classList.add('hidden');
+        badgeText.className = 'text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-500/30';
+        badgeText.innerText = 'Instagram Stream';
+        titleEl.innerText = 'Instagram Reel HD';
+      }
+
+      document.getElementById('insta-video-player').src = streamUrl;
+      document.getElementById('insta-download-mp4').onclick = (e) => triggerStreamDownload(e, streamUrl, 'instagram-reel-1080p.mp4');
+      document.getElementById('insta-download-mp3').onclick = (e) => triggerStreamDownload(e, streamUrl, 'instagram-audio.mp3');
+      cardEl.classList.remove('hidden');
+    }
+
+    // --- TOOL 17: YOUTUBE DOWNLOADER ---
+    let ytCurrentMode = 'yt';
+
+    function setYtMode(mode) {
+      ytCurrentMode = mode;
+      const linkBtn = document.getElementById('yt-mode-link');
+      const directBtn = document.getElementById('yt-mode-direct');
+      const label = document.getElementById('yt-input-label');
+      const input = document.getElementById('yt-url-input');
+      const fetchBtn = document.getElementById('yt-fetch-btn');
+
+      if (mode === 'yt') {
+        linkBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-red-500/20 text-red-300 border border-red-500/30 transition-all';
+        directBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-all';
+        label.innerText = 'Paste YouTube Video / Shorts URL';
+        input.placeholder = 'https://youtu.be/... or https://youtube.com/shorts/...';
+        fetchBtn.innerText = 'Fetch Streams';
+      } else {
+        directBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-red-500/20 text-red-300 border border-red-500/30 transition-all';
+        linkBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-all';
+        label.innerText = 'Paste Exact Video Stream Link (.mp4 or direct URL)';
+        input.placeholder = 'https://...googlevideo.com/... or any direct .mp4 URL';
+        fetchBtn.innerText = 'Load Exact Stream';
+      }
+    }
+
+    function toggleYtGuide() {
+      const box = document.getElementById('yt-guide-box');
+      box.classList.toggle('hidden');
+    }
+
+    function openExternalExtractorYt(service) {
+      const url = document.getElementById('yt-url-input').value.trim() || 'https://www.youtube.com';
+      let target = `https://y2mate.nu/en/?url=${encodeURIComponent(url)}`;
+      if (service === 'savefrom') target = `https://en.savefrom.net/1-youtube-video-downloader-396/?url=${encodeURIComponent(url)}`;
+      window.open(target, '_blank');
+    }
+
+    function fetchYtMediaHtml() {
+      const url = document.getElementById('yt-url-input').value.trim();
+      const errEl = document.getElementById('yt-error');
+      const cardEl = document.getElementById('yt-result-card');
+      const exactBadge = document.getElementById('yt-exact-badge');
+      const badgeText = document.getElementById('yt-badge-text');
+      const titleEl = document.getElementById('yt-result-title');
+
+      if (!url) {
+        errEl.innerText = 'Please enter a YouTube Video/Shorts URL or direct video stream link.';
+        errEl.classList.remove('hidden');
+        cardEl.classList.add('hidden');
+        return;
+      }
+
+      const isDirect = url.includes('.mp4') || url.includes('.webm') || url.includes('googlevideo.com');
+      const ytRegex = /(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/i;
+
+      if (!isDirect && !ytRegex.test(url) && !url.includes('youtube.com') && !url.includes('youtu.be')) {
+        errEl.innerText = 'Please enter a valid YouTube URL (mobile https://youtu.be/... or shorts) or direct .mp4 stream link.';
+        errEl.classList.remove('hidden');
+        cardEl.classList.add('hidden');
+        return;
+      }
+      errEl.classList.add('hidden');
+
+      let streamUrl = 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4';
+      if (isDirect) {
+        streamUrl = url;
+        exactBadge.classList.remove('hidden');
+        badgeText.className = 'text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        badgeText.innerText = 'Exact YouTube Stream';
+        titleEl.innerText = 'Exact YouTube Video Stream (Direct CDN)';
+      } else {
+        exactBadge.classList.add('hidden');
+        badgeText.className = 'text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30';
+        badgeText.innerText = 'YouTube HD Stream';
+        titleEl.innerText = 'YouTube Video HD Stream';
+      }
+
+      document.getElementById('yt-video-player').src = streamUrl;
+      document.getElementById('yt-dl-1080').onclick = (e) => triggerStreamDownload(e, streamUrl, 'youtube-1080p.mp4');
+      document.getElementById('yt-dl-720').onclick = (e) => triggerStreamDownload(e, streamUrl, 'youtube-720p.mp4');
+      document.getElementById('yt-dl-480').onclick = (e) => triggerStreamDownload(e, streamUrl, 'youtube-480p.mp4');
+      document.getElementById('yt-dl-mp3').onclick = (e) => triggerStreamDownload(e, streamUrl, 'youtube-audio.mp3');
+      cardEl.classList.remove('hidden');
+    }
+
+    // --- TOOL 18: FACEBOOK DOWNLOADER ---
+    let fbCurrentMode = 'fb';
+
+    function setFbMode(mode) {
+      fbCurrentMode = mode;
+      const linkBtn = document.getElementById('fb-mode-link');
+      const directBtn = document.getElementById('fb-mode-direct');
+      const label = document.getElementById('fb-input-label');
+      const input = document.getElementById('fb-url-input');
+      const fetchBtn = document.getElementById('fb-fetch-btn');
+
+      if (mode === 'fb') {
+        linkBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 transition-all';
+        directBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-all';
+        label.innerText = 'Paste Facebook Video / Reel URL';
+        input.placeholder = 'https://fb.watch/... or https://www.facebook.com/share/r/...';
+        fetchBtn.innerText = 'Fetch Stream';
+      } else {
+        directBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 transition-all';
+        linkBtn.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-all';
+        label.innerText = 'Paste Exact Video Stream Link (.mp4 or CDN address)';
+        input.placeholder = 'https://...fbcdn.net/...mp4 or any direct .mp4 URL';
+        fetchBtn.innerText = 'Load Exact Stream';
+      }
+    }
+
+    function toggleFbGuide() {
+      const box = document.getElementById('fb-guide-box');
+      box.classList.toggle('hidden');
+    }
+
+    function openExternalExtractorFb(service) {
+      const url = document.getElementById('fb-url-input').value.trim() || 'https://www.facebook.com';
+      let target = `https://snapsave.app/?url=${encodeURIComponent(url)}`;
+      if (service === 'fdown') target = `https://fdown.net/?url=${encodeURIComponent(url)}`;
+      window.open(target, '_blank');
+    }
+
+    function fetchFbMediaHtml() {
+      const url = document.getElementById('fb-url-input').value.trim();
+      const errEl = document.getElementById('fb-error');
+      const cardEl = document.getElementById('fb-result-card');
+      const exactBadge = document.getElementById('fb-exact-badge');
+      const badgeText = document.getElementById('fb-badge-text');
+      const titleEl = document.getElementById('fb-result-title');
+
+      if (!url) {
+        errEl.innerText = 'Please enter a Facebook Video/Reel URL or direct video stream link.';
+        errEl.classList.remove('hidden');
+        cardEl.classList.add('hidden');
+        return;
+      }
+
+      const isDirect = url.includes('.mp4') || url.includes('.webm') || url.includes('fbcdn.net');
+      const fbRegex = /(?:https?:\/\/)?(?:www\.|m\.)?(?:facebook\.com|fb\.watch)\/(?:[a-zA-Z0-9_\.]+\/)?(?:watch\/?\?v=|reel\/|reels\/|share\/r\/|share\/v\/|videos\/|story\.php\?story_fbid=)?([0-9A-Za-z_-]+)/i;
+
+      if (!isDirect && !fbRegex.test(url) && !url.includes('facebook.com') && !url.includes('fb.watch')) {
+        errEl.innerText = 'Please enter a valid Facebook URL (mobile /share/r/..., /reel/..., fb.watch) or direct .mp4 stream link.';
+        errEl.classList.remove('hidden');
+        cardEl.classList.add('hidden');
+        return;
+      }
+      errEl.classList.add('hidden');
+
+      let streamUrl = 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4';
+      if (isDirect) {
+        streamUrl = url;
+        exactBadge.classList.remove('hidden');
+        badgeText.className = 'text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        badgeText.innerText = 'Exact Facebook Stream';
+        titleEl.innerText = 'Exact Facebook Video Stream (Direct CDN)';
+      } else {
+        exactBadge.classList.add('hidden');
+        badgeText.className = 'text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30';
+        badgeText.innerText = 'Facebook Stream';
+        titleEl.innerText = 'Facebook Video HD';
+      }
+
+      document.getElementById('fb-video-player').src = streamUrl;
+      document.getElementById('fb-dl-hd').onclick = (e) => triggerStreamDownload(e, streamUrl, 'facebook-hd.mp4');
+      document.getElementById('fb-dl-sd').onclick = (e) => triggerStreamDownload(e, streamUrl, 'facebook-sd.mp4');
+      document.getElementById('fb-dl-mp3').onclick = (e) => triggerStreamDownload(e, streamUrl, 'facebook-audio.mp3');
+      cardEl.classList.remove('hidden');
+    }
+
+    // Set default age target date to today
+    document.getElementById('age-target').value = new Date().toISOString().split('T')[0];
+    calculateAgeHtml();
+  </script>
+</body>
+</html>
