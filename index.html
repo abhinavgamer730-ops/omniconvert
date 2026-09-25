@@ -2886,6 +2886,10 @@
       document.getElementById('fb-video-player').src = streamUrl;
       document.getElementById('fb-dl-hd').onclick = (e) => triggerStreamDownload(e, streamUrl, 'facebook-hd.mp4');
       document.getElementById('fb-dl-sd').onclick = (e) => triggerStreamDownload(e, streamUrl, 'facebook-sd.mp4');
+      document.getElementById('fb-dl-mp3').onclick = (e) => triggerStreamDownload(e, streamUrl, 'facebook-audio.mp3');
+      cardEl.classList.remove('hidden');
+    }
+
     // --- TOOL 19: VIDEO TO 4K UPSCALER ---
     let vUpscaleSourceUrl = null;
     let vUpscaleTargetRes = '4k';
