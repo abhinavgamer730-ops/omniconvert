@@ -226,7 +226,13 @@ export default function VideoUpscalerClient() {
   const cancelUpscaling = () => {
     abortRef.current = true;
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      try {
+        mediaRecorderRef.current.requestData();
+      } catch (e) {}
       mediaRecorderRef.current.stop();
+    }
+    if (videoRef.current) {
+      videoRef.current.pause();
     }
     setIsProcessing(false);
     setStatusText('Upscaling canceled.');
@@ -341,17 +347,34 @@ export default function VideoUpscalerClient() {
         setIsProcessing(false);
       };
 
-      mediaRecorder.start(100);
+      const videoTrack = canvasStream.getVideoTracks()[0];
 
-      // 5. Autoplay policy compliance
-      video.currentTime = 0;
+      // 5. Critical: Await asynchronous seek to beginning to prevent frame-0 early termination race condition
+      video.pause();
+      if (video.currentTime > 0 || video.ended) {
+        video.currentTime = 0;
+        await new Promise<void>((resolve) => {
+          let done = false;
+          const finish = () => {
+            if (done) return;
+            done = true;
+            video.removeEventListener('seeked', finish);
+            resolve();
+          };
+          video.addEventListener('seeked', finish);
+          setTimeout(finish, 400);
+        });
+      }
+
+      // 6. Autoplay policy compliance
       try {
         await video.play();
       } catch (playErr) {
-        // If autoplay blocks unmuted audio, temporarily mute to ensure playback starts
         video.muted = true;
         await video.play();
       }
+
+      mediaRecorder.start(100);
 
       setStatusText(`Super-sampling & interpolating to ${targetW}x${targetH} @ ${chosenFps} FPS...`);
 
@@ -364,9 +387,12 @@ export default function VideoUpscalerClient() {
           return;
         }
 
-        if (video.currentTime >= maxProcessDuration || video.ended) {
+        if (video.currentTime >= maxProcessDuration || (video.ended && video.currentTime > 0.3)) {
           video.pause();
           if (mediaRecorder.state !== 'inactive') {
+            try {
+              mediaRecorder.requestData();
+            } catch (e) {}
             mediaRecorder.stop();
           }
           return;
@@ -378,6 +404,9 @@ export default function VideoUpscalerClient() {
 
           // Pure GPU texture blit (Runs in < 2ms, zero CPU filter lag)
           ctx.drawImage(video, 0, 0, targetW, targetH);
+          if (videoTrack && (videoTrack as any).requestFrame) {
+            (videoTrack as any).requestFrame();
+          }
 
           const currentPct = Math.min(
             99,

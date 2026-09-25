@@ -29,6 +29,56 @@ export default function ImageUpscalerClient() {
     setError(null);
   };
 
+  const loadDemoPhoto = () => {
+    const c = document.createElement('canvas');
+    c.width = 640;
+    c.height = 480;
+    const ctx = c.getContext('2d');
+    if (!ctx) return;
+    const grad = ctx.createLinearGradient(0, 0, 0, 480);
+    grad.addColorStop(0, '#0f172a');
+    grad.addColorStop(0.5, '#3b82f6');
+    grad.addColorStop(0.8, '#f59e0b');
+    grad.addColorStop(1, '#ef4444');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 640, 480);
+    ctx.beginPath();
+    ctx.arc(320, 200, 60, 0, Math.PI * 2);
+    ctx.fillStyle = '#fef08a';
+    ctx.fill();
+    ctx.fillStyle = '#1e293b';
+    ctx.beginPath();
+    ctx.moveTo(0, 480);
+    ctx.lineTo(200, 280);
+    ctx.lineTo(350, 380);
+    ctx.lineTo(500, 240);
+    ctx.lineTo(640, 480);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < 640; x += 20) {
+      ctx.beginPath();
+      ctx.moveTo(x, 400);
+      ctx.lineTo(x + 10, 480);
+      ctx.stroke();
+    }
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 22px sans-serif';
+    ctx.fillText('4K ULTRA HD TEST PHOTO', 170, 80);
+
+    c.toBlob((blob) => {
+      if (!blob) return;
+      const demoFile = new File([blob], 'demo-sample.png', { type: 'image/png' });
+      setFile(demoFile);
+      const url = URL.createObjectURL(blob);
+      setOriginalUrl(url);
+      setUpscaledUrl(null);
+      setStats(null);
+      setError(null);
+    }, 'image/png');
+  };
+
   const handleUpscale = async () => {
     if (!originalUrl) return;
     setIsProcessing(true);
@@ -114,7 +164,7 @@ export default function ImageUpscalerClient() {
       </div>
 
       {!file ? (
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto space-y-4">
           <Dropzone
             accept="image/png, image/jpeg, image/webp"
             multiple={false}
@@ -122,6 +172,15 @@ export default function ImageUpscalerClient() {
             title="Upload Image for 4K Upscaling"
             subtitle="Drag & drop any PNG, JPG, or WebP photo to enhance resolution"
           />
+          <div className="flex justify-center">
+            <button
+              onClick={loadDemoPhoto}
+              className="px-4 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-xs font-semibold text-amber-400 border border-amber-500/30 transition-all flex items-center gap-2"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              Try Demo Photo (Instant 1-Click Test)
+            </button>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
