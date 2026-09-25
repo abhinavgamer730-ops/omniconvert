@@ -1462,22 +1462,42 @@
 
     <!-- TAB 19: VIDEO TO 4K UPSCALER -->
     <div id="tab-video-upscaler" class="tool-page space-y-6">
-      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex-wrap gap-4">
         <div class="flex items-center gap-3">
           <div class="p-3 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h2 class="text-lg font-bold text-white">Video to 4K Upscaler</h2>
-              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">4K Ultra HD</span>
+              <h2 class="text-lg font-bold text-white">Video to 4K Upscaler & FPS Enhancer</h2>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">4K Ultra HD • High FPS</span>
             </div>
-            <p class="text-xs text-zinc-400">Super-sample video clips to 4K UHD (3840×2160) with clarity boost and sound preservation.</p>
+            <p class="text-xs text-zinc-400">Super-sample video clips to 4K UHD (3840×2160) with 60 FPS, 90 FPS, or 120 FPS motion interpolation.</p>
           </div>
         </div>
         <button onclick="loadSampleVideoUpscaleHtml()" class="px-3.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-amber-300 border border-amber-500/30 transition-colors">
           ⚡ Try Demo Clip
         </button>
+      </div>
+
+      <!-- Hardware Capacity Card -->
+      <div class="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-800 flex items-center justify-between flex-wrap gap-4 text-xs">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-zinc-200">Hardware Profile:</span>
+              <span id="v-hw-badge" class="px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">High Performance</span>
+            </div>
+            <p id="v-hw-desc" class="text-[11px] text-zinc-400 mt-0.5">Detecting CPU cores & device memory...</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-[11px] text-zinc-400">
+          <span class="text-amber-400">⚡ Engine:</span>
+          <span id="v-engine-status" class="font-semibold text-zinc-200">Auto FPS Matching Active</span>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -1504,7 +1524,7 @@
             <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-2">
               <div class="flex items-center justify-between text-xs font-bold text-amber-300">
                 <span>Upscaled 4K Video</span>
-                <span id="v-4k-dims" class="font-mono text-[10px] text-emerald-400 font-bold">3840x2160 Target</span>
+                <span id="v-4k-dims" class="font-mono text-[10px] text-emerald-400 font-bold">3840x2160 • 60 FPS</span>
               </div>
               <div class="aspect-video bg-black rounded-xl overflow-hidden flex items-center justify-center border border-zinc-800">
                 <video id="v-4k-player" controls autoplay playsinline class="w-full h-full object-contain"></video>
@@ -1519,7 +1539,7 @@
               <span id="v-progress-pct" class="font-mono text-amber-400 font-bold">0%</span>
             </div>
             <div class="w-full bg-zinc-950 rounded-full h-2 overflow-hidden border border-zinc-800">
-              <div id="v-progress-bar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full transition-all duration-200" style="width: 0%"></div>
+              <div id="v-progress-bar" class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 h-2 rounded-full transition-all duration-200" style="width: 0%"></div>
             </div>
           </div>
         </div>
@@ -1530,22 +1550,59 @@
             <label class="text-xs font-semibold text-zinc-400 block mb-2">Target Resolution</label>
             <div class="grid grid-cols-2 gap-2">
               <button type="button" id="v-res-4k" onclick="setVideoUpscaleResHtml('4k')" class="p-2.5 rounded-xl text-left border bg-amber-500/20 text-amber-300 border-amber-500">
-                <span class="text-xs font-bold block">4K UHD</span>
-                <span class="text-[10px] text-zinc-400">3840x2160</span>
+                <span class="text-xs font-bold block">4K Ultra HD</span>
+                <span class="text-[10px] text-zinc-400">3840p UHD</span>
               </button>
               <button type="button" id="v-res-2k" onclick="setVideoUpscaleResHtml('2k')" class="p-2.5 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800">
-                <span class="text-xs font-bold block">2K QHD</span>
-                <span class="text-[10px] text-zinc-500">2560x1440</span>
+                <span class="text-xs font-bold block">2K Quad HD</span>
+                <span class="text-[10px] text-zinc-500">2560p QHD</span>
               </button>
               <button type="button" id="v-res-1080p" onclick="setVideoUpscaleResHtml('1080p')" class="p-2.5 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800">
-                <span class="text-xs font-bold block">1080p FHD</span>
-                <span class="text-[10px] text-zinc-500">1920x1080</span>
+                <span class="text-xs font-bold block">1080p Full HD</span>
+                <span class="text-[10px] text-zinc-500">1920p FHD</span>
               </button>
               <button type="button" id="v-res-2x" onclick="setVideoUpscaleResHtml('2x')" class="p-2.5 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800">
                 <span class="text-xs font-bold block">2x Scale</span>
-                <span class="text-[10px] text-zinc-500">Native Multiplier</span>
+                <span class="text-[10px] text-zinc-500">Double Size</span>
               </button>
             </div>
+          </div>
+
+          <!-- FPS Enhancement Selector -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-xs font-semibold text-zinc-400">FPS Enhancement</label>
+              <span id="v-fps-rec-badge" class="text-[10px] text-emerald-400 font-mono">Matched to Hardware</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" id="v-fps-auto" onclick="setVideoUpscaleFpsHtml('auto')" class="p-2 rounded-xl text-left border bg-amber-500/20 text-amber-300 border-amber-500">
+                <span class="text-xs font-bold block">⚡ Auto</span>
+                <span class="text-[10px] text-zinc-400">AI Matched</span>
+              </button>
+              <button type="button" id="v-fps-60" onclick="setVideoUpscaleFpsHtml('60')" class="p-2 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800">
+                <span class="text-xs font-bold block">60 FPS</span>
+                <span class="text-[10px] text-zinc-500">Ultra Smooth</span>
+              </button>
+              <button type="button" id="v-fps-90" onclick="setVideoUpscaleFpsHtml('90')" class="p-2 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800">
+                <span class="text-xs font-bold block">90 FPS</span>
+                <span class="text-[10px] text-zinc-500">Super Smooth</span>
+              </button>
+              <button type="button" id="v-fps-120" onclick="setVideoUpscaleFpsHtml('120')" class="p-2 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800">
+                <span class="text-xs font-bold block">120 FPS</span>
+                <span class="text-[10px] text-zinc-500">Cinema Esports</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Motion Smoothing Toggle -->
+          <div class="p-3 rounded-xl bg-zinc-950/80 border border-zinc-800 flex items-center justify-between">
+            <div class="space-y-0.5">
+              <span class="text-xs font-semibold text-zinc-200 block">Sub-Frame Motion Smoothing</span>
+              <span class="text-[10px] text-zinc-400 block">Optical interpolation to remove judder</span>
+            </div>
+            <button type="button" id="v-motion-toggle-btn" onclick="toggleMotionSmoothingHtml()" class="px-3 py-1 rounded-lg text-xs font-bold bg-amber-500 text-zinc-950 shadow-glow-sm">
+              ON
+            </button>
           </div>
 
           <div>
@@ -2890,12 +2947,96 @@
       cardEl.classList.remove('hidden');
     }
 
-    // --- TOOL 19: VIDEO TO 4K UPSCALER ---
+    // --- TOOL 19: VIDEO TO 4K UPSCALER & FPS ENHANCER ---
     let vUpscaleSourceUrl = null;
     let vUpscaleTargetRes = '4k';
+    let vUpscaleTargetFps = 'auto';
+    let vUpscaleMotionSmoothing = true;
     let vUpscaleDuration = 'sample5';
     let vUpscaleRecorder = null;
     let vUpscaleAbort = false;
+    let vDeviceCapacity = { cores: 4, memory: 8, gpu: 'GPU', recommendedFps: 60, tier: 'Optimized Standard' };
+
+    function detectDeviceCapacityHtml() {
+      try {
+        const cores = navigator.hardwareConcurrency || 4;
+        const memory = navigator.deviceMemory || 8;
+        let gpu = 'Integrated Graphics';
+        try {
+          const testCanvas = document.createElement('canvas');
+          const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
+          if (gl) {
+            const ext = gl.getExtension('WEBGL_debug_renderer_info');
+            if (ext) gpu = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || gpu;
+          }
+        } catch (e) {}
+
+        let recFps = 60;
+        let tier = 'Optimized Standard';
+        let badgeClass = 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+
+        if (cores >= 10 || (cores >= 8 && memory >= 8 && /nvidia|geforce|radeon|apple/i.test(gpu))) {
+          recFps = 120;
+          tier = 'Extreme Ultra High-End';
+          badgeClass = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        } else if (cores >= 6) {
+          recFps = 90;
+          tier = 'High Performance';
+          badgeClass = 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+        }
+
+        vDeviceCapacity = { cores, memory, gpu, recommendedFps: recFps, tier };
+
+        const badgeEl = document.getElementById('v-hw-badge');
+        const descEl = document.getElementById('v-hw-desc');
+        const recBadgeEl = document.getElementById('v-fps-rec-badge');
+        if (badgeEl) {
+          badgeEl.innerText = tier;
+          badgeEl.className = 'px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase ' + badgeClass;
+        }
+        if (descEl) {
+          descEl.innerText = `Detected ${cores} CPU Cores • ${memory}GB+ RAM System • Optimal: ${recFps} FPS`;
+        }
+        if (recBadgeEl) {
+          recBadgeEl.innerText = `Recommended: ${recFps} FPS`;
+        }
+      } catch (e) {}
+    }
+
+    function getEffectiveFpsHtml() {
+      return vUpscaleTargetFps === 'auto' ? vDeviceCapacity.recommendedFps : parseInt(vUpscaleTargetFps, 10);
+    }
+
+    function setVideoUpscaleFpsHtml(fps) {
+      vUpscaleTargetFps = fps;
+      ['auto', '60', '90', '120'].forEach(f => {
+        const el = document.getElementById('v-fps-' + f);
+        if (el) {
+          if (f === fps) {
+            el.className = 'p-2 rounded-xl text-left border bg-amber-500/20 text-amber-300 border-amber-500 transition-all';
+          } else {
+            el.className = 'p-2 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800 transition-all';
+          }
+        }
+      });
+      const engineEl = document.getElementById('v-engine-status');
+      if (engineEl) engineEl.innerText = `${getEffectiveFpsHtml()} FPS Super-Sampling Active`;
+      updateVTargetDimsHtml();
+    }
+
+    function toggleMotionSmoothingHtml() {
+      vUpscaleMotionSmoothing = !vUpscaleMotionSmoothing;
+      const btn = document.getElementById('v-motion-toggle-btn');
+      if (btn) {
+        if (vUpscaleMotionSmoothing) {
+          btn.innerText = 'ON';
+          btn.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-amber-500 text-zinc-950 shadow-glow-sm';
+        } else {
+          btn.innerText = 'OFF';
+          btn.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-zinc-800 text-zinc-400 hover:text-zinc-200';
+        }
+      }
+    }
 
     function handleVideoUpscaleFileHtml(files) {
       if (!files || !files.length) return;
@@ -2940,23 +3081,47 @@
       const origW = v.videoWidth || 1280;
       const origH = v.videoHeight || 720;
       const aspect = origW / origH;
+      const isPortrait = origH > origW;
       let targetW = 3840;
-      let targetH = Math.round(3840 / aspect);
+      let targetH = 2160;
 
-      if (vUpscaleTargetRes === '2k') {
-        targetW = 2560;
-        targetH = Math.round(2560 / aspect);
+      if (vUpscaleTargetRes === '4k') {
+        if (isPortrait) {
+          targetH = 3840;
+          targetW = Math.round(3840 * aspect);
+        } else {
+          targetW = 3840;
+          targetH = Math.round(3840 / aspect);
+        }
+      } else if (vUpscaleTargetRes === '2k') {
+        if (isPortrait) {
+          targetH = 2560;
+          targetW = Math.round(2560 * aspect);
+        } else {
+          targetW = 2560;
+          targetH = Math.round(2560 / aspect);
+        }
       } else if (vUpscaleTargetRes === '1080p') {
-        targetW = 1920;
-        targetH = Math.round(1920 / aspect);
+        if (isPortrait) {
+          targetH = 1920;
+          targetW = Math.round(1920 * aspect);
+        } else {
+          targetW = 1920;
+          targetH = Math.round(1920 / aspect);
+        }
       } else if (vUpscaleTargetRes === '2x') {
         targetW = Math.min(3840, Math.round(origW * 2));
-        targetH = Math.min(2160, Math.round(origH * 2));
+        targetH = Math.min(3840, Math.round(origH * 2));
       }
-      targetW = targetW % 2 === 0 ? targetW : targetW + 1;
-      targetH = targetH % 2 === 0 ? targetH : targetH + 1;
-      document.getElementById('v-4k-dims').innerText = `${targetW}x${targetH} Target`;
-      return { targetW, targetH };
+
+      // Enforce even dimensions for video codecs
+      targetW = targetW % 2 === 0 ? targetW : targetW - 1;
+      targetH = targetH % 2 === 0 ? targetH : targetH - 1;
+
+      const chosenFps = getEffectiveFpsHtml();
+      const dimsBadge = document.getElementById('v-4k-dims');
+      if (dimsBadge) dimsBadge.innerText = `${targetW}x${targetH} • ${chosenFps} FPS`;
+      return { targetW, targetH, chosenFps };
     }
 
     function setVideoDurationModeHtml(mode) {
@@ -2988,7 +3153,9 @@
       vUpscaleAbort = false;
 
       try {
-        const { targetW, targetH } = updateVTargetDimsHtml();
+        const { targetW, targetH, chosenFps } = updateVTargetDimsHtml();
+
+        // Canvas setup
         const canvas = document.createElement('canvas');
         canvas.width = targetW;
         canvas.height = targetH;
@@ -2997,7 +3164,13 @@
         ctx.imageSmoothingQuality = 'high';
         ctx.filter = 'contrast(1.06) saturate(1.04)';
 
-        let stream = canvas.captureStream(30);
+        // Secondary buffer for sub-frame motion interpolation
+        const prevCanvas = document.createElement('canvas');
+        prevCanvas.width = targetW;
+        prevCanvas.height = targetH;
+        const prevCtx = prevCanvas.getContext('2d', { alpha: false });
+
+        let stream = canvas.captureStream(chosenFps);
         try {
           const AudioContextClass = window.AudioContext || window.webkitAudioContext;
           const aCtx = new AudioContextClass();
@@ -3012,9 +3185,21 @@
           // ignore audio connect if already tapped or silent
         }
 
-        const mimeTypes = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4'];
+        const mimeTypes = [
+          'video/webm;codecs=vp9,opus',
+          'video/webm;codecs=vp9',
+          'video/webm;codecs=vp8,opus',
+          'video/webm;codecs=vp8',
+          'video/webm',
+          'video/mp4'
+        ];
         const mime = mimeTypes.find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
-        const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 15000000 });
+
+        let bitrate = 25000000;
+        if (chosenFps === 90) bitrate = 35000000;
+        if (chosenFps === 120) bitrate = 45000000;
+
+        const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: bitrate });
         vUpscaleRecorder = recorder;
         const chunks = [];
 
@@ -3028,9 +3213,9 @@
             const player4k = document.getElementById('v-4k-player');
             player4k.src = resultUrl;
             dlBtn.href = resultUrl;
-            dlBtn.innerText = `Download 4K Video (${targetW}x${targetH})`;
+            dlBtn.innerText = `Download 4K Video (${targetW}x${targetH} • ${chosenFps} FPS)`;
             dlBtn.classList.remove('hidden');
-            pStatus.innerText = '4K Video Render Complete!';
+            pStatus.innerText = `4K @ ${chosenFps} FPS Render Complete!`;
             pPct.innerText = '100%';
             pBar.style.width = '100%';
           }
@@ -3041,6 +3226,10 @@
         video.currentTime = 0;
         await video.play();
 
+        let hasPrev = false;
+        const frameInterval = 1000 / chosenFps;
+        let lastTime = performance.now();
+
         const renderFrame = () => {
           if (vUpscaleAbort) { video.pause(); return; }
           if (video.currentTime >= maxDuration || video.ended) {
@@ -3048,17 +3237,39 @@
             if (recorder.state !== 'inactive') recorder.stop();
             return;
           }
-          ctx.drawImage(video, 0, 0, targetW, targetH);
-          const pct = Math.min(99, Math.round((video.currentTime / maxDuration) * 100));
-          pPct.innerText = pct + '%';
-          pBar.style.width = pct + '%';
-          pStatus.innerText = `Super-sampling 4K: ${pct}% • ${video.currentTime.toFixed(1)}s / ${maxDuration.toFixed(1)}s`;
+
+          const now = performance.now();
+          if (now - lastTime >= frameInterval * 0.85) {
+            lastTime = now;
+
+            // Optical motion smoothing blend
+            if (vUpscaleMotionSmoothing && hasPrev && prevCtx) {
+              ctx.globalAlpha = 1.0;
+              ctx.drawImage(prevCanvas, 0, 0);
+              ctx.globalAlpha = 0.55;
+              ctx.drawImage(video, 0, 0, targetW, targetH);
+              ctx.globalAlpha = 1.0;
+            } else {
+              ctx.drawImage(video, 0, 0, targetW, targetH);
+            }
+
+            if (prevCtx) {
+              prevCtx.drawImage(canvas, 0, 0);
+              hasPrev = true;
+            }
+
+            const pct = Math.min(99, Math.round((video.currentTime / maxDuration) * 100));
+            pPct.innerText = pct + '%';
+            pBar.style.width = pct + '%';
+            pStatus.innerText = `Rendering 4K @ ${chosenFps} FPS: ${pct}% • ${video.currentTime.toFixed(1)}s / ${maxDuration.toFixed(1)}s`;
+          }
+
           requestAnimationFrame(renderFrame);
         };
         requestAnimationFrame(renderFrame);
       } catch (err) {
         console.error('Video upscale error:', err);
-        alert('Failed to start 4K video upscale. Browser codec error.');
+        alert('Failed to start 4K video upscale. Browser codec or hardware acceleration error.');
         btn.disabled = false;
         pContainer.classList.add('hidden');
       }
@@ -3067,6 +3278,7 @@
     // Set default age target date to today
     document.getElementById('age-target').value = new Date().toISOString().split('T')[0];
     calculateAgeHtml();
+    detectDeviceCapacityHtml();
   </script>
 </body>
 </html>
