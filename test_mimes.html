@@ -1,0 +1,1 @@
+<html><body><script>const mimes = ["video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/webm", "video/mp4"]; const sup = mimes.map(m => m + ": " + MediaRecorder.isTypeSupported(m)); document.body.innerText = sup.join(" | ");</script></body></html>

@@ -183,15 +183,19 @@ export default function VideoUpscalerClient() {
     setError(null);
   };
 
-  // Safe demo clip loader that uses Blob URL to guarantee zero CORS issues
+  // Safe demo clip loader that uses local asset or fallback to guarantee zero CORS issues
   const loadSampleVideo = async () => {
-    setStatusText('Fetching clean demo clip...');
+    setStatusText('Loading demo clip...');
     try {
-      const resp = await fetch('https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4');
-      const blob = await resp.blob();
-      const localUrl = URL.createObjectURL(blob);
-      setVideoUrl(localUrl);
-      setVideoFile(new File([blob], 'flower-sample.mp4', { type: 'video/mp4' }));
+      const resp = await fetch('/sample-video.mp4');
+      if (resp.ok) {
+        const blob = await resp.blob();
+        const localUrl = URL.createObjectURL(blob);
+        setVideoUrl(localUrl);
+        setVideoFile(new File([blob], 'flower-sample.mp4', { type: 'video/mp4' }));
+      } else {
+        throw new Error('Fallback');
+      }
     } catch (e) {
       setVideoUrl('https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4');
       setVideoFile(new File(['sample'], 'flower-sample.mp4', { type: 'video/mp4' }));
@@ -247,7 +251,7 @@ export default function VideoUpscalerClient() {
       const canvas = document.createElement('canvas');
       canvas.width = targetW;
       canvas.height = targetH;
-      const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+      const ctx = canvas.getContext('2d', { alpha: false });
       if (!ctx) throw new Error('Canvas 2D context error');
 
       ctx.imageSmoothingEnabled = true;
@@ -283,13 +287,10 @@ export default function VideoUpscalerClient() {
         console.warn('Audio bypass note:', audioErr);
       }
 
-      // 4. Select Best Supported 4K Codec
+      // 4. Select Best Supported 4K Codec (Prioritize verified hardware H.264 MP4 encoder)
       const mimeTypes = [
-        'video/webm;codecs=vp9,opus',
-        'video/webm;codecs=vp9',
         'video/mp4;codecs=avc1',
         'video/mp4',
-        'video/webm;codecs=vp8,opus',
         'video/webm;codecs=vp8',
         'video/webm',
       ];
