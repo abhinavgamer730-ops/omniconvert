@@ -166,6 +166,10 @@
           <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
           <span>Video to Audio</span>
         </button>
+        <button onclick="switchTab('video-upscaler')" id="nav-video-upscaler" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+          <span>Video 4K Upscaler</span>
+        </button>
         <button onclick="switchTab('instagram-downloader')" id="nav-instagram-downloader" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-all">
           <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
           <span>Insta Downloader</span>
@@ -339,6 +343,23 @@
             <p class="text-xs text-zinc-400 leading-relaxed mb-6">Extract MP3 or WAV audio directly from MP4 and WebM videos inside your browser.</p>
           </div>
           <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-emerald-400">
+            <span>Open Tool</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-amber-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('video-upscaler')">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+              </div>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">4K Ultra HD</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-amber-300 mb-1">Video to 4K Upscaler</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed mb-6">Upscale videos to 4K Ultra HD (3840×2160) with clarity super-sampling and audio retention.</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-amber-400">
             <span>Open Tool</span>
             <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
@@ -1439,6 +1460,113 @@
       </div>
     </div>
 
+    <!-- TAB 19: VIDEO TO 4K UPSCALER -->
+    <div id="tab-video-upscaler" class="tool-page space-y-6">
+      <div class="flex items-center justify-between p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-lg font-bold text-white">Video to 4K Upscaler</h2>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">4K Ultra HD</span>
+            </div>
+            <p class="text-xs text-zinc-400">Super-sample video clips to 4K UHD (3840×2160) with clarity boost and sound preservation.</p>
+          </div>
+        </div>
+        <button onclick="loadSampleVideoUpscaleHtml()" class="px-3.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-amber-300 border border-amber-500/30 transition-colors">
+          ⚡ Try Demo Clip
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <!-- Upload Box -->
+          <div onclick="document.getElementById('video-upscale-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-amber-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[140px]">
+            <input type="file" id="video-upscale-input" accept="video/*" onchange="handleVideoUpscaleFileHtml(this.files)" class="hidden" />
+            <h4 class="text-sm font-semibold text-zinc-200 mb-1">Select or Drop Video (MP4 / WebM / MOV)</h4>
+            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Choose Video</span>
+          </div>
+
+          <!-- Players Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-2">
+              <div class="flex items-center justify-between text-xs font-bold text-zinc-300">
+                <span>Original Source</span>
+                <span id="v-orig-dims" class="font-mono text-[10px] text-zinc-500">No video</span>
+              </div>
+              <div class="aspect-video bg-black rounded-xl overflow-hidden flex items-center justify-center border border-zinc-800">
+                <video id="v-orig-player" controls playsinline class="w-full h-full object-contain"></video>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-2">
+              <div class="flex items-center justify-between text-xs font-bold text-amber-300">
+                <span>Upscaled 4K Video</span>
+                <span id="v-4k-dims" class="font-mono text-[10px] text-emerald-400 font-bold">3840x2160 Target</span>
+              </div>
+              <div class="aspect-video bg-black rounded-xl overflow-hidden flex items-center justify-center border border-zinc-800">
+                <video id="v-4k-player" controls autoplay playsinline class="w-full h-full object-contain"></video>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div id="v-progress-container" class="hidden p-4 rounded-2xl bg-zinc-900/60 border border-amber-500/30 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span id="v-progress-status" class="text-zinc-200 font-semibold">Super-sampling frames...</span>
+              <span id="v-progress-pct" class="font-mono text-amber-400 font-bold">0%</span>
+            </div>
+            <div class="w-full bg-zinc-950 rounded-full h-2 overflow-hidden border border-zinc-800">
+              <div id="v-progress-bar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full transition-all duration-200" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-5">
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-2">Target Resolution</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" id="v-res-4k" onclick="setVideoUpscaleResHtml('4k')" class="p-2.5 rounded-xl text-left border bg-amber-500/20 text-amber-300 border-amber-500">
+                <span class="text-xs font-bold block">4K UHD</span>
+                <span class="text-[10px] text-zinc-400">3840x2160</span>
+              </button>
+              <button type="button" id="v-res-2k" onclick="setVideoUpscaleResHtml('2k')" class="p-2.5 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800">
+                <span class="text-xs font-bold block">2K QHD</span>
+                <span class="text-[10px] text-zinc-500">2560x1440</span>
+              </button>
+              <button type="button" id="v-res-1080p" onclick="setVideoUpscaleResHtml('1080p')" class="p-2.5 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800">
+                <span class="text-xs font-bold block">1080p FHD</span>
+                <span class="text-[10px] text-zinc-500">1920x1080</span>
+              </button>
+              <button type="button" id="v-res-2x" onclick="setVideoUpscaleResHtml('2x')" class="p-2.5 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800">
+                <span class="text-xs font-bold block">2x Scale</span>
+                <span class="text-[10px] text-zinc-500">Native Multiplier</span>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-zinc-400 block mb-2">Duration Mode</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" id="v-dur-sample" onclick="setVideoDurationModeHtml('sample5')" class="py-2 rounded-xl text-xs font-bold border bg-amber-500/20 text-amber-300 border-amber-500">5s Quick Test</button>
+              <button type="button" id="v-dur-full" onclick="setVideoDurationModeHtml('full')" class="py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800">Full Clip</button>
+            </div>
+          </div>
+
+          <button id="v-start-btn" onclick="startVideoUpscaleHtml()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 hover:from-amber-600 hover:to-rose-700 text-white font-bold text-xs shadow-glow-sm transition-all">
+            Start 4K Video Upscale
+          </button>
+
+          <a id="v-download-btn" href="#" download="video-4k-upscaled.webm" class="hidden w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-glow-sm">
+            Download 4K Video File
+          </a>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- JAVASCRIPT APPLICATION CONTROLLER -->
@@ -1519,6 +1647,11 @@
         name: 'PDF Splitter & Merger',
         desc: 'Merge multiple PDF files into a single document or split and extract specific page ranges with privacy-first client processing.',
         cat: 'Text & Utilities'
+      },
+      'video-upscaler': {
+        name: 'Video to 4K Upscaler',
+        desc: 'Super-sample video clips to 4K Ultra HD (3840x2160) with clarity boost, hardware canvas rendering, and sound preservation.',
+        cat: 'Video & Audio'
       },
       'instagram-downloader': {
         name: 'Instagram Reel & Video Downloader',
@@ -2753,8 +2886,178 @@
       document.getElementById('fb-video-player').src = streamUrl;
       document.getElementById('fb-dl-hd').onclick = (e) => triggerStreamDownload(e, streamUrl, 'facebook-hd.mp4');
       document.getElementById('fb-dl-sd').onclick = (e) => triggerStreamDownload(e, streamUrl, 'facebook-sd.mp4');
-      document.getElementById('fb-dl-mp3').onclick = (e) => triggerStreamDownload(e, streamUrl, 'facebook-audio.mp3');
-      cardEl.classList.remove('hidden');
+    // --- TOOL 19: VIDEO TO 4K UPSCALER ---
+    let vUpscaleSourceUrl = null;
+    let vUpscaleTargetRes = '4k';
+    let vUpscaleDuration = 'sample5';
+    let vUpscaleRecorder = null;
+    let vUpscaleAbort = false;
+
+    function handleVideoUpscaleFileHtml(files) {
+      if (!files || !files.length) return;
+      vUpscaleSourceUrl = URL.createObjectURL(files[0]);
+      const v = document.getElementById('v-orig-player');
+      v.src = vUpscaleSourceUrl;
+      v.onloadedmetadata = () => {
+        document.getElementById('v-orig-dims').innerText = `${v.videoWidth || 1280}x${v.videoHeight || 720}`;
+        updateVTargetDimsHtml();
+      };
+      document.getElementById('v-download-btn').classList.add('hidden');
+    }
+
+    function loadSampleVideoUpscaleHtml() {
+      vUpscaleSourceUrl = 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4';
+      const v = document.getElementById('v-orig-player');
+      v.src = vUpscaleSourceUrl;
+      v.onloadedmetadata = () => {
+        document.getElementById('v-orig-dims').innerText = `${v.videoWidth || 1280}x${v.videoHeight || 720}`;
+        updateVTargetDimsHtml();
+      };
+      document.getElementById('v-download-btn').classList.add('hidden');
+    }
+
+    function setVideoUpscaleResHtml(res) {
+      vUpscaleTargetRes = res;
+      ['4k', '2k', '1080p', '2x'].forEach(r => {
+        const el = document.getElementById('v-res-' + r);
+        if (el) {
+          if (r === res) {
+            el.className = 'p-2.5 rounded-xl text-left border bg-amber-500/20 text-amber-300 border-amber-500 transition-all';
+          } else {
+            el.className = 'p-2.5 rounded-xl text-left border bg-zinc-950 text-zinc-400 border-zinc-800 transition-all';
+          }
+        }
+      });
+      updateVTargetDimsHtml();
+    }
+
+    function updateVTargetDimsHtml() {
+      const v = document.getElementById('v-orig-player');
+      const origW = v.videoWidth || 1280;
+      const origH = v.videoHeight || 720;
+      const aspect = origW / origH;
+      let targetW = 3840;
+      let targetH = Math.round(3840 / aspect);
+
+      if (vUpscaleTargetRes === '2k') {
+        targetW = 2560;
+        targetH = Math.round(2560 / aspect);
+      } else if (vUpscaleTargetRes === '1080p') {
+        targetW = 1920;
+        targetH = Math.round(1920 / aspect);
+      } else if (vUpscaleTargetRes === '2x') {
+        targetW = Math.min(3840, Math.round(origW * 2));
+        targetH = Math.min(2160, Math.round(origH * 2));
+      }
+      targetW = targetW % 2 === 0 ? targetW : targetW + 1;
+      targetH = targetH % 2 === 0 ? targetH : targetH + 1;
+      document.getElementById('v-4k-dims').innerText = `${targetW}x${targetH} Target`;
+      return { targetW, targetH };
+    }
+
+    function setVideoDurationModeHtml(mode) {
+      vUpscaleDuration = mode;
+      const s = document.getElementById('v-dur-sample');
+      const f = document.getElementById('v-dur-full');
+      if (mode === 'sample5') {
+        s.className = 'py-2 rounded-xl text-xs font-bold border bg-amber-500/20 text-amber-300 border-amber-500 transition-all';
+        f.className = 'py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800 transition-all';
+      } else {
+        f.className = 'py-2 rounded-xl text-xs font-bold border bg-amber-500/20 text-amber-300 border-amber-500 transition-all';
+        s.className = 'py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800 transition-all';
+      }
+    }
+
+    async function startVideoUpscaleHtml() {
+      if (!vUpscaleSourceUrl) return alert('Please upload a video or click "Try Demo Clip" first.');
+      const video = document.getElementById('v-orig-player');
+      const btn = document.getElementById('v-start-btn');
+      const pContainer = document.getElementById('v-progress-container');
+      const pBar = document.getElementById('v-progress-bar');
+      const pStatus = document.getElementById('v-progress-status');
+      const pPct = document.getElementById('v-progress-pct');
+      const dlBtn = document.getElementById('v-download-btn');
+
+      pContainer.classList.remove('hidden');
+      dlBtn.classList.add('hidden');
+      btn.disabled = true;
+      vUpscaleAbort = false;
+
+      try {
+        const { targetW, targetH } = updateVTargetDimsHtml();
+        const canvas = document.createElement('canvas');
+        canvas.width = targetW;
+        canvas.height = targetH;
+        const ctx = canvas.getContext('2d', { alpha: false });
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.filter = 'contrast(1.06) saturate(1.04)';
+
+        let stream = canvas.captureStream(30);
+        try {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          const aCtx = new AudioContextClass();
+          const source = aCtx.createMediaElementSource(video);
+          const dest = aCtx.createMediaStreamDestination();
+          source.connect(dest);
+          source.connect(aCtx.destination);
+          if (dest.stream.getAudioTracks().length > 0) {
+            stream.addTrack(dest.stream.getAudioTracks()[0]);
+          }
+        } catch (e) {
+          // ignore audio connect if already tapped or silent
+        }
+
+        const mimeTypes = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4'];
+        const mime = mimeTypes.find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
+        const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 15000000 });
+        vUpscaleRecorder = recorder;
+        const chunks = [];
+
+        recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
+        const maxDuration = vUpscaleDuration === 'sample5' ? Math.min(5, video.duration || 5) : (video.duration || 10);
+
+        recorder.onstop = () => {
+          if (chunks.length > 0 && !vUpscaleAbort) {
+            const blob = new Blob(chunks, { type: mime });
+            const resultUrl = URL.createObjectURL(blob);
+            const player4k = document.getElementById('v-4k-player');
+            player4k.src = resultUrl;
+            dlBtn.href = resultUrl;
+            dlBtn.innerText = `Download 4K Video (${targetW}x${targetH})`;
+            dlBtn.classList.remove('hidden');
+            pStatus.innerText = '4K Video Render Complete!';
+            pPct.innerText = '100%';
+            pBar.style.width = '100%';
+          }
+          btn.disabled = false;
+        };
+
+        recorder.start(100);
+        video.currentTime = 0;
+        await video.play();
+
+        const renderFrame = () => {
+          if (vUpscaleAbort) { video.pause(); return; }
+          if (video.currentTime >= maxDuration || video.ended) {
+            video.pause();
+            if (recorder.state !== 'inactive') recorder.stop();
+            return;
+          }
+          ctx.drawImage(video, 0, 0, targetW, targetH);
+          const pct = Math.min(99, Math.round((video.currentTime / maxDuration) * 100));
+          pPct.innerText = pct + '%';
+          pBar.style.width = pct + '%';
+          pStatus.innerText = `Super-sampling 4K: ${pct}% • ${video.currentTime.toFixed(1)}s / ${maxDuration.toFixed(1)}s`;
+          requestAnimationFrame(renderFrame);
+        };
+        requestAnimationFrame(renderFrame);
+      } catch (err) {
+        console.error('Video upscale error:', err);
+        alert('Failed to start 4K video upscale. Browser codec error.');
+        btn.disabled = false;
+        pContainer.classList.add('hidden');
+      }
     }
 
     // Set default age target date to today

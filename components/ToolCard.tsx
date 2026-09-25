@@ -21,6 +21,7 @@ import {
   Instagram,
   Youtube,
   Facebook,
+  Film,
   ArrowRight,
   Zap
 } from 'lucide-react';
@@ -33,6 +34,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Sparkles: <Sparkles className="w-6 h-6" />,
   Wand2: <Wand2 className="w-6 h-6" />,
   Video: <Video className="w-6 h-6" />,
+  Film: <Film className="w-6 h-6" />,
   Instagram: <Instagram className="w-6 h-6" />,
   Youtube: <Youtube className="w-6 h-6" />,
   Facebook: <Facebook className="w-6 h-6" />,

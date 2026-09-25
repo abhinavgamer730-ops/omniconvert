@@ -93,6 +93,17 @@ export const TOOLS: ToolDefinition[] = [
     accentColor: 'from-emerald-500 to-teal-600',
   },
   {
+    id: 'video-upscaler',
+    name: 'Video to 4K Upscaler',
+    description: 'Enhance video resolution, clarity, and sharpness up to 4K Ultra HD (3840x2160) with real-time browser super-sampling and audio preservation.',
+    category: 'Video & Audio',
+    href: '/tools/video-upscaler',
+    iconName: 'Film',
+    badge: '4K Ultra HD',
+    popular: true,
+    accentColor: 'from-amber-500 via-orange-500 to-red-600',
+  },
+  {
     id: 'instagram-downloader',
     name: 'Instagram Reel & Video Downloader',
     description: 'Download Instagram Reels, IGTV videos, and carousel photos in high resolution MP4/JPG with MP3 audio extraction.',

@@ -23,6 +23,7 @@ import {
   Instagram,
   Youtube,
   Facebook,
+  Film,
   Menu, 
   X, 
   Zap
@@ -36,6 +37,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Sparkles: <Sparkles className="w-4 h-4" />,
   Wand2: <Wand2 className="w-4 h-4" />,
   Video: <Video className="w-4 h-4" />,
+  Film: <Film className="w-4 h-4" />,
   Instagram: <Instagram className="w-4 h-4" />,
   Youtube: <Youtube className="w-4 h-4" />,
   Facebook: <Facebook className="w-4 h-4" />,
