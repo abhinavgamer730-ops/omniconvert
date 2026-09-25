@@ -256,8 +256,8 @@ export default function YoutubeDownloaderClient() {
                   <span>💡</span> How to get the exact HD YouTube stream:
                 </h4>
                 <ol className="list-decimal list-inside space-y-1 text-zinc-400 leading-relaxed pl-1">
-                  <li><strong className="text-zinc-300">On Phone:</strong> Tap "Y2Mate" or "SaveFrom" above with your YouTube link. Copy the generated direct <code>.mp4</code> stream link, switch to "Exact Stream (.mp4)" tab here, and download directly.</li>
-                  <li><strong className="text-zinc-300">On Computer:</strong> Open YouTube in Chrome/Firefox, press <kbd className="bg-zinc-800 px-1 py-0.5 rounded text-zinc-200">F12</kbd> (DevTools), go to the <strong>Network</strong> tab, filter by <code>media</code>, copy the <code>googlevideo.com/videoplayback...</code> URL, and paste it into "Exact Stream".</li>
+                  <li><strong className="text-zinc-300">On Phone:</strong> Tap &quot;Y2Mate&quot; or &quot;SaveFrom&quot; above with your YouTube link. Copy the generated direct <code>.mp4</code> stream link, switch to &quot;Exact Stream (.mp4)&quot; tab here, and download directly.</li>
+                  <li><strong className="text-zinc-300">On Computer:</strong> Open YouTube in Chrome/Firefox, press <kbd className="bg-zinc-800 px-1 py-0.5 rounded text-zinc-200">F12</kbd> (DevTools), go to the <strong>Network</strong> tab, filter by <code>media</code>, copy the <code>googlevideo.com/videoplayback...</code> URL, and paste it into &quot;Exact Stream&quot;.</li>
                 </ol>
               </div>
             )}

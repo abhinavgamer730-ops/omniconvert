@@ -259,7 +259,7 @@ export default function InstagramDownloaderClient() {
                   </div>
                   <div>
                     <span className="text-white font-semibold block">💻 On Desktop Browser:</span>
-                    Right-click directly on the playing video and click <strong>"Copy Video Address"</strong>. Switch to <strong>"Exact Stream (.mp4)"</strong> above, paste, and download your exact original file!
+                    Right-click directly on the playing video and click <strong>&quot;Copy Video Address&quot;</strong>. Switch to <strong>&quot;Exact Stream (.mp4)&quot;</strong> above, paste, and download your exact original file!
                   </div>
                 </div>
               </div>
@@ -283,7 +283,7 @@ export default function InstagramDownloaderClient() {
                   <div>
                     <span className="font-bold">Reel ID Extracted: #{mediaResult.id}</span>
                     <p className="text-[11px] text-zinc-400 mt-0.5">
-                      Instagram requires API keys or session cookies for raw private streams. For your exact reel, paste the direct stream address above using the "Copy Video Address" guide.
+                      Instagram requires API keys or session cookies for raw private streams. For your exact reel, paste the direct stream address above using the &quot;Copy Video Address&quot; guide.
                     </p>
                   </div>
                 </div>

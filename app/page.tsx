@@ -93,7 +93,7 @@ export default function DashboardHome() {
         </div>
       ) : (
         <div className="p-12 text-center rounded-2xl bg-zinc-900/30 border border-zinc-800/60">
-          <p className="text-sm font-medium text-zinc-400">No tools found matching "{searchQuery}"</p>
+          <p className="text-sm font-medium text-zinc-400">No tools found matching &quot;{searchQuery}&quot;</p>
           <button
             onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
             className="mt-3 text-xs font-semibold text-indigo-400 hover:underline"

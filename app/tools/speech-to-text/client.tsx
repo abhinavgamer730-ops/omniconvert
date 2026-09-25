@@ -14,6 +14,8 @@ export default function SpeechToTextClient() {
 
   const recognitionRef = useRef<any>(null);
   const timerRef = useRef<any>(null);
+  const isRecordingRef = useRef(isRecording);
+  isRecordingRef.current = isRecording;
 
   useEffect(() => {
     const SpeechRecognition =
@@ -42,7 +44,7 @@ export default function SpeechToTextClient() {
     };
 
     recognition.onend = () => {
-      if (isRecording) {
+      if (isRecordingRef.current) {
         // Automatically restart if continuous speech ended prematurely
         try {
           recognition.start();

@@ -727,17 +727,17 @@
           <div>
             <label class="text-xs font-semibold text-zinc-400 block mb-2">Scale Multiplier</label>
             <div class="grid grid-cols-3 gap-2">
-              <button onclick="scaleFactor=2" class="py-2 rounded-xl text-xs font-bold border bg-amber-500/20 text-amber-300 border-amber-500">2x</button>
-              <button onclick="scaleFactor=4" class="py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800">4x</button>
-              <button onclick="scaleFactor=8" class="py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800">8x</button>
+              <button type="button" id="upscale-btn-2" onclick="setUpscaleFactor(2)" class="py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800 transition-all">2x (HD)</button>
+              <button type="button" id="upscale-btn-4" onclick="setUpscaleFactor(4)" class="py-2 rounded-xl text-xs font-bold border bg-amber-500/20 text-amber-300 border-amber-500 transition-all">4x (4K)</button>
+              <button type="button" id="upscale-btn-8" onclick="setUpscaleFactor(8)" class="py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800 transition-all">8x (Max)</button>
             </div>
           </div>
 
-          <button onclick="processUpscale()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-zinc-950 font-bold text-xs">
-            Upscale Photo Now
+          <button id="upscale-process-btn" onclick="processUpscale()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-zinc-950 font-bold text-xs shadow-glow-sm transition-all">
+            Upscale Photo to 4K
           </button>
 
-          <a id="upscale-download" href="#" download="upscaled-4k.png" class="hidden w-full py-3 rounded-xl bg-zinc-800 text-white font-semibold text-xs flex items-center justify-center gap-2">
+          <a id="upscale-download" href="#" download="upscaled-4k.png" class="hidden w-full py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white font-semibold text-xs flex items-center justify-center gap-2">
             Download 4K Photo
           </a>
         </div>
@@ -1829,32 +1829,78 @@
     let upscaleUrl = null;
     let scaleFactor = 4;
 
+    function setUpscaleFactor(factor) {
+      scaleFactor = factor;
+      [2, 4, 8].forEach(f => {
+        const el = document.getElementById('upscale-btn-' + f);
+        if (el) {
+          if (f === factor) {
+            el.className = 'py-2 rounded-xl text-xs font-bold border bg-amber-500/20 text-amber-300 border-amber-500 transition-all';
+          } else {
+            el.className = 'py-2 rounded-xl text-xs font-bold border bg-zinc-950 text-zinc-400 border-zinc-800 transition-all';
+          }
+        }
+      });
+    }
+
     function handleUpscaleFile(files) {
       if (!files.length) return;
       upscaleUrl = URL.createObjectURL(files[0]);
       document.getElementById('upscale-img').src = upscaleUrl;
+      const dlBtn = document.getElementById('upscale-download');
+      if (dlBtn) dlBtn.classList.add('hidden');
     }
 
     function processUpscale() {
       if (!upscaleUrl) return alert('Please upload an image first.');
+      const btn = document.getElementById('upscale-process-btn');
+      if (btn) btn.innerText = 'Enhancing to 4K...';
+
       const img = new Image();
       img.src = upscaleUrl;
       img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth * scaleFactor;
-        canvas.height = img.naturalHeight * scaleFactor;
-        const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        ctx.filter = 'contrast(1.05) saturate(1.02)';
-        ctx.drawImage(canvas, 0, 0);
+        try {
+          const origW = img.naturalWidth || img.width;
+          const origH = img.naturalHeight || img.height;
+          let targetW = Math.round(origW * scaleFactor);
+          let targetH = Math.round(origH * scaleFactor);
 
-        const result = canvas.toDataURL('image/png', 0.95);
-        document.getElementById('upscale-img').src = result;
-        const btn = document.getElementById('upscale-download');
-        btn.href = result;
-        btn.classList.remove('hidden');
+          // Safe clamping to true 4K maximum dimension (4096px)
+          const MAX_DIM = 4096;
+          if (targetW > MAX_DIM || targetH > MAX_DIM) {
+            const ratio = Math.min(MAX_DIM / targetW, MAX_DIM / targetH);
+            targetW = Math.max(1, Math.round(targetW * ratio));
+            targetH = Math.max(1, Math.round(targetH * ratio));
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = targetW;
+          canvas.height = targetH;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) throw new Error('Canvas 2D context error');
+
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.filter = 'contrast(1.05) saturate(1.02)';
+          ctx.drawImage(img, 0, 0, targetW, targetH);
+          ctx.filter = 'none';
+
+          const result = canvas.toDataURL('image/png', 0.98);
+          document.getElementById('upscale-img').src = result;
+          const dlBtn = document.getElementById('upscale-download');
+          dlBtn.href = result;
+          dlBtn.innerText = `Download 4K Photo (${targetW} x ${targetH})`;
+          dlBtn.classList.remove('hidden');
+        } catch (e) {
+          console.error('Upscale error:', e);
+          alert('Failed to generate 4K image. Please try a different photo.');
+        } finally {
+          if (btn) btn.innerText = 'Upscale Photo to 4K';
+        }
+      };
+      img.onerror = () => {
+        alert('Failed to read image file.');
+        if (btn) btn.innerText = 'Upscale Photo to 4K';
       };
     }
 

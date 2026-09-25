@@ -262,8 +262,8 @@ export default function FacebookDownloaderClient() {
                   <span>💡</span> How to get the exact HD Facebook video stream:
                 </h4>
                 <ol className="list-decimal list-inside space-y-1 text-zinc-400 leading-relaxed pl-1">
-                  <li><strong className="text-zinc-300">On Phone:</strong> Tap "SnapSave" or "FDown" above with your Facebook link. Copy the generated direct <code>.mp4</code> stream link, switch to "Exact Stream (.mp4)" tab here, and download directly.</li>
-                  <li><strong className="text-zinc-300">On Computer:</strong> Open video in Chrome/Firefox, press <kbd className="bg-zinc-800 px-1 py-0.5 rounded text-zinc-200">F12</kbd> (DevTools), go to the <strong>Network</strong> tab, filter by <code>media</code>, play the video, copy the request URL (ending in <code>.mp4</code> or from <code>fbcdn.net</code>), and paste it into the "Exact Stream" tab.</li>
+                  <li><strong className="text-zinc-300">On Phone:</strong> Tap &quot;SnapSave&quot; or &quot;FDown&quot; above with your Facebook link. Copy the generated direct <code>.mp4</code> stream link, switch to &quot;Exact Stream (.mp4)&quot; tab here, and download directly.</li>
+                  <li><strong className="text-zinc-300">On Computer:</strong> Open video in Chrome/Firefox, press <kbd className="bg-zinc-800 px-1 py-0.5 rounded text-zinc-200">F12</kbd> (DevTools), go to the <strong>Network</strong> tab, filter by <code>media</code>, play the video, copy the request URL (ending in <code>.mp4</code> or from <code>fbcdn.net</code>), and paste it into the &quot;Exact Stream&quot; tab.</li>
                 </ol>
               </div>
             )}
