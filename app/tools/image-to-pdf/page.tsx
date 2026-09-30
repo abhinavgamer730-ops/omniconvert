@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import ImageToPdfClient from './client';
 import { generateToolMetadata } from '@/lib/seo-config';
 import SeoHead from '@/components/SeoHead';
+import ToolSeoSection from '@/components/ToolSeoSection';
 
 export const metadata: Metadata = generateToolMetadata('image-to-pdf');
 
@@ -10,6 +11,7 @@ export default function ImageToPdfPage() {
     <>
       <SeoHead toolId="image-to-pdf" />
       <ImageToPdfClient />
+          <ToolSeoSection toolId="image-to-pdf" />
     </>
   );
 }

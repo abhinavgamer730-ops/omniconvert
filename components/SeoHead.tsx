@@ -6,7 +6,7 @@ interface SeoHeadProps {
 }
 
 export default function SeoHead({ toolId }: SeoHeadProps) {
-  const { webAppSchema, breadcrumbSchema, faqSchema } = generateSchemaJsonLd(toolId);
+  const { webAppSchema, breadcrumbSchema, howToSchema, faqSchema } = generateSchemaJsonLd(toolId);
 
   return (
     <>
@@ -18,6 +18,12 @@ export default function SeoHead({ toolId }: SeoHeadProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
+      {howToSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
         />
       )}
       <script

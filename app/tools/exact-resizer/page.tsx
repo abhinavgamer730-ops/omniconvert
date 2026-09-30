@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import ExactResizerClient from './client';
 import { generateToolMetadata } from '@/lib/seo-config';
 import SeoHead from '@/components/SeoHead';
+import ToolSeoSection from '@/components/ToolSeoSection';
 
 export const metadata: Metadata = generateToolMetadata('exact-resizer');
 
@@ -10,6 +11,7 @@ export default function ExactResizerPage() {
     <>
       <SeoHead toolId="exact-resizer" />
       <ExactResizerClient />
+          <ToolSeoSection toolId="exact-resizer" />
     </>
   );
 }

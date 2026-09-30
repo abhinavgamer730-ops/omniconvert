@@ -110,8 +110,8 @@ export default function DashboardHome() {
             <Shield className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-zinc-200 mb-1">100% Private Processing</h4>
-            <p className="text-xs text-zinc-400 leading-relaxed">Files stay strictly on your local machine. No data is sent to external servers.</p>
+            <h4 className="text-sm font-semibold text-zinc-200 mb-1">100% Client-Side Privacy</h4>
+            <p className="text-xs text-zinc-400 leading-relaxed">Files stay strictly on your local machine. No data is sent to external servers or cloud buckets.</p>
           </div>
         </div>
 
@@ -120,8 +120,8 @@ export default function DashboardHome() {
             <Zap className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-zinc-200 mb-1">Ultra Fast Execution</h4>
-            <p className="text-xs text-zinc-400 leading-relaxed">Powered by HTML5 Web APIs & WebAssembly for instantaneous local execution.</p>
+            <h4 className="text-sm font-semibold text-zinc-200 mb-1">Zero Latency WebAssembly</h4>
+            <p className="text-xs text-zinc-400 leading-relaxed">Powered by HTML5 Web APIs & Canvas for instantaneous local execution with zero upload queues.</p>
           </div>
         </div>
 
@@ -130,11 +130,51 @@ export default function DashboardHome() {
             <Cpu className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-zinc-200 mb-1">Ready for Vercel/Netlify</h4>
-            <p className="text-xs text-zinc-400 leading-relaxed">Static & SSR ready architecture easy to deploy on modern serverless platforms.</p>
+            <h4 className="text-sm font-semibold text-zinc-200 mb-1">Offline & PWA Ready</h4>
+            <p className="text-xs text-zinc-400 leading-relaxed">Install to your desktop or mobile device and run every utility without an internet connection.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Global FAQ Section for Root Schema */}
+      <section className="pt-6 space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-xs md:text-sm text-zinc-400">
+            Everything you need to know about OmniConvert&apos;s privacy-first architecture and free utilities.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800 space-y-2">
+            <h4 className="text-sm font-semibold text-zinc-200">Is OmniConvert really 100% free with no limits?</h4>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              Yes! Because all compute happens directly on your device using your browser&apos;s CPU and GPU, we have zero server bandwidth costs, allowing us to keep all 20+ utilities 100% free forever without subscriptions or file caps.
+            </p>
+          </div>
+          <div className="p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800 space-y-2">
+            <h4 className="text-sm font-semibold text-zinc-200">How is my data kept safe and confidential?</h4>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              Traditional conversion sites upload your files to remote cloud servers. OmniConvert uses HTML5 Canvas, WebAssembly, and local JavaScript to compile everything on your own machine. Your sensitive photos, PDFs, and media never leave your browser.
+            </p>
+          </div>
+          <div className="p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800 space-y-2">
+            <h4 className="text-sm font-semibold text-zinc-200">Can I upscale videos or photos to 4K?</h4>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              Yes, our image and video upscalers use bicubic super-sampling and high-frequency sharpening filters to upscale clips and images up to Ultra HD 4K (3840x2160) at up to 120 FPS.
+            </p>
+          </div>
+          <div className="p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800 space-y-2">
+            <h4 className="text-sm font-semibold text-zinc-200">Can I run OmniConvert offline?</h4>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              Yes! OmniConvert is available as an installable PWA web app and as a portable standalone single-file HTML bundle that runs completely without any active network connection.
+            </p>
           </div>
         </div>
       </section>
     </div>
   );
 }
+
