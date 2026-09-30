@@ -583,13 +583,19 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-4">
-          <div onclick="document.getElementById('pdf-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-indigo-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+          <div onclick="document.getElementById('pdf-file-input').click()" 
+               ondragover="event.preventDefault()" 
+               ondrop="event.preventDefault(); handlePdfFiles(event.dataTransfer.files)" 
+               class="border-2 border-dashed border-zinc-800 hover:border-indigo-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
             <input type="file" id="pdf-file-input" accept="image/*" multiple onchange="handlePdfFiles(this.files)" class="hidden" />
             <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-indigo-400">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </div>
             <h4 class="text-sm font-semibold text-zinc-200 mb-1">Click to Upload Images</h4>
-            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Browse Files</span>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Browse Files</span>
+              <button type="button" onclick="event.stopPropagation(); loadSamplePdfImagesHtml()" class="px-4 py-2 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 text-xs font-semibold text-indigo-400 border border-indigo-500/30 transition-all">Try Demo Photo</button>
+            </div>
           </div>
 
           <div id="pdf-image-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
@@ -636,13 +642,19 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-4">
-          <div onclick="document.getElementById('conv-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-indigo-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+          <div onclick="document.getElementById('conv-file-input').click()" 
+               ondragover="event.preventDefault()" 
+               ondrop="event.preventDefault(); handleConvFiles(event.dataTransfer.files)" 
+               class="border-2 border-dashed border-zinc-800 hover:border-indigo-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
             <input type="file" id="conv-file-input" accept="image/*" multiple onchange="handleConvFiles(this.files)" class="hidden" />
             <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-indigo-400">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </div>
             <h4 class="text-sm font-semibold text-zinc-200 mb-1">Click to Upload Images</h4>
-            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Files</span>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Files</span>
+              <button type="button" onclick="event.stopPropagation(); loadSampleConvImageHtml()" class="px-4 py-2 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 text-xs font-semibold text-indigo-400 border border-indigo-500/30 transition-all">Try Demo Photo</button>
+            </div>
           </div>
 
           <div id="conv-file-list" class="space-y-2"></div>
@@ -678,13 +690,19 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-4">
-          <div onclick="document.getElementById('comp-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-purple-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+          <div onclick="document.getElementById('comp-file-input').click()" 
+               ondragover="event.preventDefault()" 
+               ondrop="event.preventDefault(); handleCompFile(event.dataTransfer.files)" 
+               class="border-2 border-dashed border-zinc-800 hover:border-purple-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
             <input type="file" id="comp-file-input" accept="image/*" onchange="handleCompFile(this.files)" class="hidden" />
             <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-purple-400">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </div>
             <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Photo to Compress</h4>
-            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+              <button type="button" onclick="event.stopPropagation(); loadSampleCompImageHtml()" class="px-4 py-2 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-xs font-semibold text-purple-400 border border-purple-500/30 transition-all">Try Demo Photo</button>
+            </div>
           </div>
 
           <div id="comp-preview-container" class="hidden relative w-full h-[400px] rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 select-none">
@@ -787,13 +805,19 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-4">
-          <div onclick="document.getElementById('eraser-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-pink-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+          <div onclick="document.getElementById('eraser-file-input').click()" 
+               ondragover="event.preventDefault()" 
+               ondrop="event.preventDefault(); handleEraserFile(event.dataTransfer.files)" 
+               class="border-2 border-dashed border-zinc-800 hover:border-pink-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
             <input type="file" id="eraser-file-input" accept="image/*" onchange="handleEraserFile(this.files)" class="hidden" />
             <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-pink-400">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </div>
             <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Photo to Erase</h4>
-            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+              <button type="button" onclick="event.stopPropagation(); loadSampleEraserImageHtml()" class="px-4 py-2 rounded-xl bg-pink-500/10 hover:bg-pink-500/20 text-xs font-semibold text-pink-400 border border-pink-500/30 transition-all">Try Demo Photo</button>
+            </div>
           </div>
 
           <div id="eraser-canvas-wrap" class="hidden relative w-full min-h-[380px] rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 flex items-center justify-center">
@@ -978,10 +1002,16 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-1 space-y-4">
-          <div onclick="document.getElementById('pal-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-fuchsia-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+          <div onclick="document.getElementById('pal-file-input').click()" 
+               ondragover="event.preventDefault()" 
+               ondrop="event.preventDefault(); extractColors(event.dataTransfer.files)" 
+               class="border-2 border-dashed border-zinc-800 hover:border-fuchsia-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
             <input type="file" id="pal-file-input" accept="image/*" onchange="extractColors(this.files)" class="hidden" />
             <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Photo for Palette</h4>
-            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+              <button type="button" onclick="event.stopPropagation(); loadSamplePaletteImageHtml()" class="px-4 py-2 rounded-xl bg-fuchsia-500/10 hover:bg-fuchsia-500/20 text-xs font-semibold text-fuchsia-400 border border-fuchsia-500/30 transition-all">Try Demo Photo</button>
+            </div>
           </div>
         </div>
 
@@ -1074,13 +1104,19 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-4">
-          <div onclick="document.getElementById('exact-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-emerald-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 transition-all flex flex-col items-center justify-center min-h-[180px]">
+          <div onclick="document.getElementById('exact-file-input').click()" 
+               ondragover="event.preventDefault()" 
+               ondrop="event.preventDefault(); handleExactFile(event.dataTransfer.files)" 
+               class="border-2 border-dashed border-zinc-800 hover:border-emerald-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 transition-all flex flex-col items-center justify-center min-h-[180px]">
             <input type="file" id="exact-file-input" accept="image/*" onchange="handleExactFile(this.files)" class="hidden" />
             <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-emerald-400">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </div>
             <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Photo for Exact Resizing</h4>
-            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select Image</span>
+              <button type="button" onclick="event.stopPropagation(); loadSampleExactImageHtml()" class="px-4 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-xs font-semibold text-emerald-400 border border-emerald-500/30 transition-all">Try Demo Photo</button>
+            </div>
           </div>
 
           <div id="exact-preview" class="hidden rounded-2xl bg-zinc-950 border border-zinc-800 p-4 flex items-center justify-center max-h-[400px]">
@@ -1165,7 +1201,10 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-4">
-          <div onclick="document.getElementById('pdf-tool-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-rose-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 transition-all flex flex-col items-center justify-center min-h-[180px]">
+          <div onclick="document.getElementById('pdf-tool-input').click()" 
+               ondragover="event.preventDefault()" 
+               ondrop="event.preventDefault(); handlePdfToolFiles(event.dataTransfer.files)" 
+               class="border-2 border-dashed border-zinc-800 hover:border-rose-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 transition-all flex flex-col items-center justify-center min-h-[180px]">
             <input type="file" id="pdf-tool-input" accept="application/pdf" multiple onchange="handlePdfToolFiles(this.files)" class="hidden" />
             <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-rose-400">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -2098,6 +2137,60 @@
       document.getElementById('upscale-img').src = upscaleUrl;
       const dlBtn = document.getElementById('upscale-download');
       if (dlBtn) dlBtn.classList.add('hidden');
+    }
+
+    function createDemoImageBlob(label, c1, c2) {
+      const c = document.createElement('canvas');
+      c.width = 640;
+      c.height = 480;
+      const ctx = c.getContext('2d');
+      const g = ctx.createLinearGradient(0, 0, 640, 480);
+      g.addColorStop(0, c1 || '#3b82f6');
+      g.addColorStop(1, c2 || '#ec4899');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 640, 480);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 28px sans-serif';
+      ctx.fillText(label || 'Demo Sample', 160, 240);
+      return new Promise(resolve => c.toBlob(resolve, 'image/jpeg', 0.95));
+    }
+
+    async function loadSamplePdfImagesHtml() {
+      const b1 = await createDemoImageBlob('Page 1 - Overview', '#4f46e5', '#06b6d4');
+      const b2 = await createDemoImageBlob('Page 2 - Analytics', '#9333ea', '#f43f5e');
+      const f1 = new File([b1], 'demo-page-1.jpg', { type: 'image/jpeg' });
+      const f2 = new File([b2], 'demo-page-2.jpg', { type: 'image/jpeg' });
+      handlePdfFiles([f1, f2]);
+    }
+
+    async function loadSampleConvImageHtml() {
+      const b = await createDemoImageBlob('Converter Test Photo', '#2563eb', '#10b981');
+      const f = new File([b], 'demo-photo.jpg', { type: 'image/jpeg' });
+      handleConvFiles([f]);
+    }
+
+    async function loadSampleCompImageHtml() {
+      const b = await createDemoImageBlob('Compressor Test Photo', '#7c3aed', '#db2777');
+      const f = new File([b], 'compress-sample.jpg', { type: 'image/jpeg' });
+      handleCompFile([f]);
+    }
+
+    async function loadSampleEraserImageHtml() {
+      const b = await createDemoImageBlob('Magic Eraser Test Photo', '#e11d48', '#f97316');
+      const f = new File([b], 'eraser-sample.jpg', { type: 'image/jpeg' });
+      handleEraserFile([f]);
+    }
+
+    async function loadSamplePaletteImageHtml() {
+      const b = await createDemoImageBlob('Palette Spectrum Test', '#0284c7', '#a855f7');
+      const f = new File([b], 'palette-sample.jpg', { type: 'image/jpeg' });
+      extractColors([f]);
+    }
+
+    async function loadSampleExactImageHtml() {
+      const b = await createDemoImageBlob('Exact Resizer Test', '#059669', '#d97706');
+      const f = new File([b], 'resizer-sample.jpg', { type: 'image/jpeg' });
+      handleExactFile([f]);
     }
 
     function processUpscale() {
