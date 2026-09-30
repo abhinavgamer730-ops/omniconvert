@@ -72,6 +72,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://omniconvert.app',
   },
+  verification: {
+    google: 'ND2b8mHXDY2f3pzphw7XFo5_0zG5SkaSdOwfNb6gpCc',
+  },
 };
 
 export default function RootLayout({
