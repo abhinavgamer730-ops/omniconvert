@@ -156,6 +156,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLZNS4NW1E" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-PLZNS4NW1E');
+            `,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
