@@ -92,25 +92,45 @@ export default function InstagramDownloaderClient() {
     setIsDownloading(true);
 
     try {
-      const response = await fetch(mediaResult.videoUrl);
-      if (!response.ok) {
-        throw new Error(`Server returned HTTP status ${response.status}`);
+      if (mediaResult.videoUrl.startsWith('data:') || mediaResult.videoUrl.startsWith('blob:')) {
+        const a = document.createElement('a');
+        a.href = mediaResult.videoUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setIsDownloading(false);
+        return;
       }
-      const blob = await response.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = objectUrl;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
+
+      const response = await fetch(mediaResult.videoUrl, { mode: 'cors' });
+      if (response.ok) {
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
+        setIsDownloading(false);
+        return;
+      }
     } catch (err) {
-      console.warn('Fetch error:', err);
-      setError('Could not download media stream. Please verify network connection or custom proxy.');
-    } finally {
-      setIsDownloading(false);
+      console.warn('Direct stream fetch bypass; opening direct download link:', err);
     }
+
+    // Direct browser anchor fallback bypasses CORS
+    const a = document.createElement('a');
+    a.href = mediaResult.videoUrl;
+    a.download = filename;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setIsDownloading(false);
   };
 
   return (

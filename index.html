@@ -835,13 +835,19 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-4">
-          <div onclick="document.getElementById('video-file-input').click()" class="border-2 border-dashed border-zinc-800 hover:border-emerald-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
+          <div onclick="document.getElementById('video-file-input').click()" 
+               ondragover="event.preventDefault()" 
+               ondrop="event.preventDefault(); handleVideoFile(event.dataTransfer.files)" 
+               class="border-2 border-dashed border-zinc-800 hover:border-emerald-500/50 rounded-2xl p-8 text-center cursor-pointer bg-zinc-900/40 hover:bg-zinc-900/80 transition-all flex flex-col items-center justify-center min-h-[180px]">
             <input type="file" id="video-file-input" accept="video/*" onchange="handleVideoFile(this.files)" class="hidden" />
             <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-3 text-emerald-400">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </div>
             <h4 class="text-sm font-semibold text-zinc-200 mb-1">Upload Video File</h4>
-            <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select MP4 / WebM</span>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="px-4 py-2 rounded-xl bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-700">Select MP4 / WebM</span>
+              <button type="button" onclick="event.stopPropagation(); loadSampleVideoToAudioHtml()" class="px-4 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-xs font-semibold text-emerald-400 border border-emerald-500/30 transition-all">Try Demo Clip</button>
+            </div>
           </div>
 
           <video id="video-player" controls class="hidden w-full max-h-[360px] rounded-2xl bg-black"></video>
@@ -2398,15 +2404,40 @@
       const player = document.getElementById('video-player');
       player.src = videoFileUrl;
       player.classList.remove('hidden');
+      const res = document.getElementById('audio-result');
+      if (res) res.classList.add('hidden');
+      const dlBtn = document.getElementById('audio-download-btn');
+      if (dlBtn) dlBtn.classList.add('hidden');
+    }
+
+    function loadSampleVideoToAudioHtml() {
+      videoFileUrl = SAMPLE_DEMO_VIDEO_B64;
+      const player = document.getElementById('video-player');
+      player.src = videoFileUrl;
+      player.classList.remove('hidden');
+      const res = document.getElementById('audio-result');
+      if (res) res.classList.add('hidden');
+      const dlBtn = document.getElementById('audio-download-btn');
+      if (dlBtn) dlBtn.classList.add('hidden');
     }
 
     async function extractAudioTrack() {
-      if (!videoFileUrl) return alert('Please select a video file first.');
+      if (!videoFileUrl) return alert('Please upload a video or click "Try Demo Clip" first.');
+      const btn = document.querySelector('#tab-video-to-audio button[onclick="extractAudioTrack()"]');
+      if (btn) btn.innerText = 'Extracting Audio Track...';
+
       try {
         const resp = await fetch(videoFileUrl);
         const buf = await resp.arrayBuffer();
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const decoded = await ctx.decodeAudioData(buf);
+        
+        let decoded;
+        try {
+          decoded = await ctx.decodeAudioData(buf);
+        } catch (decErr) {
+          alert('This video does not contain a decodable audio track, or the codec is unsupported by the browser.');
+          return;
+        }
 
         const numChan = decoded.numberOfChannels;
         const len = decoded.length * numChan * 2 + 44;
@@ -2438,10 +2469,14 @@
         document.getElementById('audio-result').classList.remove('hidden');
         const dlBtn = document.getElementById('audio-download-btn');
         dlBtn.href = audioUrl;
+        dlBtn.download = 'extracted-audio.wav';
+        dlBtn.innerText = 'Download Extracted Audio (WAV)';
         dlBtn.classList.remove('hidden');
       } catch (e) {
         console.error(e);
         alert('Could not decode audio track.');
+      } finally {
+        if (btn) btn.innerText = 'Extract Audio Track';
       }
     }
 
@@ -2722,26 +2757,48 @@
       const originalText = targetBtn ? targetBtn.innerText : '';
       if (targetBtn) targetBtn.innerText = 'Downloading...';
 
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP status ${response.status}`);
-        }
-        const blob = await response.blob();
-        const objectUrl = URL.createObjectURL(blob);
+      // 1. Direct blob / data URL download
+      if (url.startsWith('data:') || url.startsWith('blob:')) {
         const a = document.createElement('a');
-        a.href = objectUrl;
+        a.href = url;
         a.download = filename;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
+        if (targetBtn) targetBtn.innerText = originalText;
+        return;
+      }
+
+      // 2. Attempt blob fetch, with automatic fallback for CORS-protected CDNs
+      try {
+        const response = await fetch(url, { mode: 'cors' });
+        if (response.ok) {
+          const blob = await response.blob();
+          const objectUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = objectUrl;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
+          return;
+        }
       } catch (err) {
-        console.warn('Stream fetch error:', err);
-        alert('Could not download media stream. Please verify your connection.');
+        console.warn('CORS or stream fetch restricted, executing direct browser download stream fallback:', err);
       } finally {
         if (targetBtn) targetBtn.innerText = originalText;
       }
+
+      // 3. Fallback: Direct download link bypasses CORS restrictions unconditionally
+      const fallbackAnchor = document.createElement('a');
+      fallbackAnchor.href = url;
+      fallbackAnchor.download = filename;
+      fallbackAnchor.target = '_blank';
+      fallbackAnchor.rel = 'noopener noreferrer';
+      document.body.appendChild(fallbackAnchor);
+      fallbackAnchor.click();
+      document.body.removeChild(fallbackAnchor);
     }
 
     // --- TOOL 16: INSTAGRAM DOWNLOADER ---

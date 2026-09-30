@@ -29,6 +29,27 @@ export default function VideoToAudioClient() {
     setStatusMessage('');
   };
 
+  const loadDemoVideo = async () => {
+    setStatusMessage('Loading demo clip...');
+    try {
+      const resp = await fetch('/sample-video.mp4');
+      if (resp.ok) {
+        const blob = await resp.blob();
+        const demoFile = new File([blob], 'sample-video.mp4', { type: 'video/mp4' });
+        setVideoFile(demoFile);
+        const url = URL.createObjectURL(blob);
+        setVideoUrl(url);
+        setAudioUrl(null);
+        setProgress(0);
+        setStatusMessage('');
+      } else {
+        throw new Error('Fallback');
+      }
+    } catch (e) {
+      console.warn('Demo clip load note:', e);
+    }
+  };
+
   const extractAudioFFmpeg = async () => {
     if (!videoFile) return;
     setIsExtracting(true);
@@ -197,7 +218,7 @@ export default function VideoToAudioClient() {
       </div>
 
       {!videoFile ? (
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto space-y-4">
           <Dropzone
             accept="video/mp4, video/webm, video/quicktime, video/x-matroska, video/avi"
             multiple={false}
@@ -205,6 +226,15 @@ export default function VideoToAudioClient() {
             title="Upload Video File"
             subtitle="Drag & drop MP4, WebM, MOV, or AVI video"
           />
+          <div className="flex justify-center">
+            <button
+              onClick={loadDemoVideo}
+              className="px-4 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-xs font-semibold text-emerald-400 border border-emerald-500/30 transition-all flex items-center gap-2"
+            >
+              <Music className="w-3.5 h-3.5" />
+              Try Demo Clip (Instant 1-Click Test)
+            </button>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
