@@ -71,16 +71,18 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile menu button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white shadow-lg focus:outline-none"
-          aria-label="Toggle navigation menu"
-        >
-          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
+      {/* Mobile menu open button */}
+      {!isOpen && (
+        <div className="lg:hidden fixed top-3.5 left-4 z-50">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="p-2 rounded-xl bg-zinc-900/90 border border-zinc-800 text-zinc-300 hover:text-white shadow-lg focus:outline-none"
+            aria-label="Open navigation menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+      )}
 
       {/* Backdrop overlay for mobile */}
       {isOpen && (
@@ -118,6 +120,14 @@ export default function Sidebar() {
                 </span>
               </div>
             </Link>
+
+            <button
+              onClick={() => setIsOpen(false)}
+              className="lg:hidden p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors"
+              aria-label="Close navigation menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Navigation Items */}

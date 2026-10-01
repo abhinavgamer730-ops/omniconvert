@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
@@ -156,8 +157,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLZNS4NW1E" />
-        <script
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-PLZNS4NW1E"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];

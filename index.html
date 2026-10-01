@@ -115,21 +115,32 @@
   <!-- SIDEBAR NAVIGATION -->
   <aside class="w-full md:w-64 bg-[#09090b] border-b md:border-b-0 md:border-r border-zinc-800/80 p-5 flex flex-col justify-between shrink-0">
     <div class="space-y-6">
-      <!-- Logo Header -->
-      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('dashboard')">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 p-0.5 shadow-md">
-          <div class="w-full h-full bg-zinc-950 rounded-[10px] flex items-center justify-center">
-            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <!-- Logo Header with Mobile Menu Button -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('dashboard')">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 p-0.5 shadow-md">
+            <div class="w-full h-full bg-zinc-950 rounded-[10px] flex items-center justify-center">
+              <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+          </div>
+          <div>
+            <h1 class="font-bold text-base text-white leading-none">OmniConvert</h1>
+            <p class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider mt-1">Client Utility Suite</p>
           </div>
         </div>
-        <div>
-          <h1 class="font-bold text-base text-white leading-none">OmniConvert</h1>
-          <p class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider mt-1">Client Utility Suite</p>
-        </div>
+
+        <button 
+          id="mobile-nav-toggle" 
+          onclick="toggleMobileNavHtml()" 
+          class="md:hidden p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white transition-colors"
+          aria-label="Toggle navigation menu"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
       </div>
 
-      <!-- Navigation Links -->
-      <nav class="space-y-1">
+      <!-- Navigation Links (Collapsible on Mobile, Permanent on Desktop) -->
+      <nav id="sidebar-nav" class="hidden md:block space-y-1">
         <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600/10 text-indigo-300 border border-indigo-500/20">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           <span>Dashboard</span>
@@ -2422,6 +2433,11 @@
       renderToolSeoHtml(tabId);
     }
 
+    function toggleMobileNavHtml() {
+      const nav = document.getElementById('sidebar-nav');
+      if (nav) nav.classList.toggle('hidden');
+    }
+
     // --- TAB NAVIGATION SYSTEM ---
     function switchTab(tabId) {
       const cleanId = tabId.startsWith('tab-') ? tabId.slice(4) : tabId;
@@ -2436,6 +2452,14 @@
       if (targetTab) targetTab.classList.add('active');
       if (targetNav) {
         targetNav.className = 'nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600/10 text-indigo-300 border border-indigo-500/20';
+      }
+
+      // Auto-collapse navigation menu on mobile when a tool is selected
+      if (window.innerWidth < 768) {
+        const nav = document.getElementById('sidebar-nav');
+        if (nav && !nav.classList.contains('hidden')) {
+          nav.classList.add('hidden');
+        }
       }
 
       updateSeoMetadata(cleanId);
@@ -2510,7 +2534,10 @@
           const item = pdfFiles[i];
           const img = new Image();
           img.src = item.url;
-          await new Promise(r => img.onload = r);
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = () => reject(new Error(`Failed to load image: ${item.file.name}`));
+          });
 
           const w = img.naturalWidth;
           const h = img.naturalHeight;
@@ -2533,7 +2560,8 @@
         const name = document.getElementById('pdf-filename').value || 'document.pdf';
         doc.save(name.endsWith('.pdf') ? name : name + '.pdf');
       } catch (e) {
-        console.error(e);
+        console.error('PDF Generation Error:', e);
+        alert(e.message || 'Failed to generate PDF document.');
       } finally {
         btn.innerText = 'Download PDF Document';
       }
@@ -2579,27 +2607,35 @@
     }
 
     async function convertAllImages() {
-      for (let i = 0; i < convFiles.length; i++) {
-        const item = convFiles[i];
-        const img = new Image();
-        img.src = item.url;
-        await new Promise(r => img.onload = r);
+      try {
+        for (let i = 0; i < convFiles.length; i++) {
+          const item = convFiles[i];
+          const img = new Image();
+          img.src = item.url;
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = () => reject(new Error(`Failed to load image: ${item.file.name}`));
+          });
 
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        const ctx = canvas.getContext('2d');
-        if (convTargetFormat === 'jpeg') {
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          const ctx = canvas.getContext('2d');
+          if (convTargetFormat === 'jpeg') {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+          }
+          ctx.drawImage(img, 0, 0);
+
+          const ext = convTargetFormat === 'jpeg' ? 'jpg' : convTargetFormat;
+          item.convertedUrl = canvas.toDataURL('image/' + convTargetFormat, 0.92);
+          item.convertedName = item.file.name.replace(/\.[^/.]+$/, '') + '.' + ext;
         }
-        ctx.drawImage(img, 0, 0);
-
-        const ext = convTargetFormat === 'jpeg' ? 'jpg' : convTargetFormat;
-        item.convertedUrl = canvas.toDataURL('image/' + convTargetFormat, 0.92);
-        item.convertedName = item.file.name.replace(/\.[^/.]+$/, '') + '.' + ext;
+        renderConvList();
+      } catch (err) {
+        console.error('Conversion Error:', err);
+        alert(err.message || 'Image conversion failed.');
       }
-      renderConvList();
     }
 
     // --- TOOL 3: SMART COMPRESSOR ---
@@ -2830,10 +2866,14 @@
       img.src = eraserUrl;
 
       img.onload = () => {
+        const wrap = document.getElementById('eraser-canvas-wrap');
+        wrap.classList.remove('hidden');
+
         const canvas = document.getElementById('eraser-mask-canvas');
-        canvas.width = img.clientWidth;
-        canvas.height = img.clientHeight;
-        document.getElementById('eraser-canvas-wrap').classList.remove('hidden');
+        const w = img.clientWidth || img.naturalWidth || 640;
+        const h = img.clientHeight || img.naturalHeight || 480;
+        canvas.width = w;
+        canvas.height = h;
 
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -2843,6 +2883,15 @@
           return {
             x: e.clientX - rect.left,
             y: e.clientY - rect.top,
+          };
+        };
+
+        const getTouchCoords = (e) => {
+          if (!e.touches || !e.touches[0]) return null;
+          const rect = canvas.getBoundingClientRect();
+          return {
+            x: e.touches[0].clientX - rect.left,
+            y: e.touches[0].clientY - rect.top,
           };
         };
 
@@ -2864,6 +2913,7 @@
           ctx.fill();
         };
 
+        // Mouse events
         canvas.onmousedown = (e) => {
           isDrawingEraser = true;
           const pos = getCoords(e);
@@ -2880,6 +2930,33 @@
         };
 
         canvas.onmouseup = canvas.onmouseleave = () => {
+          isDrawingEraser = false;
+          lastEraserPos = null;
+        };
+
+        // Mobile touch events
+        canvas.ontouchstart = (e) => {
+          e.preventDefault();
+          const pos = getTouchCoords(e);
+          if (pos) {
+            isDrawingEraser = true;
+            lastEraserPos = pos;
+            drawStroke(pos, pos);
+          }
+        };
+
+        canvas.ontouchmove = (e) => {
+          e.preventDefault();
+          if (isDrawingEraser && lastEraserPos) {
+            const pos = getTouchCoords(e);
+            if (pos) {
+              drawStroke(lastEraserPos, pos);
+              lastEraserPos = pos;
+            }
+          }
+        };
+
+        canvas.ontouchend = () => {
           isDrawingEraser = false;
           lastEraserPos = null;
         };
@@ -2919,11 +2996,18 @@
           const isOriginallyMasked = new Uint8Array(w * h);
           let remainingMasked = 0;
 
+          let minMaskX = w, maxMaskX = 0, minMaskY = h, maxMaskY = 0;
           for (let i = 0; i < w * h; i++) {
             const mIdx = i * 4;
             const opacity = maskPixels[mIdx + 3];
             const isMask = opacity > 15 || maskPixels[mIdx] > 15;
             if (isMask) {
+              const x = i % w;
+              const y = Math.floor(i / w);
+              if (x < minMaskX) minMaskX = x;
+              if (x > maxMaskX) maxMaskX = x;
+              if (y < minMaskY) minMaskY = y;
+              if (y > maxMaskY) maxMaskY = y;
               known[i] = 0;
               isOriginallyMasked[i] = 1;
               remainingMasked++;
@@ -2942,12 +3026,19 @@
           let passes = 0;
           const maxPasses = Math.max(w, h);
 
+          // Bounding box with safety margin to restrict scans to the erased area
+          const pad = 12;
+          const scanMinX = Math.max(0, minMaskX - pad);
+          const scanMaxX = Math.min(w - 1, maxMaskX + pad);
+          const scanMinY = Math.max(0, minMaskY - pad);
+          const scanMaxY = Math.min(h - 1, maxMaskY + pad);
+
           while (remainingMasked > 0 && passes < maxPasses) {
             passes++;
             const frontier = [];
 
-            for (let y = 0; y < h; y++) {
-              for (let x = 0; x < w; x++) {
+            for (let y = scanMinY; y <= scanMaxY; y++) {
+              for (let x = scanMinX; x <= scanMaxX; x++) {
                 const idx = y * w + x;
                 if (known[idx] === 0) {
                   const hasKnownNeighbor =
@@ -3021,10 +3112,12 @@
             if (updates.length === 0) break;
           }
 
-          // Light edge-smoothing pass
+          // Light edge-smoothing pass bounded to affected area
           const copyPixels = new Uint8ClampedArray(pixels);
-          for (let y = 1; y < h - 1; y++) {
-            for (let x = 1; x < w - 1; x++) {
+          for (let y = scanMinY; y <= scanMaxY; y++) {
+            if (y <= 0 || y >= h - 1) continue;
+            for (let x = scanMinX; x <= scanMaxX; x++) {
+              if (x <= 0 || x >= w - 1) continue;
               const idx = y * w + x;
               if (isOriginallyMasked[idx] === 1) {
                 let rAcc = 0, gAcc = 0, bAcc = 0, count = 0;
@@ -3162,6 +3255,30 @@
           for (let i = 0; i < e.results.length; i++) str += e.results[i][0].transcript;
           document.getElementById('stt-textarea').value = str;
         };
+
+        sttRecObj.onend = () => {
+          isSttRec = false;
+          const btn = document.getElementById('stt-btn');
+          if (btn) btn.innerText = 'Start Microphone';
+          const dot = document.getElementById('stt-status-dot');
+          if (dot) dot.className = 'w-2 h-2 rounded-full bg-zinc-600';
+          const txt = document.getElementById('stt-status-text');
+          if (txt) txt.innerText = 'IDLE';
+        };
+
+        sttRecObj.onerror = (err) => {
+          console.warn('Speech recognition warning/error:', err);
+          isSttRec = false;
+          const btn = document.getElementById('stt-btn');
+          if (btn) btn.innerText = 'Start Microphone';
+          const dot = document.getElementById('stt-status-dot');
+          if (dot) dot.className = 'w-2 h-2 rounded-full bg-zinc-600';
+          const txt = document.getElementById('stt-status-text');
+          if (txt) txt.innerText = 'IDLE';
+          if (err && err.error === 'not-allowed') {
+            alert('Microphone permission was denied. Please allow microphone access in your browser address bar.');
+          }
+        };
       }
 
       if (isSttRec) {
@@ -3171,11 +3288,15 @@
         document.getElementById('stt-status-dot').className = 'w-2 h-2 rounded-full bg-zinc-600';
         document.getElementById('stt-status-text').innerText = 'IDLE';
       } else {
-        sttRecObj.start();
-        isSttRec = true;
-        document.getElementById('stt-btn').innerText = 'Stop Dictation';
-        document.getElementById('stt-status-dot').className = 'w-2 h-2 rounded-full bg-rose-500 animate-ping';
-        document.getElementById('stt-status-text').innerText = 'RECORDING';
+        try {
+          sttRecObj.start();
+          isSttRec = true;
+          document.getElementById('stt-btn').innerText = 'Stop Dictation';
+          document.getElementById('stt-status-dot').className = 'w-2 h-2 rounded-full bg-rose-500 animate-ping';
+          document.getElementById('stt-status-text').innerText = 'RECORDING';
+        } catch (startErr) {
+          console.error(startErr);
+        }
       }
     }
 
@@ -3186,7 +3307,9 @@
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'transcript.txt';
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
     }
 
     // --- TOOL 8: QR GENERATOR ---
@@ -3211,7 +3334,9 @@
       const a = document.createElement('a');
       a.href = img.src;
       a.download = 'qrcode.png';
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
     }
 
     // --- TOOL 9: PASSWORD GENERATOR ---
@@ -3237,17 +3362,30 @@
         ctx.drawImage(img, 0, 0, 100, 100);
         const data = ctx.getImageData(0, 0, 100, 100).data;
 
-        const colors = [];
-        for (let i = 0; i < data.length; i += 40) {
-          const r = data[i].toString(16).padStart(2, '0');
-          const g = data[i+1].toString(16).padStart(2, '0');
-          const b = data[i+2].toString(16).padStart(2, '0');
-          colors.push('#' + r + g + b);
+        const uniqueColors = [];
+        for (let i = 0; i < data.length; i += 16) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const a = data[i + 3];
+          if (a < 128) continue;
+          const hex = '#' + r.toString(16).padStart(2, '0') + g.toString(16).padStart(2, '0') + b.toString(16).padStart(2, '0');
+          const isTooSimilar = uniqueColors.some(c => {
+            const cr = parseInt(c.slice(1, 3), 16);
+            const cg = parseInt(c.slice(3, 5), 16);
+            const cb = parseInt(c.slice(5, 7), 16);
+            const dist = Math.sqrt((r - cr) ** 2 + (g - cg) ** 2 + (b - cb) ** 2);
+            return dist < 35;
+          });
+          if (!isTooSimilar) {
+            uniqueColors.push(hex);
+            if (uniqueColors.length >= 8) break;
+          }
         }
 
         const grid = document.getElementById('pal-grid');
         grid.innerHTML = '';
-        colors.slice(0, 8).forEach(hex => {
+        uniqueColors.forEach(hex => {
           const div = document.createElement('div');
           div.className = 'p-3 rounded-xl bg-zinc-950 border border-zinc-800 text-center cursor-pointer';
           div.onclick = () => navigator.clipboard.writeText(hex);
@@ -3501,7 +3639,7 @@
       const url = document.getElementById('insta-url-input').value.trim() || 'https://www.instagram.com/reels/';
       let target = `https://snapinsta.app/?url=${encodeURIComponent(url)}`;
       if (service === 'fastdl') target = `https://fastdl.app/en?url=${encodeURIComponent(url)}`;
-      window.open(target, '_blank');
+      window.open(target, '_blank', 'noopener,noreferrer');
     }
 
     function fetchInstaMediaHtml() {
@@ -3586,7 +3724,7 @@
       const url = document.getElementById('yt-url-input').value.trim() || 'https://www.youtube.com';
       let target = `https://y2mate.nu/en/?url=${encodeURIComponent(url)}`;
       if (service === 'savefrom') target = `https://en.savefrom.net/1-youtube-video-downloader-396/?url=${encodeURIComponent(url)}`;
-      window.open(target, '_blank');
+      window.open(target, '_blank', 'noopener,noreferrer');
     }
 
     function fetchYtMediaHtml() {
@@ -3672,7 +3810,7 @@
       const url = document.getElementById('fb-url-input').value.trim() || 'https://www.facebook.com';
       let target = `https://snapsave.app/?url=${encodeURIComponent(url)}`;
       if (service === 'fdown') target = `https://fdown.net/?url=${encodeURIComponent(url)}`;
-      window.open(target, '_blank');
+      window.open(target, '_blank', 'noopener,noreferrer');
     }
 
     function fetchFbMediaHtml() {
