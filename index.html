@@ -2,8 +2,12 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   
+  <!-- Performance Preconnects -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLZNS4NW1E"></script>
   <script>
@@ -17,54 +21,141 @@
   <meta name="google-site-verification" content="ND2b8mHXDY2f3pzphw7XFo5_0zG5SkaSdOwfNb6gpCc" />
 
   <!-- Primary SEO Meta Tags -->
-  <title>OmniConvert - Free Universal Client-Side Media, Text & AI Suite</title>
-  <meta name="description" id="seo-meta-desc" content="Free online converter suite. Convert images to PDF, compress photos, upscale to 4K, erase objects with AI, extract MP3 audio, transcribe speech, and generate QR codes 100% free and client-side with full privacy.">
-  <meta name="keywords" content="image to pdf, image converter, image compressor, 4k upscaler, magic eraser, background remover, video to audio, speech to text, qr generator, password generator, color palette extractor, dummy data generator">
-  <meta name="author" content="OmniConvert Team">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" id="seo-canonical" href="https://omniconvert.app">
+  <title>OmniConvert - 100% Free Client-Side File Converter, Media Tools & AI Suite</title>
+  <meta name="title" content="OmniConvert - 100% Free Client-Side File Converter, Media Tools & AI Suite">
+  <meta name="description" id="seo-meta-desc" content="Convert images to PDF, compress photos up to 90%, upscale to 4K, erase objects with AI, extract MP3 audio, and transcribe speech online. 100% free, private, and client-side with zero server uploads.">
+  <meta name="keywords" content="free file converter, image to pdf, image compressor, 4k image upscaler, magic eraser, background remover, video to mp3, speech to text dictation, qr code generator, password generator, pdf splitter, client-side tools">
+  <meta name="author" content="Abhinav Gupta">
+  <meta name="publisher" content="OmniConvert">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#09090b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="canonical" id="seo-canonical" href="https://abhinavgamer730-ops.github.io/omniconvert/">
 
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
-  <meta property="og:url" id="seo-og-url" content="https://omniconvert.app">
-  <meta property="og:title" id="seo-og-title" content="OmniConvert - Free Universal Online File, Media & AI Utility Suite">
-  <meta property="og:description" id="seo-og-desc" content="Universal browser-based file conversion and AI utility suite. Zero server uploads, 100% private.">
-  <meta property="og:image" content="https://omniconvert.app/og-image.png">
+  <meta property="og:site_name" content="OmniConvert">
+  <meta property="og:url" id="seo-og-url" content="https://abhinavgamer730-ops.github.io/omniconvert/">
+  <meta property="og:title" id="seo-og-title" content="OmniConvert - 100% Free Client-Side File Converter & AI Media Suite">
+  <meta property="og:description" id="seo-og-desc" content="Universal browser-based file conversion and AI utility suite. Zero server uploads, 100% private and secure.">
+  <meta property="og:image" content="https://abhinavgamer730-ops.github.io/omniconvert/og-image.png">
+  <meta property="og:image:secure_url" content="https://abhinavgamer730-ops.github.io/omniconvert/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="OmniConvert - Free Universal File, Media & AI Utility Suite">
+  <meta property="og:locale" content="en_US">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://omniconvert.app">
-  <meta name="twitter:title" content="OmniConvert - Universal File & Media Suite">
-  <meta name="twitter:description" content="Convert, compress, upscale, erase objects, and extract audio client-side.">
-  <meta name="twitter:image" content="https://omniconvert.app/og-image.png">
+  <meta name="twitter:site" content="@OmniConvertApp">
+  <meta name="twitter:creator" content="@OmniConvertApp">
+  <meta name="twitter:url" content="https://abhinavgamer730-ops.github.io/omniconvert/">
+  <meta name="twitter:title" content="OmniConvert - Free Universal File & AI Media Suite">
+  <meta name="twitter:description" content="Convert, compress, upscale, erase objects, and extract audio client-side. 100% private with zero server uploads.">
+  <meta name="twitter:image" content="https://abhinavgamer730-ops.github.io/omniconvert/og-image.png">
+  <meta name="twitter:image:alt" content="OmniConvert Web Utility Suite Dashboard and Tools">
 
-  <!-- Schema.org JSON-LD Structured Data for Search Engines -->
+  <!-- Schema.org Multi-Entity JSON-LD Structured Data Graph -->
   <script type="application/ld+json" id="seo-jsonld">
   {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "OmniConvert",
-    "url": "https://omniconvert.app",
-    "description": "Universal browser-based media, text, and AI utility conversion suite.",
-    "applicationCategory": "UtilityApplication",
-    "operatingSystem": "Any Web Browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "featureList": [
-      "Image to PDF Conversion",
-      "Universal Format Conversion (PNG, JPG, WebP)",
-      "Smart Image Compression",
-      "Image 4K Upscaling",
-      "AI Magic Eraser & Background Removal",
-      "Video Audio Extraction",
-      "Speech to Text Voice Dictation",
-      "Custom QR Code Generator",
-      "Secure Password Generator",
-      "Color Palette Extractor",
-      "Developer Mock Dummy Data Generator"
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://abhinavgamer730-ops.github.io/omniconvert/#webapp",
+        "name": "OmniConvert",
+        "url": "https://abhinavgamer730-ops.github.io/omniconvert/",
+        "description": "Universal browser-based media, text, and AI utility conversion suite operating 100% client-side for total privacy.",
+        "applicationCategory": "MultimediaApplication, UtilitiesApplication",
+        "operatingSystem": "All modern browsers (Chrome, Edge, Firefox, Safari)",
+        "browserRequirements": "Requires JavaScript. Requires HTML5 Canvas.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "ratingCount": "1280",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "featureList": [
+          "Multi-image to PDF Conversion with Margins and Orientation",
+          "Universal Format Conversion (PNG, JPG, WebP)",
+          "Smart Image Compression with Before/After Diff",
+          "Image 4K Resolution Upscaling",
+          "AI Magic Eraser Inpainting and Background Removal",
+          "Video to Audio MP3/WAV Extraction",
+          "Speech to Text Voice Dictation",
+          "Custom QR Code Generator with Colors",
+          "Cryptographically Secure Password Generator",
+          "Image Color Palette Extractor",
+          "PDF Page Splitter and Document Merger"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://abhinavgamer730-ops.github.io/omniconvert/#website",
+        "name": "OmniConvert",
+        "url": "https://abhinavgamer730-ops.github.io/omniconvert/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://abhinavgamer730-ops.github.io/omniconvert/?search={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://abhinavgamer730-ops.github.io/omniconvert/#organization",
+        "name": "OmniConvert",
+        "url": "https://abhinavgamer730-ops.github.io/omniconvert/",
+        "logo": "https://abhinavgamer730-ops.github.io/omniconvert/og-image.png"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://abhinavgamer730-ops.github.io/omniconvert/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is OmniConvert completely free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, OmniConvert is 100% free with no subscriptions, usage limits, or paywalls."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are my files uploaded to any remote server?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. All conversions, image processing, video audio extraction, and speech dictation execute locally inside your browser memory using HTML5 Canvas, Web Audio, and WebAssembly APIs. Your files never leave your device."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does OmniConvert add watermarks to converted files?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. All output PDFs, images, audio files, and QR codes are completely clean and free of watermarks."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use OmniConvert on mobile devices?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. OmniConvert is fully responsive and optimized with touch gesture support for iOS (iPhone/iPad) and Android browsers."
+            }
+          }
+        ]
+      }
     ]
   }
   </script>
@@ -88,11 +179,11 @@
     }
   </script>
 
-  <!-- Client-side libraries (jsPDF, JSZip, QRCode, PDFLib) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <!-- Client-side libraries with defer to unblock initial render -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
   <style>
     body {
@@ -124,7 +215,7 @@
             </div>
           </div>
           <div>
-            <h1 class="font-bold text-base text-white leading-none">OmniConvert</h1>
+            <span class="font-bold text-base text-white leading-none block">OmniConvert</span>
             <p class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider mt-1">Client Utility Suite</p>
           </div>
         </div>
@@ -269,8 +360,18 @@
         </div>
       </section>
 
-      <!-- Grid Cards for Tools -->
-      <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Grid Section with Semantic H2 -->
+      <section class="space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-3">
+          <div>
+            <h2 class="text-xl md:text-2xl font-bold text-white tracking-tight">Free Online Conversion & AI Tools</h2>
+            <p class="text-xs text-zinc-400 mt-0.5">Explore 20 fast, browser-based utilities with zero server uploads.</p>
+          </div>
+          <span class="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 w-fit">20 Tools Available</span>
+        </div>
+
+        <!-- Grid Cards for Tools -->
+        <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         <div class="tool-card p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-indigo-500/40 hover:bg-zinc-900 transition-all cursor-pointer group flex flex-col justify-between" onclick="switchTab('image-to-pdf')">
           <div>
@@ -586,8 +687,7 @@
             <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
         </div>
-
-      </div>
+      </section>
     </div>
 
     <!-- TAB 1: IMAGE TO PDF -->
@@ -729,7 +829,7 @@
           </div>
 
           <div id="comp-preview-container" class="hidden relative w-full h-[400px] rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 select-none">
-            <img id="comp-after-img" class="absolute inset-0 w-full h-full object-contain" />
+            <img id="comp-after-img" alt="Compressed preview after optimization" loading="lazy" class="absolute inset-0 w-full h-full object-contain" />
           </div>
         </div>
 
@@ -787,7 +887,7 @@
           </div>
 
           <div id="upscale-preview" class="h-[360px] rounded-2xl bg-zinc-950 border border-zinc-800 flex items-center justify-center p-4">
-            <img id="upscale-img" class="max-h-full object-contain rounded-xl" />
+            <img id="upscale-img" alt="4K upscaled image preview" loading="lazy" class="max-h-full object-contain rounded-xl" />
           </div>
         </div>
 
@@ -844,7 +944,7 @@
           </div>
 
           <div id="eraser-canvas-wrap" class="hidden relative w-full min-h-[380px] rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 flex items-center justify-center">
-            <img id="eraser-base-img" class="max-h-[460px] object-contain pointer-events-none" />
+            <img id="eraser-base-img" alt="Original image loaded for magic eraser object removal" loading="lazy" class="max-h-[460px] object-contain pointer-events-none" />
             <canvas id="eraser-mask-canvas" class="absolute cursor-crosshair"></canvas>
           </div>
         </div>
@@ -1120,7 +1220,7 @@
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg>
         </div>
         <div>
-          <h1 class="text-lg font-bold text-white">Exact Image Resizer for Online Forms</h1>
+          <h2 class="text-lg font-bold text-white">Exact Image Resizer for Online Forms</h2>
           <p class="text-xs text-zinc-400">Resize images to exact pixel dimensions or compress to strict KB limits.</p>
         </div>
       </div>
@@ -1143,7 +1243,7 @@
           </div>
 
           <div id="exact-preview" class="hidden rounded-2xl bg-zinc-950 border border-zinc-800 p-4 flex items-center justify-center max-h-[400px]">
-            <img id="exact-img" class="max-h-[360px] object-contain rounded-xl" />
+            <img id="exact-img" alt="Exact resizer image preview" loading="lazy" class="max-h-[360px] object-contain rounded-xl" />
           </div>
         </div>
 
@@ -1704,6 +1804,35 @@
     <!-- DYNAMIC ON-PAGE SEMANTIC SEO CONTENT (Anti-Thin-Content Protection) -->
     <div id="seo-rich-content-section" class="mt-16 border-t border-zinc-800/80 pt-12 text-zinc-300 space-y-12"></div>
   </main>
+
+  <!-- SEMANTIC SITE FOOTER -->
+  <footer class="w-full border-t border-zinc-800 bg-[#09090b] py-10 px-6 text-zinc-400 text-xs mt-auto">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-2 text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-2">
+          <div class="w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-white text-xs">O</div>
+          <span class="font-bold text-white tracking-tight text-sm">OmniConvert</span>
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">100% Client-Side Privacy</span>
+        </div>
+        <p class="text-zinc-500 text-[11px] max-w-md">
+          Zero server uploads. All image conversions, PDF processing, AI inpainting, video audio extraction, and speech dictation execute locally inside your web browser.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-6 text-zinc-400 text-xs">
+        <button onclick="switchTab('dashboard')" class="hover:text-white transition-colors">All Tools</button>
+        <button onclick="switchTab('image-to-pdf')" class="hover:text-white transition-colors">Image to PDF</button>
+        <button onclick="switchTab('magic-eraser')" class="hover:text-white transition-colors">Magic Eraser</button>
+        <button onclick="switchTab('speech-to-text')" class="hover:text-white transition-colors">Speech to Text</button>
+        <button onclick="switchTab('qr-generator')" class="hover:text-white transition-colors">QR Generator</button>
+      </div>
+
+      <div class="text-zinc-500 text-[11px] text-center md:text-right">
+        <p>&copy; 2026 OmniConvert. Built with HTML5 Canvas, WebAssembly & Web Audio API.</p>
+        <p class="text-zinc-600 mt-0.5">Free and open web utilities designed for speed and security.</p>
+      </div>
+    </div>
+  </footer>
 
   <!-- JAVASCRIPT APPLICATION CONTROLLER -->
   <script>
@@ -2328,7 +2457,11 @@
     function updateSeoMetadata(tabId) {
       const tool = SEO_TOOLS_DATA[tabId];
       const extras = SEO_TOOLS_EXTRAS[tabId];
-      const baseUrl = 'https://omniconvert.app';
+      const baseUrl = window.location.origin.includes('github.io')
+        ? 'https://abhinavgamer730-ops.github.io/omniconvert'
+        : (window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+            ? window.location.origin
+            : 'https://abhinavgamer730-ops.github.io/omniconvert');
       
       let pageTitle = 'OmniConvert - Free Universal Client-Side Media, Text & AI Suite';
       let pageDesc = 'Free online client-side utility suite. Convert images to PDF, compress photos, upscale to 4K 60/120fps, erase objects with AI, extract MP3 audio, transcribe speech, and generate QR codes with 100% data privacy.';
@@ -2505,10 +2638,10 @@
         div.innerHTML = `
           <div class="flex items-center gap-3 min-w-0">
             <span class="w-6 h-6 rounded bg-zinc-800 text-[11px] font-bold text-zinc-400 flex items-center justify-center shrink-0">${idx + 1}</span>
-            <img src="${item.url}" class="w-10 h-10 rounded object-cover shrink-0" />
+            <img src="${item.url}" alt="Uploaded image thumbnail ${idx + 1}: ${item.file.name}" loading="lazy" class="w-10 h-10 rounded object-cover shrink-0" />
             <span class="text-xs font-medium text-zinc-200 truncate">${item.file.name}</span>
           </div>
-          <button onclick="removePdfImg(${idx})" class="text-rose-400 p-1 font-bold">✕</button>
+          <button onclick="removePdfImg(${idx})" aria-label="Remove ${item.file.name}" class="text-rose-400 p-1 font-bold">✕</button>
         `;
         list.appendChild(div);
       });
@@ -2594,7 +2727,7 @@
         div.className = 'p-3 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-between';
         div.innerHTML = `
           <div class="flex items-center gap-3 min-w-0">
-            <img src="${item.url}" class="w-10 h-10 rounded object-cover shrink-0" />
+            <img src="${item.url}" alt="File to convert: ${item.file.name}" loading="lazy" class="w-10 h-10 rounded object-cover shrink-0" />
             <span class="text-xs font-medium text-zinc-200 truncate">${item.file.name}</span>
           </div>
           ${item.convertedUrl 

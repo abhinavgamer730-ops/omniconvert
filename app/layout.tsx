@@ -11,13 +11,14 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://omniconvert.app'),
+  metadataBase: new URL('https://abhinavgamer730-ops.github.io/omniconvert'),
   title: {
-    default: 'OmniConvert - Free Universal Online File, Media & AI Utility Suite',
+    default: 'OmniConvert - 100% Free Client-Side File Converter, Media Tools & AI Suite',
     template: '%s | OmniConvert',
   },
-  description: 'Convert images to PDF, compress photos, upscale to 4K, erase objects with AI, extract MP3 audio, transcribe speech, and generate QR codes 100% free and client-side.',
+  description: 'Convert images to PDF, compress photos up to 90%, upscale to 4K, erase objects with AI, extract MP3 audio, and transcribe speech online. 100% free, private, and client-side with zero server uploads.',
   keywords: [
+    'free file converter',
     'image to pdf converter',
     'online image converter',
     'smart image compressor',
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     'client-side privacy converter',
     'free online tools'
   ],
-  authors: [{ name: 'OmniConvert Team' }],
+  authors: [{ name: 'Abhinav Gupta' }],
   creator: 'OmniConvert',
   publisher: 'OmniConvert',
   category: 'Utilities',
@@ -50,28 +51,28 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://omniconvert.app',
+    url: 'https://abhinavgamer730-ops.github.io/omniconvert/',
     siteName: 'OmniConvert',
-    title: 'OmniConvert - Free Universal Online File, Media & AI Utility Suite',
-    description: 'Universal browser-based file conversion and AI utility suite. Zero server uploads, 100% private.',
+    title: 'OmniConvert - 100% Free Client-Side File Converter & AI Media Suite',
+    description: 'Universal browser-based file conversion and AI utility suite. Zero server uploads, 100% private and secure.',
     images: [
       {
-        url: 'https://omniconvert.app/og-image.png',
+        url: 'https://abhinavgamer730-ops.github.io/omniconvert/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'OmniConvert Utility Suite Preview',
+        alt: 'OmniConvert Free Universal File & AI Media Suite Preview',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'OmniConvert - Universal File & Media Suite',
-    description: 'Convert, compress, upscale, erase objects, and extract audio client-side.',
-    creator: '@omniconvert',
-    images: ['https://omniconvert.app/og-image.png'],
+    title: 'OmniConvert - Free Universal File & AI Media Suite',
+    description: 'Convert, compress, upscale, erase objects, and extract audio client-side. 100% private with zero server uploads.',
+    creator: '@OmniConvertApp',
+    images: ['https://abhinavgamer730-ops.github.io/omniconvert/og-image.png'],
   },
   alternates: {
-    canonical: 'https://omniconvert.app',
+    canonical: 'https://abhinavgamer730-ops.github.io/omniconvert/',
   },
   verification: {
     google: 'ND2b8mHXDY2f3pzphw7XFo5_0zG5SkaSdOwfNb6gpCc',
