@@ -250,17 +250,17 @@ export default function PdfCompressorClient() {
               </div>
             </div>
           ) : (
-            <div className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                  <FileText className="w-6 h-6" />
+            <div className="p-4 sm:p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3.5 min-w-0">
+                <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                  <FileText className="w-5 h-5" />
                 </div>
-                <div>
-                  <h3 className="text-sm font-bold text-white truncate max-w-xs sm:max-w-md">{file.name}</h3>
-                  <div className="flex items-center gap-3 text-xs text-zinc-400 mt-1">
-                    <span>Original: <b className="text-zinc-200">{formatSize(file.size)}</b></span>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-xs sm:text-sm font-bold text-white truncate">{file.name}</h3>
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-400 mt-1">
+                    <span>Original: <b className="text-zinc-200 font-medium">{formatSize(file.size)}</b></span>
                     <span>•</span>
-                    <span>Pages: <b className="text-zinc-200">{pageCount}</b></span>
+                    <span>Pages: <b className="text-zinc-200 font-medium">{pageCount}</b></span>
                   </div>
                 </div>
               </div>
@@ -269,7 +269,7 @@ export default function PdfCompressorClient() {
                   setFile(null);
                   setCompressedResult(null);
                 }}
-                className="text-xs text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg bg-zinc-800/80 border border-zinc-700"
+                className="text-xs text-zinc-400 hover:text-white px-3.5 py-2 rounded-xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700/80 shrink-0 w-full sm:w-auto transition-colors"
               >
                 Change File
               </button>
@@ -278,11 +278,11 @@ export default function PdfCompressorClient() {
 
           {isCompressing && (
             <div className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-3">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-emerald-400">{statusText}</span>
-                <span className="text-zinc-300">{progress}%</span>
+              <div className="flex items-center justify-between text-xs font-semibold gap-2">
+                <span className="text-emerald-400 truncate">{statusText}</span>
+                <span className="text-zinc-300 font-mono shrink-0">{progress}%</span>
               </div>
-              <div className="w-full h-2.5 rounded-full bg-zinc-950 overflow-hidden border border-zinc-800">
+              <div className="w-full h-2 rounded-full bg-zinc-950 overflow-hidden border border-zinc-800">
                 <div
                   className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300"
                   style={{ width: `${progress}%` }}
@@ -292,29 +292,29 @@ export default function PdfCompressorClient() {
           )}
 
           {compressedResult && (
-            <div className="p-6 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-400" />
-                  <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Compression Complete</span>
+            <div className="p-5 sm:p-6 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-4">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                  <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider truncate">Compression Complete</span>
                 </div>
-                <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-extrabold">
+                <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-extrabold shrink-0">
                   -{compressedResult.savedPct}% Saved
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <div className="p-3 rounded-xl bg-zinc-950/80 border border-zinc-800">
-                  <span className="text-[11px] text-zinc-500 block">ORIGINAL SIZE</span>
-                  <span className="text-sm font-bold text-zinc-300">{formatSize(compressedResult.origSize)}</span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800">
+                  <span className="text-[10px] text-zinc-500 uppercase tracking-wider block font-semibold">Original Size</span>
+                  <span className="text-base font-bold text-zinc-300 mt-0.5 block">{formatSize(compressedResult.origSize)}</span>
                 </div>
-                <div className="p-3 rounded-xl bg-zinc-950/80 border border-zinc-800">
-                  <span className="text-[11px] text-emerald-400 block font-semibold">COMPRESSED SIZE</span>
-                  <span className="text-sm font-bold text-emerald-400">{formatSize(compressedResult.newSize)}</span>
+                <div className="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800">
+                  <span className="text-[10px] text-emerald-500 uppercase tracking-wider block font-semibold">Compressed Size</span>
+                  <span className="text-base font-bold text-emerald-400 mt-0.5 block">{formatSize(compressedResult.newSize)}</span>
                 </div>
-                <div className="p-3 rounded-xl bg-zinc-950/80 border border-zinc-800 col-span-2 sm:col-span-1">
-                  <span className="text-[11px] text-zinc-500 block">PAGES PROCESSED</span>
-                  <span className="text-sm font-bold text-white">{compressedResult.pages} Pages</span>
+                <div className="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800">
+                  <span className="text-[10px] text-zinc-500 uppercase tracking-wider block font-semibold">Pages Processed</span>
+                  <span className="text-base font-bold text-white mt-0.5 block">{compressedResult.pages} Pages</span>
                 </div>
               </div>
 
@@ -330,66 +330,66 @@ export default function PdfCompressorClient() {
           )}
         </div>
 
-        <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-6">
+        <div className="p-5 sm:p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-5">
           <div>
-            <span className="text-xs font-bold text-zinc-200 block mb-2">Compression Preset</span>
-            <div className="grid grid-cols-1 gap-2">
+            <span className="text-xs font-bold text-zinc-200 block mb-3">Compression Preset</span>
+            <div className="grid grid-cols-1 gap-2.5">
               <button
                 type="button"
                 onClick={() => handlePresetChange('extreme')}
-                className={`p-3 rounded-xl border text-left transition-all ${
+                className={`p-3.5 rounded-xl border text-left transition-all w-full ${
                   preset === 'extreme'
                     ? 'bg-amber-600/10 text-amber-300 border-amber-500/40'
                     : 'bg-zinc-950 text-zinc-300 border-zinc-800 hover:border-zinc-700'
                 }`}
               >
-                <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-xs font-bold">Extreme (Max Compression)</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Target 100-200KB</span>
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <span className="text-xs font-bold">Extreme</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0 font-medium">Target 100-200KB</span>
                 </div>
-                <p className="text-[11px] text-zinc-500">Fast 72 DPI, heavy downsampling. Best for portal caps and email.</p>
+                <p className="text-[11px] text-zinc-500 leading-relaxed">Fast 72 DPI downsampling. Best for portal limits & email attachments.</p>
               </button>
 
               <button
                 type="button"
                 onClick={() => handlePresetChange('balanced')}
-                className={`p-3 rounded-xl border text-left transition-all ${
+                className={`p-3.5 rounded-xl border text-left transition-all w-full ${
                   preset === 'balanced'
                     ? 'bg-emerald-600/10 text-emerald-300 border-emerald-500/40'
                     : 'bg-zinc-950 text-zinc-300 border-zinc-800 hover:border-zinc-700'
                 }`}
               >
-                <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-xs font-bold">Recommended (Balanced)</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">60-80% Saved</span>
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <span className="text-xs font-bold">Recommended</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0 font-medium">60-80% Saved</span>
                 </div>
-                <p className="text-[11px] text-zinc-400">120 DPI, balanced quality. Crisp legible text with major size reduction.</p>
+                <p className="text-[11px] text-zinc-400 leading-relaxed">Smart 120 DPI balance. Sharp legible text with massive size reduction.</p>
               </button>
 
               <button
                 type="button"
                 onClick={() => handlePresetChange('light')}
-                className={`p-3 rounded-xl border text-left transition-all ${
+                className={`p-3.5 rounded-xl border text-left transition-all w-full ${
                   preset === 'light'
                     ? 'bg-indigo-600/10 text-indigo-300 border-indigo-500/40'
                     : 'bg-zinc-950 text-zinc-300 border-zinc-800 hover:border-zinc-700'
                 }`}
               >
-                <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-xs font-bold">Low (High Quality)</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">30-50% Saved</span>
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <span className="text-xs font-bold">Low</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700 shrink-0 font-medium">High Quality</span>
                 </div>
-                <p className="text-[11px] text-zinc-500">150 DPI, high image fidelity. Retains photo clarity while trimming bloat.</p>
+                <p className="text-[11px] text-zinc-500 leading-relaxed">150 DPI resolution. Retains photo clarity while trimming document bloat.</p>
               </button>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-between">
-            <div>
-              <span className="text-xs font-semibold text-zinc-200 block">Convert to Grayscale (B&W)</span>
-              <span className="text-[11px] text-zinc-500">Removes color channels; saves extra ~35%</span>
+          <div className="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-between gap-3">
+            <div className="min-w-0 pr-2">
+              <span className="text-xs font-semibold text-zinc-200 block truncate">Convert to Grayscale (B&W)</span>
+              <span className="text-[11px] text-zinc-500 block leading-tight mt-0.5">Removes color channels; saves extra ~35%</span>
             </div>
-            <label className="relative inline-flex items-center cursor-pointer">
+            <label className="relative inline-flex items-center cursor-pointer shrink-0">
               <input
                 type="checkbox"
                 checked={isGrayscale}
@@ -401,9 +401,11 @@ export default function PdfCompressorClient() {
           </div>
 
           <div className="space-y-2">
-            <div className="flex justify-between text-xs font-semibold">
-              <span className="text-zinc-400">Render Resolution (DPI Scale)</span>
-              <span className="text-emerald-400">{Math.round(scale * 120)} DPI ({scale.toFixed(1)}x)</span>
+            <div className="flex items-center justify-between text-xs font-semibold gap-2">
+              <span className="text-zinc-400">Render Resolution</span>
+              <span className="text-emerald-400 font-mono text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
+                {Math.round(scale * 120)} DPI ({scale.toFixed(1)}x)
+              </span>
             </div>
             <input
               type="range"
@@ -413,8 +415,12 @@ export default function PdfCompressorClient() {
               value={scale}
               onChange={(e) => setScale(parseFloat(e.target.value))}
               aria-label="PDF compression scale resolution"
-              className="w-full accent-emerald-500 cursor-pointer"
+              className="w-full accent-emerald-500 cursor-pointer h-2 bg-zinc-950 rounded-lg"
             />
+            <div className="flex justify-between text-[10px] text-zinc-500 font-mono">
+              <span>60 DPI (Smallest)</span>
+              <span>180 DPI (Crisp)</span>
+            </div>
           </div>
 
           <button
