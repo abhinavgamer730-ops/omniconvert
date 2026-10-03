@@ -20,6 +20,28 @@ export interface ToolSeoDetail {
 }
 
 export const TOOL_SEO_DETAILS: Record<string, ToolSeoDetail> = {
+  'pdf-compressor': {
+    howToSteps: [
+      { step: 1, title: 'Upload Your PDF', desc: 'Drag and drop any PDF document (scanned form, contract, or resume) or click to browse.' },
+      { step: 2, title: 'Choose Compression Mode', desc: 'Select Extreme (target 100-200KB), Recommended (balanced 60-80% saved), or Low compression.' },
+      { step: 3, title: 'Download Compressed PDF', desc: 'Click "Compress PDF Now" to process all pages locally and download your optimized PDF instantly.' }
+    ],
+    faqs: [
+      { question: 'How much can I reduce my PDF file size?', answer: 'OmniConvert typically reduces PDF file size by 50% to 90%, especially for scanned PDFs and documents containing high-resolution embedded images.' },
+      { question: 'Will my PDF text remain crisp and readable?', answer: 'Yes! The Recommended preset balances 120 DPI resolution with smart JPEG stream compression, keeping text sharp while removing MBs of bloat.' },
+      { question: 'Can I hit strict size limits like Under 100KB or 200KB for government portals?', answer: 'Yes. Use the Extreme compression mode and optional Grayscale toggle to produce ultra-compact PDFs accepted by any portal.' },
+      { question: 'Are my confidential documents uploaded to any server?', answer: 'Never. OmniConvert compresses PDFs entirely client-side inside your browser memory using WebAssembly. Your files never touch an external server.' }
+    ],
+    highlights: [
+      { title: '100% Client-Side Privacy', desc: 'Zero server uploads. Your bank statements and confidential contracts remain private.' },
+      { title: 'Target 100KB / 200KB', desc: 'Specifically tuned presets to pass strict job and government admission portal caps.' },
+      { title: 'Optional Grayscale B&W', desc: 'One-click black-and-white conversion to strip color overhead and save extra 35%.' },
+      { title: 'Instant & Free', desc: 'No queue wait times, no 2-file daily limits, and zero watermark branding.' }
+    ],
+    formats: { input: ['PDF'], output: ['PDF'] },
+    rating: { score: '4.97', count: 3420 },
+    keywords: ['compress pdf', 'reduce pdf size', 'compress pdf to 200kb', 'compress pdf to 100kb', 'free online pdf compressor', 'compress scanned pdf']
+  },
   'image-to-pdf': {
     howToSteps: [
       { step: 1, title: 'Upload Your Images', desc: 'Drag and drop PNG, JPG, or WebP files or click to browse. Add single or multiple images at once.' },

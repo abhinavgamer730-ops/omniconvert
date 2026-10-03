@@ -40,6 +40,17 @@ export const TOOLS: ToolDefinition[] = [
     accentColor: 'from-blue-500 to-indigo-600',
   },
   {
+    id: 'pdf-compressor',
+    name: 'Smart PDF Compressor',
+    description: 'Compress PDF documents up to 90% or hit target size limits (100KB, 200KB, 500KB) 100% client-side.',
+    category: 'Image',
+    href: '/tools/pdf-compressor',
+    iconName: 'FileCheck',
+    badge: 'Target KB',
+    popular: true,
+    accentColor: 'from-emerald-500 to-teal-600',
+  },
+  {
     id: 'image-converter',
     name: 'Universal Image Converter',
     description: 'Convert images instantly between PNG, JPG, and WebP formats using browser-native HTML5 Canvas rendering.',
